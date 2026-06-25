@@ -1,5 +1,27 @@
 import type { Metadata, Viewport } from 'next';
+import { Noto_Sans, Rajdhani, Noto_Sans_Devanagari } from 'next/font/google';
 import './globals.css';
+
+const notoSans = Noto_Sans({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-noto',
+  display: 'swap',
+});
+
+const rajdhani = Rajdhani({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-rajdhani',
+  display: 'swap',
+});
+
+const devanagari = Noto_Sans_Devanagari({
+  subsets: ['devanagari'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-hindi',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'Piyush Agro Industries | Hydraulic Trolley & Agricultural Equipment Manufacturer in Rajnandgaon',
@@ -62,8 +84,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en" className={`${notoSans.variable} ${rajdhani.variable} ${devanagari.variable} overflow-x-hidden`}>
+      <body className="overflow-x-hidden antialiased">{children}</body>
     </html>
   );
 }

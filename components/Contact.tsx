@@ -164,7 +164,7 @@ export default function Contact() {
             {/* Google Maps */}
             <div className="rounded-2xl overflow-hidden border border-gray-100 shadow-card">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d59487.34!2d80.97!3d21.09!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a29512b7c3a4c75%3A0x3ba81f3a8e7e3c37!2sRajnandgaon%2C%20Chhattisgarh!5e0!3m2!1sen!2sin!4v1234567890"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3721.26555193952!2d81.03061757519967!3d21.236625480464673!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a296900377961ad%3A0x290f7a5e51655cea!2sPiyush%20Agro%20Industries%20pvt%20LTD!5e0!3m2!1sen!2sin!4v1718000000000!5m2!1sen!2sin"
                 width="100%"
                 height="220"
                 style={{ border: 0, display: 'block' }}

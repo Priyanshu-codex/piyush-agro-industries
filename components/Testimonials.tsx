@@ -58,7 +58,7 @@ function TestimonialCard({
       </div>
 
       {/* Quote mark */}
-      <div className="text-5xl leading-none text-primary/20 font-serif mb-2 -mt-1">"</div>
+      <div className="text-5xl leading-none text-primary/20 font-serif mb-2 -mt-1">&quot;</div>
 
       {/* Text */}
       <p className="text-gray-600 text-sm leading-relaxed italic mb-5">

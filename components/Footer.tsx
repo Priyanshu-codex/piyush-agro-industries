@@ -1,13 +1,15 @@
 'use client';
 
+import { usePathname, useRouter } from 'next/navigation';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useEnquiry } from '@/contexts/EnquiryContext';
 import { t } from '@/lib/translations';
 import { Phone, MapPin, MessageCircle, Facebook, Instagram } from 'lucide-react';
 
 const QUICK_LINKS = [
   { href: '#hero',     enLabel: 'Home',     hiLabel: 'होम' },
-  { href: '#about',    enLabel: 'About Us',  hiLabel: 'हमारे बारे में' },
   { href: '#products', enLabel: 'Products',  hiLabel: 'उत्पाद' },
+  { href: '/about',    enLabel: 'About Us',  hiLabel: 'हमारे बारे में' },
   { href: '#services', enLabel: 'Services',  hiLabel: 'सेवाएं' },
   { href: '#gallery',  enLabel: 'Gallery',   hiLabel: 'गैलरी' },
   { href: '#contact',  enLabel: 'Contact',   hiLabel: 'संपर्क' },
@@ -32,10 +34,21 @@ const SERVICE_LINKS = [
 
 export default function Footer() {
   const { lang, tx } = useLanguage();
+  const { openEnquiry } = useEnquiry();
+  const pathname = usePathname();
+  const router = useRouter();
 
   const scroll = (href: string) => {
-    const id = href.replace('#', '');
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    if (href.startsWith('/')) {
+      router.push(href);
+      return;
+    }
+    if (pathname !== '/') {
+      router.push(`/${href}`);
+    } else {
+      const id = href.replace('#', '');
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
@@ -148,7 +161,13 @@ export default function Footer() {
               {SERVICE_LINKS.map(({ enLabel, hiLabel }) => (
                 <li key={enLabel}>
                   <button
-                    onClick={() => scroll(enLabel === 'Get Free Quote' ? '#contact' : '#services')}
+                    onClick={() => {
+                      if (enLabel === 'Get Free Quote') {
+                        openEnquiry(lang === 'en' ? 'General Enquiry' : 'सामान्य पूछताछ');
+                      } else {
+                        scroll('#services');
+                      }
+                    }}
                     className="flex items-center gap-1.5 text-sm hover:text-brand-green hover:pl-1
                       transition-all duration-150 text-left"
                   >

@@ -1,12 +1,14 @@
 'use client';
 
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useEnquiry } from '@/contexts/EnquiryContext';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { t } from '@/lib/translations';
 import { Phone, MessageCircle, FileText } from 'lucide-react';
 
 export default function CTABanner() {
-  const { tx } = useLanguage();
+  const { lang, tx } = useLanguage();
+  const { openEnquiry } = useEnquiry();
   const ref = useScrollReveal(0.2);
 
   return (
@@ -44,7 +46,7 @@ export default function CTABanner() {
             <MessageCircle size={18} /> {tx(t.cta.btn1)}
           </a>
           <button
-            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+            onClick={() => openEnquiry(lang === 'en' ? 'General Enquiry' : 'सामान्य पूछताछ')}
             className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border-2 border-white/60
               text-white font-semibold font-rajdhani text-base hover:bg-white hover:text-primary
               hover:-translate-y-0.5 transition-all duration-200"

@@ -1,6 +1,7 @@
 'use client';
 
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useEnquiry } from '@/contexts/EnquiryContext';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { t } from '@/lib/translations';
 import { CheckCircle2, Factory, Tractor } from 'lucide-react';
@@ -32,6 +33,7 @@ const ADD_SERVICES = [
 
 export default function Services() {
   const { lang, tx } = useLanguage();
+  const { openEnquiry } = useEnquiry();
   const headerRef = useScrollReveal();
   const card1Ref  = useScrollReveal();
   const card2Ref  = useScrollReveal();
@@ -56,14 +58,14 @@ export default function Services() {
         <div className="grid md:grid-cols-2 gap-6 mb-6">
           {/* We Manufacture */}
           <div ref={card1Ref} className="scroll-reveal bg-white rounded-2xl border border-gray-100 shadow-card p-6
-            hover:shadow-card-hover transition-shadow duration-300">
+            hover:shadow-card-hover transition-shadow duration-300 flex flex-col h-full">
             <div className="flex items-center gap-3 mb-5">
               <div className="w-11 h-11 rounded-xl bg-gradient-primary flex items-center justify-center text-white">
                 <Factory size={20} />
               </div>
               <h3 className="text-xl font-bold font-rajdhani text-gray-900">{tx(t.services.mfgTitle)}</h3>
             </div>
-            <ul className="space-y-2">
+            <ul className="space-y-2 mb-6">
               {MFG_ITEMS.map((item, i) => (
                 <li key={i}
                   className="flex items-center gap-3 px-3 py-2.5 bg-gray-50 rounded-xl
@@ -75,18 +77,24 @@ export default function Services() {
                 </li>
               ))}
             </ul>
+            <button 
+              onClick={() => openEnquiry(lang === 'en' ? 'Industrial Fabrication / Manufacturing' : 'औद्योगिक निर्माण / विनिर्माण')}
+              className="mt-auto w-full py-3 rounded-xl bg-gradient-primary text-white font-bold text-xs shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 text-center"
+            >
+              {lang === 'en' ? 'Get Quote' : 'कोटेशन प्राप्त करें'}
+            </button>
           </div>
 
           {/* Agricultural Equipment */}
           <div ref={card2Ref} className="scroll-reveal delay-100 bg-white rounded-2xl border border-gray-100
-            shadow-card p-6 hover:shadow-card-hover transition-shadow duration-300">
+            shadow-card p-6 hover:shadow-card-hover transition-shadow duration-300 flex flex-col h-full">
             <div className="flex items-center gap-3 mb-5">
               <div className="w-11 h-11 rounded-xl bg-gradient-accent flex items-center justify-center text-white">
                 <Tractor size={20} />
               </div>
               <h3 className="text-xl font-bold font-rajdhani text-gray-900">{tx(t.services.agriTitle)}</h3>
             </div>
-            <ul className="space-y-2">
+            <ul className="space-y-2 mb-6">
               {AGRI_ITEMS.map((item, i) => (
                 <li key={i}
                   className="flex items-center gap-3 px-3 py-2.5 bg-gray-50 rounded-xl
@@ -98,6 +106,12 @@ export default function Services() {
                 </li>
               ))}
             </ul>
+            <button 
+              onClick={() => openEnquiry(lang === 'en' ? 'Agricultural Equipment' : 'कृषि उपकरण')}
+              className="mt-auto w-full py-3 rounded-xl bg-gradient-accent text-white font-bold text-xs shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 text-center"
+            >
+              {lang === 'en' ? 'Get Quote' : 'कोटेशन प्राप्त करें'}
+            </button>
           </div>
         </div>
 
@@ -106,7 +120,7 @@ export default function Services() {
           <h3 className="text-xl font-bold font-rajdhani mb-5 flex items-center gap-2">
             🔧 {tx(t.services.addTitle)}
           </h3>
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-3 mb-6">
             {ADD_SERVICES.map((item, i) => (
               <div key={i}
                 className="flex items-center gap-2.5 px-4 py-3 bg-white/10 border border-white/15
@@ -115,6 +129,14 @@ export default function Services() {
                 {lang === 'hi' ? item.hi : item.en}
               </div>
             ))}
+          </div>
+          <div className="text-center pt-2">
+            <button 
+              onClick={() => openEnquiry(lang === 'en' ? 'Custom Services & Fabrication' : 'कस्टम सेवाएं और फेब्रिकेशन')}
+              className="px-8 py-3 rounded-xl bg-white text-primary font-bold text-xs hover:bg-gray-100 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
+            >
+              {lang === 'en' ? 'Get Quote' : 'कोटेशन प्राप्त करें'}
+            </button>
           </div>
         </div>
       </div>

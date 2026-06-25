@@ -1,14 +1,15 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { t } from '@/lib/translations';
-import { Phone, Menu, X } from 'lucide-react';
+import { t, MEGA_MENU, MEGA_MENU_CTA } from '@/lib/translations';
+import { Phone, Menu, X, ChevronDown, ArrowRight } from 'lucide-react';
 
 const NAV_LINKS = [
   { href: '#hero',         key: 'home'     },
-  { href: '#about',        key: 'about'    },
   { href: '#products',     key: 'products' },
+  { href: '/about',        key: 'about'    },
   { href: '#services',     key: 'services' },
   { href: '#gallery',      key: 'gallery'  },
   { href: '#contact',      key: 'contact'  },
@@ -19,6 +20,9 @@ export default function Header() {
   const [scrolled, setScrolled]     = useState(false);
   const [menuOpen, setMenuOpen]     = useState(false);
   const [activeSection, setActive]  = useState('hero');
+  const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
 
   /* ── Scroll behaviour ── */
   useEffect(() => {
@@ -29,7 +33,13 @@ export default function Header() {
 
   /* ── Active section tracker ── */
   useEffect(() => {
-    const ids = ['hero', 'about', 'products', 'services', 'gallery', 'faq', 'contact'];
+    if (pathname !== '/') {
+      if (pathname.includes('/about')) setActive('about');
+      else if (pathname.includes('/products')) setActive('products');
+      return;
+    }
+
+    const ids = ['hero', 'products', 'services', 'gallery', 'faq', 'contact'];
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => { if (e.isIntersecting) setActive(e.target.id); });
@@ -41,13 +51,25 @@ export default function Header() {
       if (el) observer.observe(el);
     });
     return () => observer.disconnect();
-  }, []);
+  }, [pathname]);
 
   const handleNavClick = useCallback((href: string) => {
     setMenuOpen(false);
-    const id = href.replace('#', '');
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, []);
+    
+    if (href.startsWith('/')) {
+      router.push(href);
+      return;
+    }
+    
+    if (href.startsWith('#')) {
+      if (pathname !== '/') {
+        router.push(`/${href}`);
+      } else {
+        const id = href.replace('#', '');
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  }, [pathname, router]);
 
   /* ── Prevent body scroll when mobile menu open ── */
   useEffect(() => {
@@ -58,17 +80,21 @@ export default function Header() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled ? 'shadow-md bg-white/97 backdrop-blur-xl' : 'bg-white/97'
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
+          scrolled
+            ? 'shadow-lg shadow-gray-100/40 bg-white/90 backdrop-blur-md border-gray-200/50'
+            : 'bg-white border-transparent'
         }`}
       >
         {/* ── Top bar ── */}
-        <div className="bg-primary-dark text-white text-xs py-1.5 hidden sm:block">
-          <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
+        <div className={`bg-primary-dark text-white text-xs hidden sm:block transition-all duration-300 overflow-hidden ${
+          scrolled ? 'max-h-0 py-0 opacity-0' : 'max-h-10 py-1.5 opacity-100'
+        }`}>
+          <div className="max-w-7xl mx-auto px-4 flex flex-wrap justify-between items-center gap-2">
             <span className="opacity-90 flex items-center gap-1.5">
               <span>📍</span> Khairagarh Road, Thelkadih, Rajnandgaon, CG
             </span>
-            <div className="flex items-center gap-4">
+            <div className="flex flex-wrap items-center gap-3 sm:gap-4">
               <a href="tel:9425245291" className="hover:text-brand-green transition-colors flex items-center gap-1">
                 <Phone size={11} /> 9425245291
               </a>
@@ -88,7 +114,7 @@ export default function Header() {
         </div>
 
         {/* ── Main Nav ── */}
-        <nav className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
+        <nav className="relative max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
           {/* Logo */}
           <a
             href="#hero"
@@ -106,20 +132,76 @@ export default function Header() {
 
           {/* Desktop links */}
           <ul className="hidden lg:flex items-center gap-0.5">
-            {NAV_LINKS.map(({ href, key }) => (
-              <li key={key}>
-                <button
-                  onClick={() => handleNavClick(href)}
-                  className={`px-3.5 py-2 rounded-lg text-sm font-semibold font-rajdhani transition-colors duration-150 ${
-                    activeSection === href.replace('#', '')
-                      ? 'text-primary bg-primary-50'
-                      : 'text-gray-600 hover:text-primary hover:bg-primary-50'
-                  }`}
-                >
-                  {tx(t.nav[key as keyof typeof t.nav])}
-                </button>
-              </li>
-            ))}
+            {NAV_LINKS.map(({ href, key }) => {
+              if (key === 'products') {
+                return (
+                  <li key={key} className="group">
+                    <button
+                      onClick={() => handleNavClick(href)}
+                      className={`flex items-center gap-1 px-3.5 py-2 rounded-lg text-sm font-semibold font-rajdhani transition-colors duration-150 ${
+                        activeSection === 'products'
+                          ? 'text-primary bg-primary-50'
+                          : 'text-gray-600 hover:text-primary hover:bg-primary-50'
+                      }`}
+                    >
+                      {tx(t.nav[key as keyof typeof t.nav])}
+                      <ChevronDown size={14} className="group-hover:rotate-180 transition-transform duration-200" />
+                    </button>
+
+                    {/* Mega Menu Dropdown */}
+                    <div className="absolute top-full left-0 right-0 mx-auto pt-4 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-300 z-50 w-full max-w-[800px]">
+                      <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-6 max-h-[75vh] overflow-y-auto cursor-default">
+                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                          {MEGA_MENU.map((col, idx) => (
+                            <div key={idx} className="space-y-3">
+                              <h4 className="font-bold font-rajdhani text-primary border-b border-gray-100 pb-2 mb-3">
+                                {tx(col.title)}
+                              </h4>
+                              <ul className="space-y-2">
+                                {col.items.map((item, i) => (
+                                  <li key={i}>
+                                    <button 
+                                      onClick={() => handleNavClick(`/products?category=${encodeURIComponent(col.title.en)}`)}
+                                      className="text-left text-xs font-medium text-gray-500 hover:text-primary hover:translate-x-1 transition-all duration-200 block w-full"
+                                    >
+                                      {tx(item)}
+                                    </button>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          ))}
+                        </div>
+                        {/* CTA Row */}
+                        <div className="mt-6 pt-4 border-t border-gray-100 flex justify-center">
+                          <button
+                            onClick={() => handleNavClick('/products')}
+                            className="inline-flex items-center gap-1.5 text-sm font-bold text-brand-green hover:text-primary transition-colors duration-200"
+                          >
+                            {tx(MEGA_MENU_CTA)} <ArrowRight size={14} />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                );
+              }
+
+              return (
+                <li key={key}>
+                  <button
+                    onClick={() => handleNavClick(href)}
+                    className={`px-3.5 py-2 rounded-lg text-sm font-semibold font-rajdhani transition-colors duration-150 ${
+                      activeSection === href.replace('#', '')
+                        ? 'text-primary bg-primary-50'
+                        : 'text-gray-600 hover:text-primary hover:bg-primary-50'
+                    }`}
+                  >
+                    {tx(t.nav[key as keyof typeof t.nav])}
+                  </button>
+                </li>
+              );
+            })}
           </ul>
 
           {/* Right actions */}
@@ -165,73 +247,148 @@ export default function Header() {
         </nav>
       </header>
 
-      {/* ── Mobile overlay ── */}
-      {menuOpen && (
+      {/* ── Mobile Drawer ── */}
+      <div
+        className={`fixed inset-0 z-[100] lg:hidden transition-all duration-300 ${
+          menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
+      >
+        {/* Backdrop overlay */}
         <div
-          className="fixed inset-0 z-40 bg-black/50 lg:hidden animate-fade-in"
+          className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300"
           onClick={() => setMenuOpen(false)}
-        >
-          <div
-            className="absolute top-0 left-0 bottom-0 w-72 bg-white shadow-2xl flex flex-col animate-slide-down"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Mobile header */}
-            <div className="flex items-center justify-between p-4 border-b border-gray-100">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center text-white font-bold">P</div>
-                <div>
-                  <div className="text-sm font-bold font-rajdhani text-gray-900">Piyush Agro</div>
-                  <div className="text-[10px] text-gray-400">Industries</div>
-                </div>
-              </div>
-              <button onClick={() => setMenuOpen(false)} className="p-1.5 rounded-lg hover:bg-gray-100">
-                <X size={18} className="text-gray-600" />
-              </button>
-            </div>
+        />
 
-            {/* Links */}
-            <nav className="flex-1 p-4 overflow-y-auto">
-              <ul className="space-y-1">
-                {NAV_LINKS.map(({ href, key }) => (
+        {/* Drawer container */}
+        <div
+          className={`absolute top-0 bottom-0 left-0 w-80 max-w-[calc(100vw-3rem)] bg-white shadow-2xl flex flex-col transition-transform duration-300 ease-in-out z-10 ${
+            menuOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
+        >
+          {/* Mobile header */}
+          <div className="flex items-center justify-between p-4 border-b border-gray-100">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-xl bg-gradient-primary flex items-center justify-center text-white font-bold text-base font-rajdhani shadow-primary">
+                P
+              </div>
+              <div className="leading-tight">
+                <div className="font-rajdhani font-bold text-gray-900 text-sm">Piyush Agro</div>
+                <div className="text-[9px] text-gray-400">Industries</div>
+              </div>
+            </div>
+            <button
+              onClick={() => setMenuOpen(false)}
+              className="p-1.5 rounded-lg text-gray-500 hover:bg-gray-100 hover:text-gray-950 transition-colors"
+              aria-label="Close menu"
+            >
+              <X size={20} />
+            </button>
+          </div>
+
+          {/* Links */}
+          <nav className="flex-1 p-4 overflow-y-auto">
+            <ul className="space-y-1.5">
+              {NAV_LINKS.map(({ href, key }) => {
+                const isActive = activeSection === href.replace('#', '');
+                if (key === 'products') {
+                  return (
+                    <li key={key} className="flex flex-col">
+                      <button
+                        onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
+                        className={`w-full text-left px-4 py-3 rounded-xl text-sm font-semibold font-rajdhani transition-all flex items-center justify-between ${
+                          isActive || mobileProductsOpen
+                            ? 'text-primary bg-primary-50'
+                            : 'text-gray-700 hover:text-primary hover:bg-primary-50'
+                        }`}
+                      >
+                        <span>{tx(t.nav[key as keyof typeof t.nav])}</span>
+                        <ChevronDown
+                          size={16}
+                          className={`transition-transform duration-300 ${
+                            mobileProductsOpen ? 'rotate-180 text-primary' : 'text-gray-400'
+                          }`}
+                        />
+                      </button>
+                      
+                      {/* Mobile Accordion */}
+                      <div
+                        className={`overflow-hidden transition-all duration-300 ${
+                          mobileProductsOpen ? 'max-h-[1000px] opacity-100 mt-1' : 'max-h-0 opacity-0'
+                        }`}
+                      >
+                        <div className="pl-4 pr-2 pb-2 pt-1 space-y-4">
+                          {MEGA_MENU.map((col, idx) => (
+                            <div key={idx} className="space-y-2">
+                              <div className="text-xs font-bold text-primary px-2">{tx(col.title)}</div>
+                              <ul className="space-y-1 border-l border-gray-200 pl-3 ml-2">
+                                {col.items.map((item, i) => (
+                                  <li key={i}>
+                                    <button
+                                      onClick={() => handleNavClick(`/products?category=${encodeURIComponent(col.title.en)}`)}
+                                      className="text-left text-xs text-gray-500 hover:text-primary block w-full py-1.5 px-2 rounded-lg hover:bg-gray-50 transition-colors"
+                                    >
+                                      {tx(item)}
+                                    </button>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          ))}
+                          <button
+                            onClick={() => handleNavClick('/products')}
+                            className="w-full text-left text-xs font-bold text-brand-green py-2 px-2 hover:bg-gray-50 rounded-lg flex items-center gap-1.5"
+                          >
+                            {tx(MEGA_MENU_CTA)} <ArrowRight size={12} className="shrink-0" />
+                          </button>
+                        </div>
+                      </div>
+                    </li>
+                  );
+                }
+
+                return (
                   <li key={key}>
                     <button
                       onClick={() => handleNavClick(href)}
-                      className="w-full text-left px-4 py-3 rounded-xl text-sm font-semibold font-rajdhani
-                        text-gray-700 hover:text-primary hover:bg-primary-50 transition-colors"
+                      className={`w-full text-left px-4 py-3 rounded-xl text-sm font-semibold font-rajdhani transition-all ${
+                        isActive
+                          ? 'text-primary bg-primary-50'
+                          : 'text-gray-700 hover:text-primary hover:bg-primary-50'
+                      }`}
                     >
                       {tx(t.nav[key as keyof typeof t.nav])}
                     </button>
                   </li>
-                ))}
-              </ul>
-            </nav>
+                );
+              })}
+            </ul>
+          </nav>
 
-            {/* Mobile footer */}
-            <div className="p-4 border-t border-gray-100 space-y-2">
-              <div className="flex bg-gray-100 rounded-full p-1 gap-1">
-                {(['en', 'hi'] as const).map((l) => (
-                  <button
-                    key={l}
-                    onClick={() => setLang(l)}
-                    className={`flex-1 py-1.5 rounded-full text-xs font-bold transition-all ${
-                      lang === l ? 'bg-gradient-primary text-white' : 'text-gray-500'
-                    }`}
-                  >
-                    {l === 'en' ? 'English' : 'हिंदी'}
-                  </button>
-                ))}
-              </div>
-              <a
-                href="tel:9425245291"
-                className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl
-                  bg-gradient-primary text-white text-sm font-semibold"
-              >
-                <Phone size={14} /> 9425245291
-              </a>
+          {/* Mobile footer */}
+          <div className="p-4 border-t border-gray-100 space-y-3 bg-gray-50/50">
+            <div className="flex bg-gray-100 rounded-full p-1 gap-1">
+              {(['en', 'hi'] as const).map((l) => (
+                <button
+                  key={l}
+                  onClick={() => setLang(l)}
+                  className={`flex-1 py-1.5 rounded-full text-xs font-bold transition-all duration-200 ${
+                    lang === l ? 'bg-gradient-primary text-white shadow-sm' : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  {l === 'en' ? 'English' : 'हिंदी'}
+                </button>
+              ))}
             </div>
+            <a
+              href="tel:9425245291"
+              className="flex items-center justify-center gap-2 w-full py-3 rounded-xl
+                bg-gradient-primary text-white text-sm font-semibold font-rajdhani shadow-primary hover:shadow-primary-lg transition-all"
+            >
+              <Phone size={14} /> {tx(t.nav.callNow)}
+            </a>
           </div>
         </div>
-      )}
+      </div>
     </>
   );
 }

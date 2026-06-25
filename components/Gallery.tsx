@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useEnquiry } from '@/contexts/EnquiryContext';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { t, GALLERY_ITEMS } from '@/lib/translations';
 import type { GalleryCategory, GalleryItem } from '@/types';
@@ -17,7 +18,8 @@ const FILTERS: { key: GalleryCategory; labelKey: keyof typeof t.gallery }[] = [
 ];
 
 export default function Gallery() {
-  const { tx } = useLanguage();
+  const { lang, tx } = useLanguage();
+  const { openEnquiry } = useEnquiry();
   const [activeFilter, setFilter] = useState<GalleryCategory>('all');
   const [lightbox, setLightbox]   = useState<GalleryItem | null>(null);
   const headerRef = useScrollReveal();
@@ -101,7 +103,19 @@ export default function Gallery() {
               {tx(lightbox.label)}
             </p>
 
-            <p className="text-center text-white/40 text-xs mt-1">
+            <div className="mt-4 text-center">
+              <button
+                onClick={() => {
+                  openEnquiry(tx(lightbox.label));
+                  closeLightbox();
+                }}
+                className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-gradient-primary text-white font-bold text-xs shadow-primary transition-all duration-200"
+              >
+                <span>{lang === 'en' ? 'Get Quote' : 'कोटेशन प्राप्त करें'}</span>
+              </button>
+            </div>
+
+            <p className="text-center text-white/40 text-xs mt-3">
               Piyush Agro Industries · Rajnandgaon, Chhattisgarh
             </p>
           </div>

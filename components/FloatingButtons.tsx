@@ -1,10 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Phone, ChevronUp, MessageCircle } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { useEnquiry } from '@/contexts/EnquiryContext';
+import { Phone, ChevronUp, MessageCircle, FileText } from 'lucide-react';
 
 export default function FloatingButtons() {
   const [showTop, setShowTop] = useState(false);
+  const { lang } = useLanguage();
+  const { openEnquiry } = useEnquiry();
 
   useEffect(() => {
     const onScroll = () => setShowTop(window.scrollY > 400);
@@ -14,7 +18,7 @@ export default function FloatingButtons() {
 
   return (
     <>
-      {/* ── WhatsApp + Call ── */}
+      {/* ── WhatsApp + Call + Get Quote ── */}
       <div className="fixed bottom-7 right-5 z-[900] flex flex-col gap-3">
         {/* WhatsApp */}
         <a
@@ -58,6 +62,24 @@ export default function FloatingButtons() {
             Call Now
           </span>
         </a>
+
+        {/* Get Quote */}
+        <button
+          onClick={() => openEnquiry(lang === 'en' ? 'General Enquiry' : 'सामान्य पूछताछ')}
+          aria-label="Get Quote"
+          className="group relative flex w-14 h-14 rounded-full bg-brand-amber items-center
+            justify-center text-white shadow-[0_6px_24px_rgba(245,158,11,0.4)] hover:scale-110 hover:shadow-lg
+            transition-all duration-200"
+        >
+          <FileText size={22} />
+
+          {/* Tooltip */}
+          <span className="absolute right-16 top-1/2 -translate-y-1/2 bg-gray-900 text-white text-xs
+            font-medium px-3 py-1.5 rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100
+            pointer-events-none transition-opacity duration-200 shadow-lg">
+            {lang === 'en' ? 'Get Quote' : 'कोटेशन प्राप्त करें'}
+          </span>
+        </button>
       </div>
 
       {/* ── Scroll to top ── */}

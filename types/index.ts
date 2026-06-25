@@ -30,6 +30,11 @@ export interface Product {
   title: TText;
   desc: TText;
   category: string;
+  specs?: {
+    nameOfPart: string;
+    capacity: string;
+    size: string;
+  };
 }
 
 export interface GalleryItem {
