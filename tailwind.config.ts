@@ -1,13 +1,30 @@
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
+  darkMode: 'class',
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
+    './features/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
+      fontSize: {
+        'xs': ['0.8125rem', { lineHeight: '1.125rem' }],
+        'sm': ['0.9375rem', { lineHeight: '1.375rem' }],
+        'base': ['1.0625rem', { lineHeight: '1.625rem' }],
+        'lg': ['1.1875rem', { lineHeight: '1.875rem' }],
+        'xl': ['1.375rem', { lineHeight: '1.875rem' }],
+        '2xl': ['1.625rem', { lineHeight: '2.125rem' }],
+        '3xl': ['2rem', { lineHeight: '2.375rem' }],
+        '4xl': ['2.375rem', { lineHeight: '2.625rem' }],
+        '5xl': ['3.125rem', { lineHeight: '1.1' }],
+        '6xl': ['3.875rem', { lineHeight: '1.1' }],
+        '7xl': ['4.625rem', { lineHeight: '1.1' }],
+        '8xl': ['6.125rem', { lineHeight: '1.1' }],
+        '9xl': ['8.125rem', { lineHeight: '1.1' }],
+      },
       colors: {
         primary: {
           DEFAULT: '#0B7A3B',

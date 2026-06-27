@@ -1,0 +1,386 @@
+﻿import type { TText, Product, GalleryItem, FAQItem, Testimonial, Feature, ProcessStep } from '@/types';
+
+export const t = {
+  // NAV
+  nav: {
+    home:     { en: 'Home',     hi: 'αñ╣αÑïαñ«' },
+    about:    { en: 'About',    hi: 'αñ¬αñ░αñ┐αñÜαñ»' },
+    products: { en: 'Products', hi: 'αñëαññαÑìαñ¬αñ╛αñª' },
+    services: { en: 'Services', hi: 'αñ╕αÑçαñ╡αñ╛αñÅαñé' },
+    gallery:  { en: 'Gallery',  hi: 'αñùαÑêαñ▓αñ░αÑÇ' },
+    contact:  { en: 'Contact',  hi: 'αñ╕αñéαñ¬αñ░αÑìαñò' },
+    callNow:  { en: 'Call Now', hi: 'αñòαÑëαñ▓ αñòαñ░αÑçαñé' },
+  },
+
+  // HERO
+  hero: {
+    badge:      { en: 'Trusted Manufacturer Since Establishment', hi: 'αñ╡αñ┐αñ╢αÑìαñ╡αñ╕αñ¿αÑÇαñ» αñ¿αñ┐αñ░αÑìαñ«αñ╛αññαñ╛' },
+    titleHi:    { en: 'αñ¬αñ┐αñ»αÑéαñ╖ αñÅαñùαÑìαñ░αÑï αñçαñéαñíαñ╕αÑìαñƒαÑìαñ░αÑÇαñ£', hi: 'αñ¬αñ┐αñ»αÑéαñ╖ αñÅαñùαÑìαñ░αÑï αñçαñéαñíαñ╕αÑìαñƒαÑìαñ░αÑÇαñ£' },
+    titleEn:    { en: 'Piyush Agro Industries', hi: 'αñ░αñ╛αñ£αñ¿αñ╛αñéαñªαñùαñ╛αñéαñ╡, αñ¢αññαÑìαññαÑÇαñ╕αñùαñóαñ╝' },
+    subtitle:   {
+      en: 'Trusted Manufacturer of Hydraulic Trolleys, Agricultural Equipment, Vehicle Fabrication & Repair Services in Rajnandgaon, Chhattisgarh',
+      hi: 'αñ░αñ╛αñ£αñ¿αñ╛αñéαñªαñùαñ╛αñéαñ╡, αñ¢αññαÑìαññαÑÇαñ╕αñùαñóαñ╝ αñ«αÑçαñé αñ╣αñ╛αñçαñíαÑìαñ░αÑïαñ▓αñ┐αñò αñƒαÑìαñ░αÑëαñ▓αÑÇ, αñòαÑâαñ╖αñ┐ αñëαñ¬αñòαñ░αñú, αñ╡αñ╛αñ╣αñ¿ αñ½αÑçαñ¼αÑìαñ░αñ┐αñòαÑçαñ╢αñ¿ αñöαñ░ αñ«αñ░αñ«αÑìαñ«αññ αñ╕αÑçαñ╡αñ╛αñôαñé αñòαÑç αñ╡αñ┐αñ╢αÑìαñ╡αñ╕αñ¿αÑÇαñ» αñ¿αñ┐αñ░αÑìαñ«αñ╛αññαñ╛',
+    },
+    cta1:        { en: 'Call Now',       hi: 'αñàαñ¡αÑÇ αñòαÑëαñ▓ αñòαñ░αÑçαñé' },
+    cta2:        { en: 'WhatsApp',       hi: 'αñ╡αÑìαñ╣αñ╛αñƒαÑìαñ╕αñÅαñ¬' },
+    cta3:        { en: 'Get Free Quote', hi: 'αñ«αÑüαñ½αÑìαññ αñòαÑïαñƒαÑçαñ╢αñ¿' },
+    cta4:        { en: 'View Products',  hi: 'αñëαññαÑìαñ¬αñ╛αñª αñªαÑçαñûαÑçαñé' },
+    stat1Num:    { en: '500+', hi: '500+' },
+    stat1Label:  { en: 'Products Delivered', hi: 'αñëαññαÑìαñ¬αñ╛αñª αñíαñ┐αñ▓αÑÇαñ╡αñ░' },
+    stat2Num:    { en: '13+', hi: '13+' },
+    stat2Label:  { en: 'Product Types', hi: 'αñëαññαÑìαñ¬αñ╛αñª αñ¬αÑìαñ░αñòαñ╛αñ░' },
+    stat3Num:    { en: 'CG', hi: 'CG' },
+    stat3Label:  { en: 'Serving Chhattisgarh', hi: 'αñ¢αññαÑìαññαÑÇαñ╕αñùαñóαñ╝ αñ«αÑçαñé αñ╕αÑçαñ╡αñ╛' },
+  },
+
+  // TRUST BAR
+  trust: {
+    q1: { en: 'High Quality Manufacturing', hi: 'αñëαñÜαÑìαñÜ αñùαÑüαñúαñ╡αññαÑìαññαñ╛ αñ¿αñ┐αñ░αÑìαñ«αñ╛αñú' },
+    q2: { en: 'Expert Fabrication Team',    hi: 'αñ╡αñ┐αñ╢αÑçαñ╖αñ£αÑìαñ₧ αñƒαÑÇαñ«' },
+    q3: { en: 'Timely Delivery',            hi: 'αñ╕αñ«αñ» αñ¬αñ░ αñíαñ┐αñ▓αÑÇαñ╡αñ░αÑÇ' },
+    q4: { en: 'Affordable Pricing',         hi: 'αñòαñ┐αñ½αñ╛αñ»αññαÑÇ αñ«αÑéαñ▓αÑìαñ»' },
+    q5: { en: 'After-Sales Support',        hi: 'αñ¼αñ┐αñòαÑìαñ░αÑÇ αñëαñ¬αñ░αñ╛αñéαññ αñ╕αñ╣αñ╛αñ»αññαñ╛' },
+    q6: { en: 'Custom Solutions',           hi: 'αñòαñ╕αÑìαñƒαñ« αñ╕αñ«αñ╛αñºαñ╛αñ¿' },
+  },
+
+  // ABOUT
+  about: {
+    badge:    { en: 'About Us',                         hi: 'αñ╣αñ«αñ╛αñ░αÑç αñ¼αñ╛αñ░αÑç αñ«αÑçαñé' },
+    title:    { en: 'About Piyush Agro Industries',     hi: 'αñ¬αñ┐αñ»αÑéαñ╖ αñÅαñùαÑìαñ░αÑï αñçαñéαñíαñ╕αÑìαñƒαÑìαñ░αÑÇαñ£ αñòαÑç αñ¼αñ╛αñ░αÑç αñ«αÑçαñé' },
+    p1:       {
+      en: 'Piyush Agro Industries is a trusted manufacturing and fabrication company located in Rajnandgaon, Chhattisgarh. We specialize in designing, manufacturing, repairing, and customizing agricultural and commercial transport solutions.',
+      hi: 'αñ¬αñ┐αñ»αÑéαñ╖ αñÅαñùαÑìαñ░αÑï αñçαñéαñíαñ╕αÑìαñƒαÑìαñ░αÑÇαñ£ αñ░αñ╛αñ£αñ¿αñ╛αñéαñªαñùαñ╛αñéαñ╡, αñ¢αññαÑìαññαÑÇαñ╕αñùαñóαñ╝ αñ«αÑçαñé αñ╕αÑìαñÑαñ┐αññ αñÅαñò αñ╡αñ┐αñ╢αÑìαñ╡αñ╕αñ¿αÑÇαñ» αñ¿αñ┐αñ░αÑìαñ«αñ╛αñú αñöαñ░ αñ½αÑçαñ¼αÑìαñ░αñ┐αñòαÑçαñ╢αñ¿ αñòαñéαñ¬αñ¿αÑÇ αñ╣αÑêαÑñ αñ╣αñ« αñòαÑâαñ╖αñ┐ αñöαñ░ αñ╡αÑìαñ»αñ╛αñ╡αñ╕αñ╛αñ»αñ┐αñò αñ¬αñ░αñ┐αñ╡αñ╣αñ¿ αñ╕αñ«αñ╛αñºαñ╛αñ¿αÑïαñé αñòαÑç αñíαñ┐αñ£αñ╝αñ╛αñçαñ¿, αñ¿αñ┐αñ░αÑìαñ«αñ╛αñú, αñ«αñ░αñ«αÑìαñ«αññ αñöαñ░ αñòαñ╕αÑìαñƒαñ«αñ╛αñçαñ£αñ╝αÑçαñ╢αñ¿ αñ«αÑçαñé αñ╡αñ┐αñ╢αÑçαñ╖αñ£αÑìαñ₧ αñ╣αÑêαñéαÑñ',
+    },
+    p2:       {
+      en: 'Our products are known for durability, strength, reliability, and affordable pricing. We serve farmers, contractors, transport businesses, municipal bodies, and commercial vehicle owners across Chhattisgarh.',
+      hi: 'αñ╣αñ«αñ╛αñ░αÑç αñëαññαÑìαñ¬αñ╛αñª αñƒαñ┐αñòαñ╛αñèαñ¬αñ¿, αñ«αñ£αñ¼αÑéαññαÑÇ, αñ╡αñ┐αñ╢αÑìαñ╡αñ╕αñ¿αÑÇαñ»αññαñ╛ αñöαñ░ αñòαñ┐αñ½αñ╛αñ»αññαÑÇ αñ«αÑéαñ▓αÑìαñ» αñòαÑç αñ▓αñ┐αñÅ αñ£αñ╛αñ¿αÑç αñ£αñ╛αññαÑç αñ╣αÑêαñéαÑñ αñ╣αñ« αñ¬αÑéαñ░αÑç αñ¢αññαÑìαññαÑÇαñ╕αñùαñóαñ╝ αñ«αÑçαñé αñòαñ┐αñ╕αñ╛αñ¿αÑïαñé, αñáαÑçαñòαÑçαñªαñ╛αñ░αÑïαñé, αñ¬αñ░αñ┐αñ╡αñ╣αñ¿ αñ╡αÑìαñ»αñ╡αñ╕αñ╛αñ»αÑïαñé, αñ¿αñùαñ░ αñ¿αñ┐αñòαñ╛αñ»αÑïαñé αñöαñ░ αñ╡αñ╛αñ╣αñ¿ αñ«αñ╛αñ▓αñ┐αñòαÑïαñé αñòαÑÇ αñ╕αÑçαñ╡αñ╛ αñòαñ░αññαÑç αñ╣αÑêαñéαÑñ',
+    },
+    serve1:  { en: 'Farmers',             hi: 'αñòαñ┐αñ╕αñ╛αñ¿' },
+    serve2:  { en: 'Contractors',         hi: 'αñáαÑçαñòαÑçαñªαñ╛αñ░' },
+    serve3:  { en: 'Transport Businesses', hi: 'αñ¬αñ░αñ┐αñ╡αñ╣αñ¿ αñ╡αÑìαñ»αñ╡αñ╕αñ╛αñ»' },
+    serve4:  { en: 'Municipal Bodies',    hi: 'αñ¿αñùαñ░ αñ¿αñ┐αñòαñ╛αñ»' },
+    serve5:  { en: 'Vehicle Owners',      hi: 'αñ╡αñ╛αñ╣αñ¿ αñ«αñ╛αñ▓αñ┐αñò' },
+    serve6:  { en: 'Industries',          hi: 'αñëαñªαÑìαñ»αÑïαñù' },
+    stat1:   { en: '500+',  hi: '500+' },
+    stat1L:  { en: 'Products Made',   hi: 'αñëαññαÑìαñ¬αñ╛αñª αñ¼αñ¿αÑç' },
+    stat2:   { en: '13+',   hi: '13+' },
+    stat2L:  { en: 'Product Types',   hi: 'αñëαññαÑìαñ¬αñ╛αñª αñ¬αÑìαñ░αñòαñ╛αñ░' },
+    stat3:   { en: '100%',  hi: '100%' },
+    stat3L:  { en: 'Satisfaction',    hi: 'αñ╕αñéαññαÑüαñ╖αÑìαñƒαñ┐' },
+    cta:     { en: 'Get Free Quote',  hi: 'αñ«αÑüαñ½αÑìαññ αñòαÑïαñƒαÑçαñ╢αñ¿ αñ¬αñ╛αñÅαñé' },
+    trusted: { en: 'Trusted in Chhattisgarh', hi: 'αñ¢αññαÑìαññαÑÇαñ╕αñùαñóαñ╝ αñ«αÑçαñé αñ╡αñ┐αñ╢αÑìαñ╡αñ╕αñ¿αÑÇαñ»' },
+  },
+
+  // PRODUCTS
+  products: {
+    badge:    { en: 'Our Products',  hi: 'αñ╣αñ«αñ╛αñ░αÑç αñëαññαÑìαñ¬αñ╛αñª' },
+    title:    { en: 'Products &',    hi: 'αñëαññαÑìαñ¬αñ╛αñª αñöαñ░' },
+    titleHL:  { en: 'Services',      hi: 'αñ╕αÑçαñ╡αñ╛αñÅαñé' },
+    subtitle: {
+      en: 'Explore our complete range of agricultural equipment, hydraulic trolleys, and fabrication services',
+      hi: 'αñ╣αñ«αñ╛αñ░αÑç αñòαÑâαñ╖αñ┐ αñëαñ¬αñòαñ░αñú, αñ╣αñ╛αñçαñíαÑìαñ░αÑïαñ▓αñ┐αñò αñƒαÑìαñ░αÑëαñ▓αÑÇ αñöαñ░ αñ½αÑçαñ¼αÑìαñ░αñ┐αñòαÑçαñ╢αñ¿ αñ╕αÑçαñ╡αñ╛αñôαñé αñòαÑÇ αñ¬αÑéαñ░αÑÇ αñ░αÑçαñéαñ£ αñªαÑçαñûαÑçαñé',
+    },
+    quote: { en: 'Get Quote', hi: 'αñòαÑïαñƒαÑçαñ╢αñ¿' },
+  },
+
+  // SERVICES
+  services: {
+    badge:      { en: 'Special Services',    hi: 'αñ╡αñ┐αñ╢αÑçαñ╖ αñ╕αÑçαñ╡αñ╛αñÅαñé' },
+    title:      { en: 'What We',             hi: 'αñ╣αñ« αñòαÑìαñ»αñ╛' },
+    titleHL:    { en: 'Manufacture',         hi: 'αñ¼αñ¿αñ╛αññαÑç αñ╣αÑêαñé' },
+    mfgTitle:   { en: 'We Manufacture',      hi: 'αñ╣αñ« αñ¼αñ¿αñ╛αññαÑç αñ╣αÑêαñé' },
+    agriTitle:  { en: 'Agricultural Equipment', hi: 'αñòαÑâαñ╖αñ┐ αñëαñ¬αñòαñ░αñú' },
+    addTitle:   { en: 'Additional Services', hi: 'αñàαññαñ┐αñ░αñ┐αñòαÑìαññ αñ╕αÑçαñ╡αñ╛αñÅαñé' },
+  },
+
+  // WHY US
+  whyUs: {
+    badge:    { en: 'Why Choose Us', hi: 'αñ╣αñ«αÑçαñé αñòαÑìαñ»αÑïαñé αñÜαÑüαñ¿αÑçαñé' },
+    title:    { en: 'Why Choose',    hi: 'αñòαÑìαñ»αÑïαñé αñÜαÑüαñ¿αÑçαñé' },
+    titleHL:  { en: 'Piyush Agro',   hi: 'αñ¬αñ┐αñ»αÑéαñ╖ αñÅαñùαÑìαñ░αÑï' },
+  },
+
+  // PROCESS
+  process: {
+    badge:    { en: 'How We Work',  hi: 'αñ╣αñ« αñòαÑêαñ╕αÑç αñòαñ╛αñ« αñòαñ░αññαÑç αñ╣αÑêαñé' },
+    title:    { en: 'Our Work',     hi: 'αñ╣αñ«αñ╛αñ░αÑÇ αñòαñ╛αñ░αÑìαñ»' },
+    titleHL:  { en: 'Process',      hi: 'αñ¬αÑìαñ░αñòαÑìαñ░αñ┐αñ»αñ╛' },
+  },
+
+  // GALLERY
+  gallery: {
+    badge:    { en: 'Gallery',         hi: 'αñùαÑêαñ▓αñ░αÑÇ' },
+    title:    { en: 'Our',             hi: 'αñ╣αñ«αñ╛αñ░αÑÇ' },
+    titleHL:  { en: 'Product Gallery', hi: 'αñëαññαÑìαñ¬αñ╛αñª αñùαÑêαñ▓αñ░αÑÇ' },
+    filterAll: { en: 'All',            hi: 'αñ╕αñ¡αÑÇ' },
+    f1:       { en: 'Hydraulic',       hi: 'αñ╣αñ╛αñçαñíαÑìαñ░αÑïαñ▓αñ┐αñò' },
+    f2:       { en: 'Tractor',         hi: 'αñƒαÑìαñ░αÑêαñòαÑìαñƒαñ░' },
+    f3:       { en: 'Water Tankers',   hi: 'αñ╡αñ╛αñƒαñ░ αñƒαÑêαñéαñòαñ░' },
+    f4:       { en: 'Agri Equipment',  hi: 'αñòαÑâαñ╖αñ┐ αñëαñ¬αñòαñ░αñú' },
+    f5:       { en: 'Fabrication',     hi: 'αñ½αÑçαñ¼αÑìαñ░αñ┐αñòαÑçαñ╢αñ¿' },
+  },
+
+  // TESTIMONIALS
+  testimonials: {
+    badge:   { en: 'Customer Reviews',    hi: 'αñùαÑìαñ░αñ╛αñ╣αñò αñ╕αñ«αÑÇαñòαÑìαñ╖αñ╛αñÅαñé' },
+    title:   { en: 'What Our',            hi: 'αñ╣αñ«αñ╛αñ░αÑç' },
+    titleHL: { en: 'Customers Say',       hi: 'αñùαÑìαñ░αñ╛αñ╣αñò αñòαÑìαñ»αñ╛ αñòαñ╣αññαÑç αñ╣αÑêαñé' },
+  },
+
+  // CTA BANNER
+  cta: {
+    title:    { en: 'Ready to Order Your Custom Product?', hi: 'αñàαñ¬αñ¿αñ╛ αñòαñ╕αÑìαñƒαñ« αñëαññαÑìαñ¬αñ╛αñª αñæαñ░αÑìαñíαñ░ αñòαñ░αñ¿αÑç αñòαÑç αñ▓αñ┐αñÅ αññαÑêαñ»αñ╛αñ░ αñ╣αÑêαñé?' },
+    subtitle: {
+      en: 'Contact us today for a free consultation and quote. Serving farmers, contractors, and businesses across Chhattisgarh.',
+      hi: 'αñ«αÑüαñ½αÑìαññ αñ¬αñ░αñ╛αñ«αñ░αÑìαñ╢ αñöαñ░ αñòαÑïαñƒαÑçαñ╢αñ¿ αñòαÑç αñ▓αñ┐αñÅ αñåαñ£ αñ╣αñ«αñ╕αÑç αñ╕αñéαñ¬αñ░αÑìαñò αñòαñ░αÑçαñéαÑñ αñ¢αññαÑìαññαÑÇαñ╕αñùαñóαñ╝ αñ«αÑçαñé αñòαñ┐αñ╕αñ╛αñ¿αÑïαñé, αñáαÑçαñòαÑçαñªαñ╛αñ░αÑïαñé αñöαñ░ αñ╡αÑìαñ»αñ╡αñ╕αñ╛αñ»αÑïαñé αñòαÑÇ αñ╕αÑçαñ╡αñ╛αÑñ',
+    },
+    btn1: { en: 'WhatsApp Now', hi: 'αñ╡αÑìαñ╣αñ╛αñƒαÑìαñ╕αñÅαñ¬ αñòαñ░αÑçαñé' },
+    btn2: { en: 'Send Inquiry', hi: 'αñ¬αÑéαñ¢αññαñ╛αñ¢ αñ¡αÑçαñ£αÑçαñé' },
+  },
+
+  // FAQ
+  faq: {
+    badge:    { en: 'FAQ',                            hi: 'αñàαñòαÑìαñ╕αñ░ αñ¬αÑéαñ¢αÑç αñ£αñ╛αñ¿αÑç αñ╡αñ╛αñ▓αÑç αñ¬αÑìαñ░αñ╢αÑìαñ¿' },
+    title:    { en: 'Frequently Asked',               hi: 'αñàαñòαÑìαñ╕αñ░ αñ¬αÑéαñ¢αÑç αñ£αñ╛αñ¿αÑç αñ╡αñ╛αñ▓αÑç' },
+    titleHL:  { en: 'Questions',                      hi: 'αñ¬αÑìαñ░αñ╢αÑìαñ¿' },
+  },
+
+  // CONTACT
+  contact: {
+    badge:       { en: 'Contact Us',              hi: 'αñ╕αñéαñ¬αñ░αÑìαñò αñòαñ░αÑçαñé' },
+    title:       { en: 'Get In',                  hi: 'αñ╣αñ«αñ╕αÑç' },
+    titleHL:     { en: 'Touch',                   hi: 'αñ╕αñéαñ¬αñ░αÑìαñò αñòαñ░αÑçαñé' },
+    desc:        {
+      en: "We're here to help with all your agricultural and commercial vehicle fabrication needs. Reach us via phone, WhatsApp, or the form.",
+      hi: 'αñ╣αñ« αñåαñ¬αñòαÑÇ αñ╕αñ¡αÑÇ αñòαÑâαñ╖αñ┐ αñöαñ░ αñ╡αñ╛αñ╣αñ¿ αñ½αÑçαñ¼αÑìαñ░αñ┐αñòαÑçαñ╢αñ¿ αñåαñ╡αñ╢αÑìαñ»αñòαññαñ╛αñôαñé αñ«αÑçαñé αñ«αñªαñª αñòαÑç αñ▓αñ┐αñÅ αñ»αñ╣αñ╛αñé αñ╣αÑêαñéαÑñ αñ½αÑïαñ¿, αñ╡αÑìαñ╣αñ╛αñƒαÑìαñ╕αñÅαñ¬ αñ»αñ╛ αñ½αÑëαñ░αÑìαñ« αñòαÑç αñ«αñ╛αñºαÑìαñ»αñ« αñ╕αÑç αñ╕αñéαñ¬αñ░αÑìαñò αñòαñ░αÑçαñéαÑñ',
+    },
+    addrLabel:   { en: 'Address',     hi: 'αñ¬αññαñ╛' },
+    phone1Label: { en: 'Phone 1',     hi: 'αñ½αÑïαñ¿ 1' },
+    phone2Label: { en: 'Phone 2',     hi: 'αñ½αÑïαñ¿ 2' },
+    waLabel:     { en: 'WhatsApp',    hi: 'αñ╡αÑìαñ╣αñ╛αñƒαÑìαñ╕αñÅαñ¬' },
+    waText:      { en: 'Chat with us on WhatsApp', hi: 'αñ╡αÑìαñ╣αñ╛αñƒαÑìαñ╕αñÅαñ¬ αñ¬αñ░ αñÜαÑêαñƒ αñòαñ░αÑçαñé' },
+    formTitle:   { en: 'Send an Inquiry', hi: 'αñ¬αÑéαñ¢αññαñ╛αñ¢ αñ¡αÑçαñ£αÑçαñé' },
+    formSub:     { en: "Fill out the form and we'll get back to you shortly.", hi: 'αñ½αÑëαñ░αÑìαñ« αñ¡αñ░αÑçαñé, αñ╣αñ« αñ£αñ▓αÑìαñª αñ╕αñéαñ¬αñ░αÑìαñò αñòαñ░αÑçαñéαñùαÑçαÑñ' },
+    nameLabel:   { en: 'Your Name *',      hi: 'αñåαñ¬αñòαñ╛ αñ¿αñ╛αñ« *' },
+    namePH:      { en: 'Enter your name',  hi: 'αñ¿αñ╛αñ« αñªαñ░αÑìαñ£ αñòαñ░αÑçαñé' },
+    phoneLabel:  { en: 'Phone Number *',   hi: 'αñ½αÑïαñ¿ αñ¿αñéαñ¼αñ░ *' },
+    phonePH:     { en: 'Enter phone number', hi: 'αñ½αÑïαñ¿ αñ¿αñéαñ¼αñ░ αñªαñ░αÑìαñ£ αñòαñ░αÑçαñé' },
+    emailLabel:  { en: 'Email (optional)', hi: 'αñêαñ«αÑçαñ▓ (αñ╡αÑêαñòαñ▓αÑìαñ¬αñ┐αñò)' },
+    emailPH:     { en: 'Enter email',      hi: 'αñêαñ«αÑçαñ▓ αñªαñ░αÑìαñ£ αñòαñ░αÑçαñé' },
+    serviceLabel:{ en: 'Product / Service *', hi: 'αñëαññαÑìαñ¬αñ╛αñª / αñ╕αÑçαñ╡αñ╛ *' },
+    servicePH:   { en: 'Select a product or service', hi: 'αñëαññαÑìαñ¬αñ╛αñª αñ»αñ╛ αñ╕αÑçαñ╡αñ╛ αñÜαÑüαñ¿αÑçαñé' },
+    msgLabel:    { en: 'Your Message',     hi: 'αñåαñ¬αñòαñ╛ αñ╕αñéαñªαÑçαñ╢' },
+    msgPH:       { en: 'Describe your requirements...', hi: 'αñàαñ¬αñ¿αÑÇ αñåαñ╡αñ╢αÑìαñ»αñòαññαñ╛αñÅαñé αñ¼αññαñ╛αñÅαñé...' },
+    submitBtn:   { en: 'Send Inquiry',     hi: 'αñ¬αÑéαñ¢αññαñ╛αñ¢ αñ¡αÑçαñ£αÑçαñé' },
+    sending:     { en: 'Sending...',       hi: 'αñ¡αÑçαñ£αñ╛ αñ£αñ╛ αñ░αñ╣αñ╛ αñ╣αÑê...' },
+    successMsg:  {
+      en: 'Γ£à Your inquiry has been submitted! We will contact you soon.',
+      hi: 'Γ£à αñåαñ¬αñòαÑÇ αñ¬αÑéαñ¢αññαñ╛αñ¢ αñ╕αñ½αñ▓αññαñ╛αñ¬αÑéαñ░αÑìαñ╡αñò αñ╕αñ¼αñ«αñ┐αñƒ αñ╣αÑüαñê! αñ╣αñ« αñ£αñ▓αÑìαñª αñ╕αñéαñ¬αñ░αÑìαñò αñòαñ░αÑçαñéαñùαÑçαÑñ',
+    },
+    errName:    { en: 'Name is required',              hi: 'αñ¿αñ╛αñ« αñåαñ╡αñ╢αÑìαñ»αñò αñ╣αÑê' },
+    errPhone:   { en: 'Valid phone number is required', hi: 'αñ╡αÑêαñº αñ½αÑïαñ¿ αñ¿αñéαñ¼αñ░ αñåαñ╡αñ╢αÑìαñ»αñò αñ╣αÑê' },
+    errService: { en: 'Please select a product/service', hi: 'αñòαÑâαñ¬αñ»αñ╛ αñëαññαÑìαñ¬αñ╛αñª/αñ╕αÑçαñ╡αñ╛ αñÜαÑüαñ¿αÑçαñé' },
+    errSubmit:  { en: 'Failed to submit. Please try again or call us directly.', hi: 'αñ╕αñ¼αñ«αñ┐αñƒ αñ╡αñ┐αñ½αñ▓αÑñ αñòαÑâαñ¬αñ»αñ╛ αñ¬αÑüαñ¿αñâ αñ¬αÑìαñ░αñ»αñ╛αñ╕ αñòαñ░αÑçαñé αñ»αñ╛ αñ╕αÑÇαñºαÑç αñòαÑëαñ▓ αñòαñ░αÑçαñéαÑñ' },
+  },
+
+  // FOOTER
+  footer: {
+    desc:      { en: 'Trusted manufacturer of hydraulic trolleys, agricultural equipment, and vehicle fabrication services in Rajnandgaon, Chhattisgarh.', hi: 'αñ░αñ╛αñ£αñ¿αñ╛αñéαñªαñùαñ╛αñéαñ╡, αñ¢αññαÑìαññαÑÇαñ╕αñùαñóαñ╝ αñ«αÑçαñé αñ╣αñ╛αñçαñíαÑìαñ░αÑïαñ▓αñ┐αñò αñƒαÑìαñ░αÑëαñ▓αÑÇ, αñòαÑâαñ╖αñ┐ αñëαñ¬αñòαñ░αñú αñöαñ░ αñ╡αñ╛αñ╣αñ¿ αñ½αÑçαñ¼αÑìαñ░αñ┐αñòαÑçαñ╢αñ¿ αñ╕αÑçαñ╡αñ╛αñôαñé αñòαÑç αñ╡αñ┐αñ╢αÑìαñ╡αñ╕αñ¿αÑÇαñ» αñ¿αñ┐αñ░αÑìαñ«αñ╛αññαñ╛αÑñ' },
+    links:     { en: 'Quick Links',  hi: 'αññαÑìαñ╡αñ░αñ┐αññ αñ▓αñ┐αñéαñò' },
+    products:  { en: 'Our Products', hi: 'αñ╣αñ«αñ╛αñ░αÑç αñëαññαÑìαñ¬αñ╛αñª' },
+    servicesH: { en: 'Services',     hi: 'αñ╕αÑçαñ╡αñ╛αñÅαñé' },
+    copyright: { en: '┬⌐ 2026 Piyush Agro Industries. All Rights Reserved.', hi: '┬⌐ 2026 αñ¬αñ┐αñ»αÑéαñ╖ αñÅαñùαÑìαñ░αÑï αñçαñéαñíαñ╕αÑìαñƒαÑìαñ░αÑÇαñ£αÑñ αñ╕αñ░αÑìαñ╡αñ╛αñºαñ┐αñòαñ╛αñ░ αñ╕αÑüαñ░αñòαÑìαñ╖αñ┐αññαÑñ' },
+    location:  { en: 'Rajnandgaon, Chhattisgarh, India', hi: 'αñ░αñ╛αñ£αñ¿αñ╛αñéαñªαñùαñ╛αñéαñ╡, αñ¢αññαÑìαññαÑÇαñ╕αñùαñóαñ╝, αñ¡αñ╛αñ░αññ' },
+  },
+} satisfies Record<string, Record<string, TText>>;
+
+// ΓöÇΓöÇΓöÇ Data arrays ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+
+export const PRODUCTS: Product[] = [
+  { id: 'tractor-trolley',  icon: '≡ƒÜ£', gradient: 'from-[#065F2E] to-[#0B7A3B]', title: { en: 'Tractor Trolley', hi: 'αñƒαÑìαñ░αÑêαñòαÑìαñƒαñ░ αñƒαÑìαñ░αÑëαñ▓αÑÇ' }, desc: { en: 'Heavy-duty agricultural transportation trolley for farms and construction.', hi: 'αñûαÑçαññαÑïαñé αñöαñ░ αñ¿αñ┐αñ░αÑìαñ«αñ╛αñú αñòαÑç αñ▓αñ┐αñÅ αñ¡αñ╛αñ░αÑÇ-αñ¡αñ░αñòαñ« αñòαÑâαñ╖αñ┐ αñƒαÑìαñ░αÑëαñ▓αÑÇαÑñ' }, category: 'tractor', specs: { nameOfPart: 'Tractor Trolley', capacity: '3ΓÇô10 Ton', size: '10 ├ù 6 ├ù 2 Feet (L ├ù B ├ù H)' } },
+  { id: '4w-hydraulic',     icon: '≡ƒöº', gradient: 'from-[#1a2f6f] to-[#243B8F]', title: { en: '4-Wheel Hydraulic Trolley', hi: 'αñÜαñ╛αñ░ αñ¬αñ╣αñ┐αñ»αñ╛ αñ╣αñ╛αñçαñíαÑìαñ░αÑïαñ▓αñ┐αñò αñƒαÑìαñ░αÑëαñ▓αÑÇ' }, desc: { en: 'Strong hydraulic lifting system for heavy commercial loads.', hi: 'αñ¡αñ╛αñ░αÑÇ αñ╡αÑìαñ»αñ╛αñ╡αñ╕αñ╛αñ»αñ┐αñò αñ¡αñ╛αñ░ αñòαÑç αñ▓αñ┐αñÅ αñ«αñ£αñ¼αÑéαññ αñ╣αñ╛αñçαñíαÑìαñ░αÑïαñ▓αñ┐αñò αñ▓αñ┐αñ½αÑìαñƒαñ┐αñéαñùαÑñ' }, category: 'hydraulic', specs: { nameOfPart: '4-Wheel Hydraulic Trolley', capacity: '10ΓÇô20 Ton', size: '14 ├ù 7 ├ù 3 Feet (L ├ù B ├ù H)' } },
+  { id: '2w-hydraulic',     icon: 'ΓÜÖ∩╕Å', gradient: 'from-[#0d6471] to-[#0e9aad]', title: { en: '2-Wheel Hydraulic Trolley', hi: 'αñªαÑï αñ¬αñ╣αñ┐αñ»αñ╛ αñ╣αñ╛αñçαñíαÑìαñ░αÑïαñ▓αñ┐αñò αñƒαÑìαñ░αÑëαñ▓αÑÇ' }, desc: { en: 'Cost-effective hydraulic transport solution for farmers.', hi: 'αñòαñ┐αñ╕αñ╛αñ¿αÑïαñé αñòαÑç αñ▓αñ┐αñÅ αñòαñ┐αñ½αñ╛αñ»αññαÑÇ αñ╣αñ╛αñçαñíαÑìαñ░αÑïαñ▓αñ┐αñò αñ¬αñ░αñ┐αñ╡αñ╣αñ¿ αñ╕αñ«αñ╛αñºαñ╛αñ¿αÑñ' }, category: 'hydraulic', specs: { nameOfPart: '2-Wheel Hydraulic Trolley', capacity: '5ΓÇô10 Ton', size: '12 ├ù 6 ├ù 2.5 Feet (L ├ù B ├ù H)' } },
+  { id: 'hydraulic-dumper', icon: '≡ƒÜ¢', gradient: 'from-[#b45309] to-[#d97706]', title: { en: 'Hydraulic Dumper', hi: 'αñ╣αñ╛αñçαñíαÑìαñ░αÑïαñ▓αñ┐αñò αñíαñ«αÑìαñ¬αñ░' }, desc: { en: 'High-capacity hydraulic dumper for farming and construction.', hi: 'αñûαÑçαññαÑÇ αñöαñ░ αñ¿αñ┐αñ░αÑìαñ«αñ╛αñú αñòαÑç αñ▓αñ┐αñÅ αñëαñÜαÑìαñÜ αñòαÑìαñ╖αñ«αññαñ╛ αñ╣αñ╛αñçαñíαÑìαñ░αÑïαñ▓αñ┐αñò αñíαñ«αÑìαñ¬αñ░αÑñ' }, category: 'hydraulic', specs: { nameOfPart: 'Hydraulic Dumper', capacity: '10ΓÇô25 Ton', size: '16 ├ù 7 ├ù 4 Feet (L ├ù B ├ù H)' } },
+  { id: 'water-tanker',     icon: '≡ƒÆº', gradient: 'from-[#0c4a6e] to-[#0ea5e9]', title: { en: 'Water Tanker Trailer', hi: 'αñ╡αñ╛αñƒαñ░ αñƒαÑêαñéαñòαñ░ αñƒαÑìαñ░αÑçαñ▓αñ░' }, desc: { en: 'Reliable water transportation tanker for various uses.', hi: 'αñ╡αñ┐αñ¡αñ┐αñ¿αÑìαñ¿ αñëαñ¬αñ»αÑïαñùαÑïαñé αñòαÑç αñ▓αñ┐αñÅ αñ╡αñ┐αñ╢αÑìαñ╡αñ╕αñ¿αÑÇαñ» αñ£αñ▓ αñƒαÑêαñéαñòαñ░ αñƒαÑìαñ░αÑçαñ▓αñ░αÑñ' }, category: 'water', specs: { nameOfPart: 'Water Tanker Trailer', capacity: '3000ΓÇô5000 Liters', size: '10 ├ù 5 ├ù 5 Feet (L ├ù B ├ù H)' } },
+  { id: 'medical-vehicle',  icon: '≡ƒÜæ', gradient: 'from-[#991b1b] to-[#dc2626]', title: { en: 'Medical Vehicle', hi: 'αñ«αÑçαñíαñ┐αñòαñ▓ αñ╡αñ╛αñ╣αñ¿' }, desc: { en: 'Customized medical and utility vehicles for healthcare.', hi: 'αñ╕αÑìαñ╡αñ╛αñ╕αÑìαñÑαÑìαñ» αñ╕αÑçαñ╡αñ╛ αñòαÑç αñ▓αñ┐αñÅ αñòαñ╕αÑìαñƒαñ«αñ╛αñçαñ£αñ╝ αñ«αÑçαñíαñ┐αñòαñ▓ αñ╡αñ╛αñ╣αñ¿αÑñ' }, category: 'fabrication', specs: { nameOfPart: 'Medical Vehicle', capacity: 'As per chassis', size: 'Custom Built' } },
+  { id: 'garbage-vehicle',  icon: '≡ƒùæ∩╕Å', gradient: 'from-[#374151] to-[#4b5563]', title: { en: 'Garbage Collection Vehicle', hi: 'αñòαñÜαñ░αñ╛ αñ╕αñéαñùαÑìαñ░αñ╣ αñ╡αñ╛αñ╣αñ¿' }, desc: { en: 'Municipal and commercial garbage collection with durable build.', hi: 'αñƒαñ┐αñòαñ╛αñè αñ¿αñ┐αñ░αÑìαñ«αñ╛αñú αñòαÑç αñ╕αñ╛αñÑ αñ¿αñùαñ░ αñ╡ αñ╡αÑìαñ»αñ╛αñ╡αñ╕αñ╛αñ»αñ┐αñò αñòαñÜαñ░αñ╛ αñ╡αñ╛αñ╣αñ¿αÑñ' }, category: 'fabrication', specs: { nameOfPart: 'Garbage Collection Vehicle', capacity: '2ΓÇô5 Ton / 3ΓÇô6 CBM', size: 'Custom Built' } },
+  { id: 'agri-equipment',   icon: '≡ƒî╛', gradient: 'from-[#365314] to-[#4d7c0f]', title: { en: 'Agricultural Equipment', hi: 'αñòαÑâαñ╖αñ┐ αñëαñ¬αñòαñ░αñú' }, desc: { en: 'Complete range of farming equipment for modern agriculture.', hi: 'αñåαñºαÑüαñ¿αñ┐αñò αñûαÑçαññαÑÇ αñòαÑç αñ▓αñ┐αñÅ αñòαÑâαñ╖αñ┐ αñëαñ¬αñòαñ░αñúαÑïαñé αñòαÑÇ αñ¬αÑéαñ░αÑÇ αñ░αÑçαñéαñ£αÑñ' }, category: 'agri', specs: { nameOfPart: 'Agricultural Implements', capacity: 'Varies', size: 'Various Sizes' } },
+  { id: 'gates',            icon: '≡ƒÜ¬', gradient: 'from-[#1e3a5f] to-[#374151]', title: { en: 'Gates', hi: 'αñùαÑçαñƒ' }, desc: { en: 'Custom fabricated steel gates for residential and commercial use.', hi: 'αñåαñ╡αñ╛αñ╕αÑÇαñ» αñöαñ░ αñ╡αÑìαñ»αñ╛αñ╡αñ╕αñ╛αñ»αñ┐αñò αñëαñ¬αñ»αÑïαñù αñòαÑç αñ▓αñ┐αñÅ αñòαñ╕αÑìαñƒαñ« αñ╕αÑìαñƒαÑÇαñ▓ αñùαÑçαñƒαÑñ' }, category: 'fabrication', specs: { nameOfPart: 'Steel Gate', capacity: 'N/A', size: 'Custom Dimensions' } },
+  { id: 'railings',         icon: '≡ƒ¢í∩╕Å', gradient: 'from-[#111827] to-[#1f2937]', title: { en: 'Railings', hi: 'αñ░αÑçαñ▓αñ┐αñéαñù' }, desc: { en: 'Strong and decorative railings for safety and aesthetics.', hi: 'αñ╕αÑüαñ░αñòαÑìαñ╖αñ╛ αñöαñ░ αñ╕αÑîαñéαñªαñ░αÑìαñ» αñòαÑç αñ▓αñ┐αñÅ αñ«αñ£αñ¼αÑéαññ αñöαñ░ αñ╕αñ£αñ╛αñ╡αñƒαÑÇ αñ░αÑçαñ▓αñ┐αñéαñùαÑñ' }, category: 'fabrication', specs: { nameOfPart: 'Steel/Iron Railing', capacity: 'N/A', size: 'Custom Dimensions' } },
+  { id: 'cultivators',      icon: '≡ƒî▒', gradient: 'from-[#78350f] to-[#92400e]', title: { en: 'Cultivators', hi: 'αñòαñ▓αÑìαñƒαÑÇαñ╡αÑçαñƒαñ░' }, desc: { en: 'Durable cultivators for modern and efficient farming.', hi: 'αñåαñºαÑüαñ¿αñ┐αñò αñöαñ░ αñòαÑüαñ╢αñ▓ αñûαÑçαññαÑÇ αñòαÑç αñ▓αñ┐αñÅ αñƒαñ┐αñòαñ╛αñè αñòαñ▓αÑìαñƒαÑÇαñ╡αÑçαñƒαñ░αÑñ' }, category: 'agri', specs: { nameOfPart: 'Cultivator', capacity: '7-11 Tynes', size: 'Standard' } },
+  { id: 'custom-fab',       icon: '≡ƒö¿', gradient: 'from-[#4c1d95] to-[#6d28d9]', title: { en: 'Custom Fabrication', hi: 'αñòαñ╕αÑìαñƒαñ« αñ½αÑçαñ¼αÑìαñ░αñ┐αñòαÑçαñ╢αñ¿' }, desc: { en: 'Tailor-made fabrication as per customer requirements.', hi: 'αñùαÑìαñ░αñ╛αñ╣αñòαÑïαñé αñòαÑÇ αñåαñ╡αñ╢αÑìαñ»αñòαññαñ╛αñôαñé αñòαÑç αñàαñ¿αÑüαñ╕αñ╛αñ░ αñòαñ╕αÑìαñƒαñ« αñ½αÑçαñ¼αÑìαñ░αñ┐αñòαÑçαñ╢αñ¿αÑñ' }, category: 'fabrication', specs: { nameOfPart: 'Custom Structure', capacity: 'As Required', size: 'As Required' } },
+  { id: 'vehicle-repair',   icon: '≡ƒö⌐', gradient: 'from-[#7f1d1d] to-[#b91c1c]', title: { en: 'Vehicle Repairing', hi: 'αñ╡αñ╛αñ╣αñ¿ αñ«αñ░αñ«αÑìαñ«αññ' }, desc: { en: 'Repair and maintenance of all agricultural and commercial vehicles.', hi: 'αñ╕αñ¡αÑÇ αñ¬αÑìαñ░αñòαñ╛αñ░ αñòαÑç αñòαÑâαñ╖αñ┐ αñöαñ░ αñ╡αÑìαñ»αñ╛αñ╡αñ╕αñ╛αñ»αñ┐αñò αñ╡αñ╛αñ╣αñ¿αÑïαñé αñòαÑÇ αñ«αñ░αñ«αÑìαñ«αññαÑñ' }, category: 'fabrication', specs: { nameOfPart: 'Repair Service', capacity: 'All Vehicles', size: 'N/A' } },
+];
+
+export const GALLERY_ITEMS: GalleryItem[] = [
+  { id: 'g1', icon: '≡ƒöº', gradient: 'from-[#1a2f6f] to-[#243B8F]', label: { en: '4-Wheel Hydraulic Trolley', hi: 'αñÜαñ╛αñ░ αñ¬αñ╣αñ┐αñ»αñ╛ αñ╣αñ╛αñçαñíαÑìαñ░αÑïαñ▓αñ┐αñò αñƒαÑìαñ░αÑëαñ▓αÑÇ' }, category: 'hydraulic' },
+  { id: 'g2', icon: 'ΓÜÖ∩╕Å', gradient: 'from-[#0d6471] to-[#0e9aad]', label: { en: '2-Wheel Hydraulic Trolley', hi: 'αñªαÑï αñ¬αñ╣αñ┐αñ»αñ╛ αñ╣αñ╛αñçαñíαÑìαñ░αÑïαñ▓αñ┐αñò αñƒαÑìαñ░αÑëαñ▓αÑÇ' }, category: 'hydraulic' },
+  { id: 'g3', icon: '≡ƒÜ£', gradient: 'from-[#065F2E] to-[#0B7A3B]', label: { en: 'Tractor Trolley', hi: 'αñƒαÑìαñ░αÑêαñòαÑìαñƒαñ░ αñƒαÑìαñ░αÑëαñ▓αÑÇ' }, category: 'tractor' },
+  { id: 'g4', icon: '≡ƒî╛', gradient: 'from-[#365314] to-[#4d7c0f]', label: { en: 'Agricultural Trolley', hi: 'αñòαÑâαñ╖αñ┐ αñƒαÑìαñ░αÑëαñ▓αÑÇ' }, category: 'tractor' },
+  { id: 'g5', icon: '≡ƒÆº', gradient: 'from-[#0c4a6e] to-[#0ea5e9]', label: { en: 'Water Tanker Trailer', hi: 'αñ╡αñ╛αñƒαñ░ αñƒαÑêαñéαñòαñ░ αñƒαÑìαñ░αÑçαñ▓αñ░' }, category: 'water' },
+  { id: 'g6', icon: '≡ƒÜ¢', gradient: 'from-[#b45309] to-[#d97706]', label: { en: 'Hydraulic Dumper', hi: 'αñ╣αñ╛αñçαñíαÑìαñ░αÑïαñ▓αñ┐αñò αñíαñ«αÑìαñ¬αñ░' }, category: 'hydraulic' },
+  { id: 'g7', icon: '≡ƒî▒', gradient: 'from-[#78350f] to-[#92400e]', label: { en: 'Cultivator', hi: 'αñòαñ▓αÑìαñƒαÑÇαñ╡αÑçαñƒαñ░' }, category: 'agri' },
+  { id: 'g8', icon: '≡ƒö¿', gradient: 'from-[#4c1d95] to-[#6d28d9]', label: { en: 'Custom Fabrication', hi: 'αñòαñ╕αÑìαñƒαñ« αñ½αÑçαñ¼αÑìαñ░αñ┐αñòαÑçαñ╢αñ¿' }, category: 'fabrication' },
+  { id: 'g9', icon: '≡ƒÜ¬', gradient: 'from-[#1e3a5f] to-[#374151]', label: { en: 'Steel Gate', hi: 'αñ╕αÑìαñƒαÑÇαñ▓ αñùαÑçαñƒ' }, category: 'fabrication' },
+  { id: 'g10',icon: '≡ƒ¢í∩╕Å', gradient: 'from-[#111827] to-[#1f2937]', label: { en: 'Railings', hi: 'αñ░αÑçαñ▓αñ┐αñéαñù' }, category: 'fabrication' },
+  { id: 'g11',icon: 'ΓÜÖ∩╕Å', gradient: 'from-[#065F2E] to-[#14a050]', label: { en: 'Agricultural Equipment', hi: 'αñòαÑâαñ╖αñ┐ αñëαñ¬αñòαñ░αñú' }, category: 'agri' },
+  { id: 'g12',icon: '≡ƒö⌐', gradient: 'from-[#7f1d1d] to-[#b91c1c]', label: { en: 'Workshop / Repair', hi: 'αñòαñ╛αñ░αÑìαñ»αñ╢αñ╛αñ▓αñ╛ / αñ«αñ░αñ«αÑìαñ«αññ' }, category: 'fabrication' },
+];
+
+export const FAQ_ITEMS: FAQItem[] = [
+  {
+    question: { en: 'Do you manufacture custom hydraulic trolleys?', hi: 'αñòαÑìαñ»αñ╛ αñåαñ¬ αñòαñ╕αÑìαñƒαñ« αñ╣αñ╛αñçαñíαÑìαñ░αÑïαñ▓αñ┐αñò αñƒαÑìαñ░αÑëαñ▓αÑÇ αñ¼αñ¿αñ╛αññαÑç αñ╣αÑêαñé?' },
+    answer:   { en: 'Yes, we manufacture custom hydraulic trolleys (2-wheel and 4-wheel) as per your load capacity, dimensions, and specifications.', hi: 'αñ╣αñ╛αñé, αñåαñ¬αñòαÑÇ αñ▓αÑïαñí αñòαÑìαñ╖αñ«αññαñ╛, αñåαñ»αñ╛αñ« αñöαñ░ αñ╡αñ┐αñ╢αñ┐αñ╖αÑìαñƒαññαñ╛αñôαñé αñòαÑç αñàαñ¿αÑüαñ╕αñ╛αñ░ 2-αñ¬αñ╣αñ┐αñ»αñ╛ αñöαñ░ 4-αñ¬αñ╣αñ┐αñ»αñ╛ αñ╣αñ╛αñçαñíαÑìαñ░αÑïαñ▓αñ┐αñò αñƒαÑìαñ░αÑëαñ▓αÑÇ αñ¼αñ¿αñ╛αññαÑç αñ╣αÑêαñéαÑñ' },
+  },
+  {
+    question: { en: 'Do you repair all types of vehicles?', hi: 'αñòαÑìαñ»αñ╛ αñåαñ¬ αñ╕αñ¡αÑÇ αñ¬αÑìαñ░αñòαñ╛αñ░ αñòαÑç αñ╡αñ╛αñ╣αñ¿αÑïαñé αñòαÑÇ αñ«αñ░αñ«αÑìαñ«αññ αñòαñ░αññαÑç αñ╣αÑêαñé?' },
+    answer:   { en: 'Yes, we offer comprehensive vehicle repairing and fabrication services for all agricultural and commercial vehicles including tractors, trolleys, and dumpers.', hi: 'αñ╣αñ╛αñé, αñƒαÑìαñ░αÑêαñòαÑìαñƒαñ░, αñƒαÑìαñ░αÑëαñ▓αÑÇ αñöαñ░ αñíαñ«αÑìαñ¬αñ░ αñ╕αñ╣αñ┐αññ αñ╕αñ¡αÑÇ αñòαÑâαñ╖αñ┐ αñöαñ░ αñ╡αÑìαñ»αñ╛αñ╡αñ╕αñ╛αñ»αñ┐αñò αñ╡αñ╛αñ╣αñ¿αÑïαñé αñòαÑç αñ▓αñ┐αñÅ αñ╡αÑìαñ»αñ╛αñ¬αñò αñ«αñ░αñ«αÑìαñ«αññ αñöαñ░ αñ½αÑçαñ¼αÑìαñ░αñ┐αñòαÑçαñ╢αñ¿ αñ╕αÑçαñ╡αñ╛αñÅαñéαÑñ' },
+  },
+  {
+    question: { en: 'Do you provide agricultural equipment?', hi: 'αñòαÑìαñ»αñ╛ αñåαñ¬ αñòαÑâαñ╖αñ┐ αñëαñ¬αñòαñ░αñú αñ¬αÑìαñ░αñªαñ╛αñ¿ αñòαñ░αññαÑç αñ╣αÑêαñé?' },
+    answer:   { en: 'Yes, we manufacture and supply a wide range of agricultural equipment including tractor trolleys, cultivators, agricultural tools, and accessories.', hi: 'αñ╣αñ╛αñé, αñƒαÑìαñ░αÑêαñòαÑìαñƒαñ░ αñƒαÑìαñ░αÑëαñ▓αÑÇ, αñòαñ▓αÑìαñƒαÑÇαñ╡αÑçαñƒαñ░, αñòαÑâαñ╖αñ┐ αñëαñ¬αñòαñ░αñú αñöαñ░ αñ╕αñ╣αñ╛αñ»αñò αñ╕αñ╛αñ«αñùαÑìαñ░αÑÇ αñòαÑÇ αñ╡αñ┐αñ╕αÑìαññαÑâαññ αñ╢αÑìαñ░αÑâαñéαñûαñ▓αñ╛ αñ¿αñ┐αñ░αÑìαñ«αñ┐αññ αñöαñ░ αñåαñ¬αÑéαñ░αÑìαññαñ┐ αñòαñ░αññαÑç αñ╣αÑêαñéαÑñ' },
+  },
+  {
+    question: { en: 'Can I place bulk orders?', hi: 'αñòαÑìαñ»αñ╛ αñ«αÑêαñé αñ¼αñ▓αÑìαñò αñæαñ░αÑìαñíαñ░ αñªαÑç αñ╕αñòαññαñ╛ αñ╣αÑéαñé?' },
+    answer:   { en: 'Yes, we welcome bulk orders and can handle large-scale manufacturing efficiently. Contact us to discuss bulk pricing and delivery timelines.', hi: 'αñ╣αñ╛αñé, αñ¼αñ▓αÑìαñò αñæαñ░αÑìαñíαñ░ αñòαñ╛ αñ╕αÑìαñ╡αñ╛αñùαññ αñ╣αÑêαÑñ αñ¼αñ▓αÑìαñò αñ«αÑéαñ▓αÑìαñ» αñöαñ░ αñíαñ┐αñ▓αÑÇαñ╡αñ░αÑÇ αñòαÑç αñ¼αñ╛αñ░αÑç αñ«αÑçαñé αñÜαñ░αÑìαñÜαñ╛ αñòαÑç αñ▓αñ┐αñÅ αñ╣αñ«αñ╕αÑç αñ╕αñéαñ¬αñ░αÑìαñò αñòαñ░αÑçαñéαÑñ' },
+  },
+  {
+    question: { en: 'Do you serve outside Rajnandgaon?', hi: 'αñòαÑìαñ»αñ╛ αñåαñ¬ αñ░αñ╛αñ£αñ¿αñ╛αñéαñªαñùαñ╛αñéαñ╡ αñòαÑç αñ¼αñ╛αñ╣αñ░ αñ╕αÑçαñ╡αñ╛ αñªαÑçαññαÑç αñ╣αÑêαñé?' },
+    answer:   { en: 'Yes, we serve customers across Chhattisgarh and neighboring states. Products delivered to Raipur, Durg, Bilaspur, Jagdalpur, and many more locations.', hi: 'αñ╣αñ╛αñé, αñ╣αñ« αñ¢αññαÑìαññαÑÇαñ╕αñùαñóαñ╝ αñöαñ░ αñ¬αñíαñ╝αÑïαñ╕αÑÇ αñ░αñ╛αñ£αÑìαñ»αÑïαñé αñ«αÑçαñé αñ╕αÑçαñ╡αñ╛ αñªαÑçαññαÑç αñ╣αÑêαñéαÑñ αñ░αñ╛αñ»αñ¬αÑüαñ░, αñªαÑüαñ░αÑìαñù, αñ¼αñ┐αñ▓αñ╛αñ╕αñ¬αÑüαñ░, αñ£αñùαñªαñ▓αñ¬αÑüαñ░ αñöαñ░ αñòαñê αñ╕αÑìαñÑαñ╛αñ¿αÑïαñé αñ¬αñ░ αñëαññαÑìαñ¬αñ╛αñª αñ¬αñ╣αÑüαñéαñÜαñ╛αñÅ αñ╣αÑêαñéαÑñ' },
+  },
+  {
+    question: { en: 'What is the typical manufacturing time?', hi: 'αñ¿αñ┐αñ░αÑìαñ«αñ╛αñú αñòαñ╛ αñ╕αñ╛αñ«αñ╛αñ¿αÑìαñ» αñ╕αñ«αñ» αñòαÑìαñ»αñ╛ αñ╣αÑê?' },
+    answer:   { en: 'Standard products take 7ΓÇô15 working days. Custom fabrication projects may take longer. We provide a specific timeline when you place your order.', hi: 'αñ«αñ╛αñ¿αñò αñëαññαÑìαñ¬αñ╛αñª 7-15 αñòαñ╛αñ░αÑìαñ» αñªαñ┐αñ╡αñ╕ αñ«αÑçαñé αññαÑêαñ»αñ╛αñ░ αñ╣αÑïαññαÑç αñ╣αÑêαñéαÑñ αñòαñ╕αÑìαñƒαñ« αñ¬αÑìαñ░αÑïαñ£αÑçαñòαÑìαñƒ αñ«αÑçαñé αñàαñºαñ┐αñò αñ╕αñ«αñ» αñ▓αñù αñ╕αñòαññαñ╛ αñ╣αÑêαÑñ' },
+  },
+];
+
+export const TESTIMONIALS: Testimonial[] = [
+  {
+    name:     { en: 'Ramesh Patel',   hi: 'αñ░αñ«αÑçαñ╢ αñ¬αñƒαÑçαñ▓' },
+    role:     { en: 'Farmer, Rajnandgaon', hi: 'αñòαñ┐αñ╕αñ╛αñ¿, αñ░αñ╛αñ£αñ¿αñ╛αñéαñªαñùαñ╛αñéαñ╡' },
+    text:     { en: 'Excellent quality hydraulic trolley. The construction is very strong and durable. I have been using it for over a year on my farm and it works perfectly. Highly recommend!', hi: 'αñ¼αñ╣αÑüαññ αñ¼αñóαñ╝αñ┐αñ»αñ╛ αñùαÑüαñúαñ╡αññαÑìαññαñ╛ αñòαÑÇ αñ╣αñ╛αñçαñíαÑìαñ░αÑïαñ▓αñ┐αñò αñƒαÑìαñ░αÑëαñ▓αÑÇαÑñ αñ¿αñ┐αñ░αÑìαñ«αñ╛αñú αñ¼αñ╣αÑüαññ αñ«αñ£αñ¼αÑéαññ αñöαñ░ αñƒαñ┐αñòαñ╛αñè αñ╣αÑêαÑñ αñÅαñò αñ╕αñ╛αñ▓ αñ╕αÑç αñàαñºαñ┐αñò αñûαÑçαññ αñ«αÑçαñé αñëαñ¬αñ»αÑïαñù αñòαñ░ αñ░αñ╣αñ╛ αñ╣αÑéαñé, αñ¼αñ┐αñ▓αÑìαñòαÑüαñ▓ αñ╕αñ╣αÑÇ αñòαñ╛αñ« αñòαñ░αññαÑÇ αñ╣αÑêαÑñ αñ╕αñ┐αñ½αñ╛αñ░αñ┐αñ╢ αñòαñ░αññαñ╛ αñ╣αÑéαñé!' },
+    avatar:   'R',
+    gradient: 'from-[#065F2E] to-[#0B7A3B]',
+    rating:   5,
+  },
+  {
+    name:     { en: 'Suresh Kumar',    hi: 'αñ╕αÑüαñ░αÑçαñ╢ αñòαÑüαñ«αñ╛αñ░' },
+    role:     { en: 'Contractor, Durg', hi: 'αñáαÑçαñòαÑçαñªαñ╛αñ░, αñªαÑüαñ░αÑìαñù' },
+    text:     { en: 'Reliable fabrication work and timely delivery. The team understood our requirements perfectly and delivered exactly what we needed. Great customer service!', hi: 'αñ╡αñ┐αñ╢αÑìαñ╡αñ╕αñ¿αÑÇαñ» αñ½αÑçαñ¼αÑìαñ░αñ┐αñòαÑçαñ╢αñ¿ αñòαñ╛αñ░αÑìαñ» αñöαñ░ αñ╕αñ«αñ» αñ¬αñ░ αñíαñ┐αñ▓αÑÇαñ╡αñ░αÑÇαÑñ αñƒαÑÇαñ« αñ¿αÑç αñåαñ╡αñ╢αÑìαñ»αñòαññαñ╛αñôαñé αñòαÑï αñ¬αÑéαñ░αÑÇ αññαñ░αñ╣ αñ╕αñ«αñ¥αñ╛αÑñ αñ¼αÑçαñ╣αññαñ░αÑÇαñ¿ αñùαÑìαñ░αñ╛αñ╣αñò αñ╕αÑçαñ╡αñ╛!' },
+    avatar:   'S',
+    gradient: 'from-[#1a2f6f] to-[#243B8F]',
+    rating:   5,
+  },
+  {
+    name:     { en: 'Mahesh Yadav',    hi: 'αñ«αñ╣αÑçαñ╢ αñ»αñ╛αñªαñ╡' },
+    role:     { en: 'Transport Owner, Raipur', hi: 'αñ¬αñ░αñ┐αñ╡αñ╣αñ¿ αñ«αñ╛αñ▓αñ┐αñò, αñ░αñ╛αñ»αñ¬αÑüαñ░' },
+    text:     { en: 'Professional team and very affordable pricing. We ordered custom water tanker trailers and dumpers for our business. Quality is excellent and price competitive. Will order again!', hi: 'αñ¬αÑìαñ░αÑïαñ½αÑçαñ╢αñ¿αñ▓ αñƒαÑÇαñ« αñöαñ░ αñòαñ┐αñ½αñ╛αñ»αññαÑÇ αñ«αÑéαñ▓αÑìαñ»αÑñ αñòαñ╕αÑìαñƒαñ« αñ╡αñ╛αñƒαñ░ αñƒαÑêαñéαñòαñ░ αñöαñ░ αñíαñ«αÑìαñ¬αñ░ αñæαñ░αÑìαñíαñ░ αñòαñ┐αñÅαÑñ αñùαÑüαñúαñ╡αññαÑìαññαñ╛ αñëαññαÑìαñòαÑâαñ╖αÑìαñƒ αñöαñ░ αñ«αÑéαñ▓αÑìαñ» αñ¬αÑìαñ░αññαñ┐αñ╕αÑìαñ¬αñ░αÑìαñºαÑÇαÑñ αñ½αñ┐αñ░ αñæαñ░αÑìαñíαñ░ αñòαñ░αÑçαñéαñùαÑç!' },
+    avatar:   'M',
+    gradient: 'from-[#b45309] to-[#d97706]',
+    rating:   5,
+  },
+];
+
+export const WHY_FEATURES: Feature[] = [
+  { icon: '≡ƒÅà', title: { en: 'High Quality Manufacturing', hi: 'αñëαñÜαÑìαñÜ αñùαÑüαñúαñ╡αññαÑìαññαñ╛ αñ¿αñ┐αñ░αÑìαñ«αñ╛αñú' }, desc: { en: 'Premium materials and precision craftsmanship in every product.', hi: 'αñ╣αñ░ αñëαññαÑìαñ¬αñ╛αñª αñ«αÑçαñé αñ¬αÑìαñ░αÑÇαñ«αñ┐αñ»αñ« αñ╕αñ╛αñ«αñùαÑìαñ░αÑÇ αñöαñ░ αñ╕αñƒαÑÇαñò αñòαñ╛αñ░αÑÇαñùαñ░αÑÇαÑñ' } },
+  { icon: '≡ƒÆ¬', title: { en: 'Heavy Duty Construction', hi: 'αñ¡αñ╛αñ░αÑÇ-αñ¡αñ░αñòαñ« αñ¿αñ┐αñ░αÑìαñ«αñ╛αñú' }, desc: { en: 'Built to withstand tough agricultural and industrial conditions.', hi: 'αñòαñáαñ┐αñ¿ αñòαÑâαñ╖αñ┐ αñöαñ░ αñöαñªαÑìαñ»αÑïαñùαñ┐αñò αñ¬αñ░αñ┐αñ╕αÑìαñÑαñ┐αññαñ┐αñ»αÑïαñé αñòαÑï αñ¥αÑçαñ▓αñ¿αÑç αñòαÑç αñ▓αñ┐αñÅαÑñ' } },
+  { icon: '≡ƒÅ╖∩╕Å', title: { en: 'Affordable Pricing', hi: 'αñòαñ┐αñ½αñ╛αñ»αññαÑÇ αñ«αÑéαñ▓αÑìαñ»' }, desc: { en: 'Best value for money with competitive prices for all products.', hi: 'αñ╕αñ¡αÑÇ αñëαññαÑìαñ¬αñ╛αñªαÑïαñé αñòαÑç αñ▓αñ┐αñÅ αñ¬αÑìαñ░αññαñ┐αñ╕αÑìαñ¬αñ░αÑìαñºαÑÇ αñ«αÑéαñ▓αÑìαñ» αñòαÑç αñ╕αñ╛αñÑ αñ¬αÑêαñ╕αÑç αñòαñ╛ αñ«αÑéαñ▓αÑìαñ»αÑñ' } },
+  { icon: '≡ƒæ╖', title: { en: 'Expert Fabrication Team', hi: 'αñ╡αñ┐αñ╢αÑçαñ╖αñ£αÑìαñ₧ αñ½αÑçαñ¼αÑìαñ░αñ┐αñòαÑçαñ╢αñ¿ αñƒαÑÇαñ«' }, desc: { en: 'Highly skilled and experienced professionals in metal fabrication.', hi: 'αñºαñ╛αññαÑü αñ½αÑçαñ¼αÑìαñ░αñ┐αñòαÑçαñ╢αñ¿ αñ«αÑçαñé αñàαññαÑìαñ»αñºαñ┐αñò αñòαÑüαñ╢αñ▓ αñöαñ░ αñàαñ¿αÑüαñ¡αñ╡αÑÇ αñ¬αÑçαñ╢αÑçαñ╡αñ░αÑñ' } },
+  { icon: 'ΓÅ░', title: { en: 'Timely Delivery', hi: 'αñ╕αñ«αñ» αñ¬αñ░ αñíαñ┐αñ▓αÑÇαñ╡αñ░αÑÇ' }, desc: { en: 'We respect your time and commit to on-time project completion.', hi: 'αñ╣αñ« αñåαñ¬αñòαñ╛ αñ╕αñ«αñ» αñ╕αñ«αÑìαñ«αñ╛αñ¿ αñòαñ░αññαÑç αñ╣αÑêαñé αñöαñ░ αñ╕αñ«αñ» αñ¬αñ░ αñ¬αÑéαñ░αñ╛ αñòαñ░αññαÑç αñ╣αÑêαñéαÑñ' } },
+  { icon: '≡ƒô₧', title: { en: 'After-Sales Support', hi: 'αñ¼αñ┐αñòαÑìαñ░αÑÇ αñëαñ¬αñ░αñ╛αñéαññ αñ╕αñ╣αñ╛αñ»αññαñ╛' }, desc: { en: 'Dedicated support team for maintenance and repair assistance.', hi: 'αñ░αñûαñ░αñûαñ╛αñ╡ αñöαñ░ αñ«αñ░αñ«αÑìαñ«αññ αñòαÑç αñ▓αñ┐αñÅ αñ╕αñ«αñ░αÑìαñ¬αñ┐αññ αñ╕αñ╣αñ╛αñ»αññαñ╛ αñƒαÑÇαñ«αÑñ' } },
+  { icon: '≡ƒÄ»', title: { en: 'Customized Solutions', hi: 'αñòαñ╕αÑìαñƒαñ«αñ╛αñçαñ£αñ╝ αñ╕αñ«αñ╛αñºαñ╛αñ¿' }, desc: { en: 'Tailor-made products designed specifically for your requirements.', hi: 'αñåαñ¬αñòαÑÇ αñåαñ╡αñ╢αÑìαñ»αñòαññαñ╛αñôαñé αñòαÑç αñ▓αñ┐αñÅ αñ╡αñ┐αñ╢αÑçαñ╖ αñ░αÑéαñ¬ αñ╕αÑç αñíαñ┐αñ£αñ╝αñ╛αñçαñ¿ αñëαññαÑìαñ¬αñ╛αñªαÑñ' } },
+  { icon: '≡ƒôì', title: { en: 'Trusted Local Business', hi: 'αñ╡αñ┐αñ╢αÑìαñ╡αñ╕αñ¿αÑÇαñ» αñ╕αÑìαñÑαñ╛αñ¿αÑÇαñ» αñ╡αÑìαñ»αñ╡αñ╕αñ╛αñ»' }, desc: { en: 'Established business serving Chhattisgarh with pride and trust.', hi: 'αñùαñ░αÑìαñ╡ αñöαñ░ αñ╡αñ┐αñ╢αÑìαñ╡αñ╛αñ╕ αñòαÑç αñ╕αñ╛αñÑ αñ¢αññαÑìαññαÑÇαñ╕αñùαñóαñ╝ αñòαÑÇ αñ╕αÑçαñ╡αñ╛ αñòαñ░αñ¿αÑç αñ╡αñ╛αñ▓αñ╛ αñ╡αÑìαñ»αñ╡αñ╕αñ╛αñ»αÑñ' } },
+];
+
+export const PROCESS_STEPS: ProcessStep[] = [
+  { num: 1, icon: '≡ƒÆ¼', title: { en: 'Requirement Discussion', hi: 'αñåαñ╡αñ╢αÑìαñ»αñòαññαñ╛ αñÜαñ░αÑìαñÜαñ╛' }, desc: { en: 'We understand your specific needs and requirements.', hi: 'αñ╣αñ« αñåαñ¬αñòαÑÇ αñ╡αñ┐αñ╢αñ┐αñ╖αÑìαñƒ αñ£αñ░αÑéαñ░αññαÑïαñé αñòαÑï αñ╡αñ┐αñ╕αÑìαññαñ╛αñ░ αñ╕αÑç αñ╕αñ«αñ¥αññαÑç αñ╣αÑêαñéαÑñ' } },
+  { num: 2, icon: '≡ƒôÉ', title: { en: 'Design & Planning', hi: 'αñíαñ┐αñ£αñ╝αñ╛αñçαñ¿ αñöαñ░ αñ»αÑïαñ£αñ¿αñ╛' }, desc: { en: 'Our team creates detailed designs for your product.', hi: 'αñ╣αñ«αñ╛αñ░αÑÇ αñƒαÑÇαñ« αñåαñ¬αñòαÑç αñëαññαÑìαñ¬αñ╛αñª αñòαÑç αñ▓αñ┐αñÅ αñ╡αñ┐αñ╕αÑìαññαÑâαññ αñíαñ┐αñ£αñ╝αñ╛αñçαñ¿ αñ¼αñ¿αñ╛αññαÑÇ αñ╣αÑêαÑñ' } },
+  { num: 3, icon: '≡ƒö¿', title: { en: 'Fabrication & Manufacturing', hi: 'αñ½αÑçαñ¼αÑìαñ░αñ┐αñòαÑçαñ╢αñ¿ αñöαñ░ αñ¿αñ┐αñ░αÑìαñ«αñ╛αñú' }, desc: { en: 'Expert craftsmen manufacture with precision.', hi: 'αñ╡αñ┐αñ╢αÑçαñ╖αñ£αÑìαñ₧ αñòαñ╛αñ░αÑÇαñùαñ░ αñ╕αñƒαÑÇαñòαññαñ╛ αñ╕αÑç αñ¿αñ┐αñ░αÑìαñ«αñ╛αñú αñòαñ░αññαÑç αñ╣αÑêαñéαÑñ' } },
+  { num: 4, icon: '≡ƒöì', title: { en: 'Quality Inspection', hi: 'αñùαÑüαñúαñ╡αññαÑìαññαñ╛ αñ¿αñ┐αñ░αÑÇαñòαÑìαñ╖αñú' }, desc: { en: 'Thorough quality check for every product.', hi: 'αñ╣αñ░ αñëαññαÑìαñ¬αñ╛αñª αñòαÑÇ αñ╕αñéαñ¬αÑéαñ░αÑìαñú αñùαÑüαñúαñ╡αññαÑìαññαñ╛ αñ£αñ╛αñéαñÜαÑñ' } },
+  { num: 5, icon: '≡ƒÜÜ', title: { en: 'Delivery & Support', hi: 'αñíαñ┐αñ▓αÑÇαñ╡αñ░αÑÇ αñöαñ░ αñ╕αñ╣αñ╛αñ»αññαñ╛' }, desc: { en: 'Safe delivery with ongoing after-sales support.', hi: 'αñ¼αñ┐αñòαÑìαñ░αÑÇ αñòαÑç αñ¼αñ╛αñª αñ╕αñ╣αñ╛αñ»αññαñ╛ αñòαÑç αñ╕αñ╛αñÑ αñ╕αÑüαñ░αñòαÑìαñ╖αñ┐αññ αñíαñ┐αñ▓αÑÇαñ╡αñ░αÑÇαÑñ' } },
+];
+
+export const SERVICE_OPTIONS = [
+  { value: 'tractor-trolley',   label: 'Tractor Trolley / αñƒαÑìαñ░αÑêαñòαÑìαñƒαñ░ αñƒαÑìαñ░αÑëαñ▓αÑÇ' },
+  { value: '4w-hydraulic',      label: '4-Wheel Hydraulic Trolley' },
+  { value: '2w-hydraulic',      label: '2-Wheel Hydraulic Trolley' },
+  { value: 'hydraulic-dumper',  label: 'Hydraulic Dumper / αñ╣αñ╛αñçαñíαÑìαñ░αÑïαñ▓αñ┐αñò αñíαñ«αÑìαñ¬αñ░' },
+  { value: 'water-tanker',      label: 'Water Tanker / αñ╡αñ╛αñƒαñ░ αñƒαÑêαñéαñòαñ░' },
+  { value: 'medical-vehicle',   label: 'Medical Vehicle / αñ«αÑçαñíαñ┐αñòαñ▓ αñ╡αñ╛αñ╣αñ¿' },
+  { value: 'garbage-vehicle',   label: 'Garbage Vehicle / αñòαñÜαñ░αñ╛ αñ╡αñ╛αñ╣αñ¿' },
+  { value: 'agri-equipment',    label: 'Agricultural Equipment / αñòαÑâαñ╖αñ┐ αñëαñ¬αñòαñ░αñú' },
+  { value: 'gates-railings',    label: 'Gates & Railings / αñùαÑçαñƒ αñöαñ░ αñ░αÑçαñ▓αñ┐αñéαñù' },
+  { value: 'cultivator',        label: 'Cultivator / αñòαñ▓αÑìαñƒαÑÇαñ╡αÑçαñƒαñ░' },
+  { value: 'custom-fabrication',label: 'Custom Fabrication / αñòαñ╕αÑìαñƒαñ« αñ½αÑçαñ¼αÑìαñ░αñ┐αñòαÑçαñ╢αñ¿' },
+  { value: 'vehicle-repair',    label: 'Vehicle Repairing / αñ╡αñ╛αñ╣αñ¿ αñ«αñ░αñ«αÑìαñ«αññ' },
+  { value: 'other',             label: 'Other / αñàαñ¿αÑìαñ»' },
+];
+
+export const MEGA_MENU = [
+  {
+    title: { en: 'Tractor Trailers', hi: 'αñƒαÑìαñ░αÑêαñòαÑìαñƒαñ░ αñƒαÑìαñ░αÑçαñ▓αñ░' },
+    items: [
+      { en: 'Hydraulic Tractor Trailer', hi: 'αñ╣αñ╛αñçαñíαÑìαñ░αÑïαñ▓αñ┐αñò αñƒαÑìαñ░αÑêαñòαÑìαñƒαñ░ αñƒαÑìαñ░αÑçαñ▓αñ░' },
+      { en: 'Tractor Tipping Trailer', hi: 'αñƒαÑìαñ░αÑêαñòαÑìαñƒαñ░ αñƒαñ┐αñ¬αñ┐αñéαñù αñƒαÑìαñ░αÑçαñ▓αñ░' },
+      { en: '5 Ton Agricultural Tractor Trailer', hi: '5 αñƒαñ¿ αñòαÑâαñ╖αñ┐ αñƒαÑìαñ░αÑêαñòαÑìαñƒαñ░ αñƒαÑìαñ░αÑçαñ▓αñ░' },
+      { en: '2 Ton Agriculture Tractor Trailer', hi: '2 αñƒαñ¿ αñòαÑâαñ╖αñ┐ αñƒαÑìαñ░αÑêαñòαÑìαñƒαñ░ αñƒαÑìαñ░αÑçαñ▓αñ░' },
+      { en: 'Non Tipping Tractor Trailers', hi: 'αñ¿αÑëαñ¿ αñƒαñ┐αñ¬αñ┐αñéαñù αñƒαÑìαñ░αÑêαñòαÑìαñƒαñ░ αñƒαÑìαñ░αÑçαñ▓αñ░' },
+    ]
+  },
+  {
+    title: { en: 'Hydraulic Tractor Trolley', hi: 'αñ╣αñ╛αñçαñíαÑìαñ░αÑïαñ▓αñ┐αñò αñƒαÑìαñ░αÑêαñòαÑìαñƒαñ░ αñƒαÑìαñ░αÑëαñ▓αÑÇ' },
+    items: [
+      { en: 'Hydraulic Tractor Trolley', hi: 'αñ╣αñ╛αñçαñíαÑìαñ░αÑïαñ▓αñ┐αñò αñƒαÑìαñ░αÑêαñòαÑìαñƒαñ░ αñƒαÑìαñ░αÑëαñ▓αÑÇ' },
+      { en: 'Special Tractor Trolley', hi: 'αñ╕αÑìαñ¬αÑçαñ╢αñ▓ αñƒαÑìαñ░αÑêαñòαÑìαñƒαñ░ αñƒαÑìαñ░αÑëαñ▓αÑÇ' },
+      { en: 'Mini Water Tank Trolley', hi: 'αñ«αñ┐αñ¿αÑÇ αñ╡αñ╛αñƒαñ░ αñƒαÑêαñéαñò αñƒαÑìαñ░αÑëαñ▓αÑÇ' },
+    ]
+  },
+  {
+    title: { en: 'Generator Trolley', hi: 'αñ£αñ¿αñ░αÑçαñƒαñ░ αñƒαÑìαñ░αÑëαñ▓αÑÇ' },
+    items: [
+      { en: '4 Wheel Generator Trolley', hi: '4 αñ╡αÑìαñ╣αÑÇαñ▓ αñ£αñ¿αñ░αÑçαñƒαñ░ αñƒαÑìαñ░αÑëαñ▓αÑÇ' },
+      { en: 'Generator Set Trolley', hi: 'αñ£αñ¿αñ░αÑçαñƒαñ░ αñ╕αÑçαñƒ αñƒαÑìαñ░αÑëαñ▓αÑÇ' },
+      { en: '2 Wheeler Trolley', hi: '2 αñ╡αÑìαñ╣αÑÇαñ▓αñ░ αñƒαÑìαñ░αÑëαñ▓αÑÇ' },
+      { en: 'Generator Trolley', hi: 'αñ£αñ¿αñ░αÑçαñƒαñ░ αñƒαÑìαñ░αÑëαñ▓αÑÇ' },
+    ]
+  },
+  {
+    title: { en: 'Material Handling Equipment', hi: 'αñ«αñƒαÑçαñ░αñ┐αñ»αñ▓ αñ╣αÑêαñéαñíαñ▓αñ┐αñéαñù αñëαñ¬αñòαñ░αñú' },
+    items: [
+      { en: 'UGPU Trolley 4 Wheel', hi: 'UGPU αñƒαÑìαñ░αÑëαñ▓αÑÇ 4 αñ╡αÑìαñ╣αÑÇαñ▓' },
+      { en: 'Customize Low Bed Trailer', hi: 'αñòαñ╕αÑìαñƒαñ«αñ╛αñçαñ£ αñ▓αÑï αñ¼αÑçαñí αñƒαÑìαñ░αÑçαñ▓αñ░' },
+      { en: 'Customize Low Bed Trolley', hi: 'αñòαñ╕αÑìαñƒαñ«αñ╛αñçαñ£ αñ▓αÑï αñ¼αÑçαñí αñƒαÑìαñ░αÑëαñ▓αÑÇ' },
+      { en: 'Wheeled Cart', hi: 'αñ¬αñ╣αñ┐αñÅαñªαñ╛αñ░ αñùαñ╛αñíαñ╝αÑÇ' },
+    ]
+  }
+];
+
+export const MEGA_MENU_CTA = { en: 'View All Products', hi: 'αñ╕αñ¡αÑÇ αñëαññαÑìαñ¬αñ╛αñª αñªαÑçαñûαÑçαñé' };
+
+export const EXTENDED_PRODUCTS: Product[] = [
+  // Tractor Trailers
+  { id: 'tt-hydraulic', icon: '≡ƒÜ£', gradient: 'from-[#065F2E] to-[#0B7A3B]', category: 'Tractor Trailers', title: { en: 'Hydraulic Tractor Trailer', hi: 'αñ╣αñ╛αñçαñíαÑìαñ░αÑïαñ▓αñ┐αñò αñƒαÑìαñ░αÑêαñòαÑìαñƒαñ░ αñƒαÑìαñ░αÑçαñ▓αñ░' }, desc: { en: 'Heavy-duty hydraulic trailer for agricultural transport.', hi: 'αñòαÑâαñ╖αñ┐ αñ¬αñ░αñ┐αñ╡αñ╣αñ¿ αñòαÑç αñ▓αñ┐αñÅ αñ¡αñ╛αñ░αÑÇ αñ╣αñ╛αñçαñíαÑìαñ░αÑïαñ▓αñ┐αñò αñƒαÑìαñ░αÑçαñ▓αñ░αÑñ' }, specs: { nameOfPart: 'Hydraulic Trailer', capacity: '5ΓÇô15 Ton', size: '12 ├ù 6 ├ù 3 Feet' } },
+  { id: 'tt-tipping', icon: '≡ƒÜ£', gradient: 'from-[#0d6471] to-[#0e9aad]', category: 'Tractor Trailers', title: { en: 'Tractor Tipping Trailer', hi: 'αñƒαÑìαñ░αÑêαñòαÑìαñƒαñ░ αñƒαñ┐αñ¬αñ┐αñéαñù αñƒαÑìαñ░αÑçαñ▓αñ░' }, desc: { en: 'Tipping mechanism for easy unloading of materials.', hi: 'αñ╕αñ╛αñ«αñùαÑìαñ░αÑÇ αñåαñ╕αñ╛αñ¿αÑÇ αñ╕αÑç αñëαññαñ╛αñ░αñ¿αÑç αñòαÑç αñ▓αñ┐αñÅ αñƒαñ┐αñ¬αñ┐αñéαñù αññαñéαññαÑìαñ░αÑñ' }, specs: { nameOfPart: 'Tipping Trailer', capacity: '3ΓÇô10 Ton', size: '10 ├ù 6 ├ù 2.5 Feet' } },
+  { id: 'tt-5ton', icon: '≡ƒÜ£', gradient: 'from-[#1a2f6f] to-[#243B8F]', category: 'Tractor Trailers', title: { en: '5 Ton Agricultural Tractor Trailer', hi: '5 αñƒαñ¿ αñòαÑâαñ╖αñ┐ αñƒαÑìαñ░αÑêαñòαÑìαñƒαñ░ αñƒαÑìαñ░αÑçαñ▓αñ░' }, desc: { en: 'Standard 5 ton capacity trailer for general farming needs.', hi: 'αñ╕αñ╛αñ«αñ╛αñ¿αÑìαñ» αñûαÑçαññαÑÇ αñòαÑç αñ▓αñ┐αñÅ αñ«αñ╛αñ¿αñò 5 αñƒαñ¿ αñòαÑìαñ╖αñ«αññαñ╛ αñƒαÑìαñ░αÑçαñ▓αñ░αÑñ' }, specs: { nameOfPart: 'Agri Trailer', capacity: '5 Ton', size: '11 ├ù 6 ├ù 2 Feet' } },
+  { id: 'tt-2ton', icon: '≡ƒÜ£', gradient: 'from-[#b45309] to-[#d97706]', category: 'Tractor Trailers', title: { en: '2 Ton Agriculture Tractor Trailer', hi: '2 αñƒαñ¿ αñòαÑâαñ╖αñ┐ αñƒαÑìαñ░αÑêαñòαÑìαñƒαñ░ αñƒαÑìαñ░αÑçαñ▓αñ░' }, desc: { en: 'Lightweight trailer for small farms and narrow paths.', hi: 'αñ¢αÑïαñƒαÑç αñûαÑçαññαÑïαñé αñöαñ░ αñ╕αñéαñòαñ░αÑç αñ░αñ╛αñ╕αÑìαññαÑïαñé αñòαÑç αñ▓αñ┐αñÅ αñ╣αñ▓αÑìαñòαñ╛ αñƒαÑìαñ░αÑçαñ▓αñ░αÑñ' }, specs: { nameOfPart: 'Mini Trailer', capacity: '2 Ton', size: '8 ├ù 5 ├ù 1.5 Feet' } },
+  { id: 'tt-nontipping', icon: '≡ƒÜ£', gradient: 'from-[#374151] to-[#4b5563]', category: 'Tractor Trailers', title: { en: 'Non Tipping Tractor Trailers', hi: 'αñ¿αÑëαñ¿ αñƒαñ┐αñ¬αñ┐αñéαñù αñƒαÑìαñ░αÑêαñòαÑìαñƒαñ░ αñƒαÑìαñ░αÑçαñ▓αñ░' }, desc: { en: 'Fixed bed tractor trailers for stable transport.', hi: 'αñ╕αÑìαñÑαñ┐αñ░ αñ¬αñ░αñ┐αñ╡αñ╣αñ¿ αñòαÑç αñ▓αñ┐αñÅ αñ½αñ┐αñòαÑìαñ╕αÑìαñí αñ¼αÑçαñí αñƒαÑìαñ░αÑêαñòαÑìαñƒαñ░ αñƒαÑìαñ░αÑçαñ▓αñ░αÑñ' }, specs: { nameOfPart: 'Fixed Trailer', capacity: '5ΓÇô12 Ton', size: '12 ├ù 6 ├ù 2 Feet' } },
+
+  // Hydraulic Tractor Trolley
+  { id: 'ht-trolley', icon: '≡ƒöº', gradient: 'from-[#065F2E] to-[#0B7A3B]', category: 'Hydraulic Tractor Trolley', title: { en: 'Hydraulic Tractor Trolley', hi: 'αñ╣αñ╛αñçαñíαÑìαñ░αÑïαñ▓αñ┐αñò αñƒαÑìαñ░αÑêαñòαÑìαñƒαñ░ αñƒαÑìαñ░αÑëαñ▓αÑÇ' }, desc: { en: 'Classic hydraulic trolley for multi-purpose farming use.', hi: 'αñ¼αñ╣αÑüαñëαñªαÑìαñªαÑçαñ╢αÑÇαñ» αñûαÑçαññαÑÇ αñòαÑç αñëαñ¬αñ»αÑïαñù αñòαÑç αñ▓αñ┐αñÅ αñòαÑìαñ▓αñ╛αñ╕αñ┐αñò αñ╣αñ╛αñçαñíαÑìαñ░αÑïαñ▓αñ┐αñò αñƒαÑìαñ░αÑëαñ▓αÑÇαÑñ' }, specs: { nameOfPart: 'Hydraulic Trolley', capacity: '5ΓÇô10 Ton', size: '10 ├ù 6 ├ù 2.5 Feet' } },
+  { id: 'ht-special', icon: 'ΓÜÖ∩╕Å', gradient: 'from-[#1e3a5f] to-[#374151]', category: 'Hydraulic Tractor Trolley', title: { en: 'Special Tractor Trolley', hi: 'αñ╕αÑìαñ¬αÑçαñ╢αñ▓ αñƒαÑìαñ░αÑêαñòαÑìαñƒαñ░ αñƒαÑìαñ░αÑëαñ▓αÑÇ' }, desc: { en: 'Customized trolley with enhanced heavy-duty chassis.', hi: 'αñëαñ¿αÑìαñ¿αññ αñ¡αñ╛αñ░αÑÇ-αñ¡αñ░αñòαñ« αñÜαÑçαñ╕αñ┐αñ╕ αñòαÑç αñ╕αñ╛αñÑ αñòαñ╕αÑìαñƒαñ«αñ╛αñçαñ£αñ╝ αñƒαÑìαñ░αÑëαñ▓αÑÇαÑñ' }, specs: { nameOfPart: 'Special Trolley', capacity: '10ΓÇô15 Ton', size: '12 ├ù 6 ├ù 3 Feet' } },
+  { id: 'ht-water', icon: '≡ƒÆº', gradient: 'from-[#0c4a6e] to-[#0ea5e9]', category: 'Hydraulic Tractor Trolley', title: { en: 'Mini Water Tank Trolley', hi: 'αñ«αñ┐αñ¿αÑÇ αñ╡αñ╛αñƒαñ░ αñƒαÑêαñéαñò αñƒαÑìαñ░αÑëαñ▓αÑÇ' }, desc: { en: 'Compact water tank trolley for agricultural irrigation.', hi: 'αñòαÑâαñ╖αñ┐ αñ╕αñ┐αñéαñÜαñ╛αñê αñòαÑç αñ▓αñ┐αñÅ αñ«αñ┐αñ¿αÑÇ αñ╡αñ╛αñƒαñ░ αñƒαÑêαñéαñò αñƒαÑìαñ░αÑëαñ▓αÑÇαÑñ' }, specs: { nameOfPart: 'Water Trolley', capacity: '2000 Liters', size: '8 ├ù 4 ├ù 4 Feet' } },
+
+  // Generator Trolley
+  { id: 'gt-4wheel', icon: 'ΓÜí', gradient: 'from-[#1a2f6f] to-[#243B8F]', category: 'Generator Trolley', title: { en: '4 Wheel Generator Trolley', hi: '4 αñ╡αÑìαñ╣αÑÇαñ▓ αñ£αñ¿αñ░αÑçαñƒαñ░ αñƒαÑìαñ░αÑëαñ▓αÑÇ' }, desc: { en: 'Stable 4-wheel base for heavy generator sets.', hi: 'αñ¡αñ╛αñ░αÑÇ αñ£αñ¿αñ░αÑçαñƒαñ░ αñ╕αÑçαñƒ αñòαÑç αñ▓αñ┐αñÅ αñ╕αÑìαñÑαñ┐αñ░ 4-αñ╡αÑìαñ╣αÑÇαñ▓ αñ¼αÑçαñ╕αÑñ' }, specs: { nameOfPart: '4W Gen Trolley', capacity: '1ΓÇô5 Ton', size: 'Custom Built' } },
+  { id: 'gt-set', icon: 'ΓÜí', gradient: 'from-[#78350f] to-[#92400e]', category: 'Generator Trolley', title: { en: 'Generator Set Trolley', hi: 'αñ£αñ¿αñ░αÑçαñƒαñ░ αñ╕αÑçαñƒ αñƒαÑìαñ░αÑëαñ▓αÑÇ' }, desc: { en: 'Enclosed trolley designed for protecting generator sets.', hi: 'αñ£αñ¿αñ░αÑçαñƒαñ░ αñ╕αÑçαñƒ αñòαÑÇ αñ╕αÑüαñ░αñòαÑìαñ╖αñ╛ αñòαÑç αñ▓αñ┐αñÅ αñíαñ┐αñ£αñ╝αñ╛αñçαñ¿ αñòαÑÇ αñùαñê αñƒαÑìαñ░αÑëαñ▓αÑÇαÑñ' }, specs: { nameOfPart: 'Gen Set Trolley', capacity: 'Varies', size: 'Custom Built' } },
+  { id: 'gt-2wheel', icon: 'ΓÜí', gradient: 'from-[#b45309] to-[#d97706]', category: 'Generator Trolley', title: { en: '2 Wheeler Trolley', hi: '2 αñ╡αÑìαñ╣αÑÇαñ▓αñ░ αñƒαÑìαñ░αÑëαñ▓αÑÇ' }, desc: { en: 'Compact 2-wheel trolley for portable generators.', hi: 'αñ¬αÑïαñ░αÑìαñƒαÑçαñ¼αñ▓ αñ£αñ¿αñ░αÑçαñƒαñ░ αñòαÑç αñ▓αñ┐αñÅ αñòαÑëαñ«αÑìαñ¬αÑêαñòαÑìαñƒ 2-αñ╡αÑìαñ╣αÑÇαñ▓ αñƒαÑìαñ░αÑëαñ▓αÑÇαÑñ' }, specs: { nameOfPart: '2W Gen Trolley', capacity: '0.5ΓÇô1.5 Ton', size: 'Custom Built' } },
+  { id: 'gt-standard', icon: 'ΓÜí', gradient: 'from-[#374151] to-[#4b5563]', category: 'Generator Trolley', title: { en: 'Generator Trolley', hi: 'αñ£αñ¿αñ░αÑçαñƒαñ░ αñƒαÑìαñ░αÑëαñ▓αÑÇ' }, desc: { en: 'Standard trolley for medium size generator transport.', hi: 'αñ«αñºαÑìαñ»αñ« αñåαñòαñ╛αñ░ αñòαÑç αñ£αñ¿αñ░αÑçαñƒαñ░ αñ¬αñ░αñ┐αñ╡αñ╣αñ¿ αñòαÑç αñ▓αñ┐αñÅ αñ«αñ╛αñ¿αñò αñƒαÑìαñ░αÑëαñ▓αÑÇαÑñ' }, specs: { nameOfPart: 'Gen Trolley', capacity: '1ΓÇô3 Ton', size: 'Custom Built' } },
+
+  // Material Handling Equipment
+  { id: 'mh-ugpu', icon: '≡ƒÅù∩╕Å', gradient: 'from-[#991b1b] to-[#dc2626]', category: 'Material Handling Equipment', title: { en: 'UGPU Trolley 4 Wheel', hi: 'UGPU αñƒαÑìαñ░αÑëαñ▓αÑÇ 4 αñ╡αÑìαñ╣αÑÇαñ▓' }, desc: { en: 'Specialized 4-wheel material handling trolley for industrial use.', hi: 'αñöαñªαÑìαñ»αÑïαñùαñ┐αñò αñëαñ¬αñ»αÑïαñù αñòαÑç αñ▓αñ┐αñÅ αñ╡αñ┐αñ╢αÑçαñ╖ αñ╕αñ╛αñ«αñùαÑìαñ░αÑÇ αñ╣αÑêαñéαñíαñ▓αñ┐αñéαñù αñƒαÑìαñ░αÑëαñ▓αÑÇαÑñ' }, specs: { nameOfPart: 'UGPU Trolley', capacity: '2ΓÇô5 Ton', size: 'Custom Built' } },
+  { id: 'mh-lowbed', icon: '≡ƒÅù∩╕Å', gradient: 'from-[#4c1d95] to-[#6d28d9]', category: 'Material Handling Equipment', title: { en: 'Customize Low Bed Trailer', hi: 'αñòαñ╕αÑìαñƒαñ«αñ╛αñçαñ£ αñ▓αÑï αñ¼αÑçαñí αñƒαÑìαñ░αÑçαñ▓αñ░' }, desc: { en: 'Low bed trailer for easy loading of heavy machinery.', hi: 'αñ¡αñ╛αñ░αÑÇ αñ«αñ╢αÑÇαñ¿αñ░αÑÇ αñòαÑï αñåαñ╕αñ╛αñ¿αÑÇ αñ╕αÑç αñ▓αñ╛αñªαñ¿αÑç αñòαÑç αñ▓αñ┐αñÅ αñ▓αÑï αñ¼αÑçαñí αñƒαÑìαñ░αÑçαñ▓αñ░αÑñ' }, specs: { nameOfPart: 'Low Bed Trailer', capacity: '10ΓÇô30 Ton', size: 'Custom Dimensions' } },
+  { id: 'mh-lowbedtrolley', icon: '≡ƒÅù∩╕Å', gradient: 'from-[#0d6471] to-[#0e9aad]', category: 'Material Handling Equipment', title: { en: 'Customize Low Bed Trolley', hi: 'αñòαñ╕αÑìαñƒαñ«αñ╛αñçαñ£ αñ▓αÑï αñ¼αÑçαñí αñƒαÑìαñ░αÑëαñ▓αÑÇ' }, desc: { en: 'Low height trolley for versatile material handling.', hi: 'αñ¼αñ╣αÑüαñ«αÑüαñûαÑÇ αñ╕αñ╛αñ«αñùαÑìαñ░αÑÇ αñ╣αÑêαñéαñíαñ▓αñ┐αñéαñù αñòαÑç αñ▓αñ┐αñÅ αñòαñ« αñèαñéαñÜαñ╛αñê αñ╡αñ╛αñ▓αÑÇ αñƒαÑìαñ░αÑëαñ▓αÑÇαÑñ' }, specs: { nameOfPart: 'Low Bed Trolley', capacity: '5ΓÇô15 Ton', size: 'Custom Dimensions' } },
+  { id: 'mh-cart', icon: '≡ƒ¢Æ', gradient: 'from-[#365314] to-[#4d7c0f]', category: 'Material Handling Equipment', title: { en: 'Wheeled Cart', hi: 'αñ¬αñ╣αñ┐αñÅαñªαñ╛αñ░ αñùαñ╛αñíαñ╝αÑÇ' }, desc: { en: 'Heavy-duty wheeled cart for warehouse and factory floor.', hi: 'αñùαÑïαñªαñ╛αñ« αñöαñ░ αñòαñ╛αñ░αñûαñ╛αñ¿αÑç αñòαÑç αñ▓αñ┐αñÅ αñ¡αñ╛αñ░αÑÇ αñ¬αñ╣αñ┐αñÅαñªαñ╛αñ░ αñùαñ╛αñíαñ╝αÑÇαÑñ' }, specs: { nameOfPart: 'Wheeled Cart', capacity: '0.5ΓÇô2 Ton', size: '4 ├ù 3 ├ù 3 Feet' } },
+];
+
+export const PRODUCT_CATEGORIES: string[] = ['Tractor Trolley', 'Hydraulic Trolley', 'Water Tanker Trailer', 'Agricultural Equipment', 'Material Handling Equipment', 'Generator Trolley', 'Custom Fabrication'];

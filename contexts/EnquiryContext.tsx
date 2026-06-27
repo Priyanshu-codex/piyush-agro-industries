@@ -2,8 +2,8 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { t } from '@/lib/translations';
-import { submitInquiry } from '@/lib/firebase';
+import { t } from '@/constants/translations';
+import { submitInquiry } from '@/services/enquiryService'; // Updated path to service
 import type { InquiryFormData, FormErrors, SubmitStatus } from '@/types';
 import { X, Phone, MessageCircle, Send, Loader2, CheckCircle2, Sparkles, Building2 } from 'lucide-react';
 
@@ -33,7 +33,6 @@ export function EnquiryProvider({ children }: { children: ReactNode }) {
   const [errors, setErrors] = useState<FormErrors & { quantity?: string }>({});
   const [status, setStatus] = useState<SubmitStatus>('idle');
 
-  // Trigger modal open
   const openEnquiry = useCallback((prodName: string) => {
     setProductName(prodName);
     setForm(prev => ({
@@ -45,12 +44,10 @@ export function EnquiryProvider({ children }: { children: ReactNode }) {
     setIsOpen(true);
   }, []);
 
-  // Trigger modal close
   const closeEnquiry = useCallback(() => {
     setIsOpen(false);
   }, []);
 
-  // Prevent background scroll when modal is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -62,7 +59,6 @@ export function EnquiryProvider({ children }: { children: ReactNode }) {
     };
   }, [isOpen]);
 
-  // Form Validation
   const validate = (): typeof errors => {
     const errs: typeof errors = {};
     if (!form.name.trim()) errs.name = lang === 'en' ? 'Name is required' : 'नाम आवश्यक है';
@@ -79,7 +75,6 @@ export function EnquiryProvider({ children }: { children: ReactNode }) {
     return errs;
   };
 
-  // Submit Handler
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const validationErrors = validate();
@@ -103,13 +98,13 @@ export function EnquiryProvider({ children }: { children: ReactNode }) {
       source: 'get_quote_modal',
       status: 'new',
       userAgent: typeof window !== 'undefined' ? navigator.userAgent : '',
-    });
+    } as any);
 
     if (result.success) {
       setStatus('success');
       setForm(EMPTY_FORM);
     } else {
-      if (result.error.includes('Firebase not configured') || result.error.includes('YOUR_PROJECT_ID')) {
+      if (result.error.includes('Supabase not configured')) {
         // Fallback for demo purposes
         setStatus('success');
         setForm(EMPTY_FORM);
@@ -123,8 +118,6 @@ export function EnquiryProvider({ children }: { children: ReactNode }) {
   return (
     <EnquiryContext.Provider value={{ openEnquiry, closeEnquiry }}>
       {children}
-
-      {/* ── Enquiry Modal Overlay ── */}
       {isOpen && (
         <div 
           className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
@@ -134,7 +127,6 @@ export function EnquiryProvider({ children }: { children: ReactNode }) {
             className="bg-white rounded-2xl sm:rounded-3xl w-[96%] sm:w-full max-w-md max-h-[85vh] sm:max-h-[90vh] overflow-y-auto custom-scrollbar shadow-2xl animate-slide-up flex flex-col relative border border-gray-100"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Form Title Banner */}
             <div className="bg-gradient-primary p-4 sm:p-5 text-white relative shrink-0">
               <button 
                 onClick={closeEnquiry}
@@ -157,7 +149,6 @@ export function EnquiryProvider({ children }: { children: ReactNode }) {
               )}
             </div>
 
-            {/* Form Body */}
             <div className="p-4 sm:p-5 flex-1">
               {status === 'success' ? (
                 <div className="py-8 text-center space-y-4 animate-fade-in">
@@ -188,8 +179,6 @@ export function EnquiryProvider({ children }: { children: ReactNode }) {
                       <span>{errors.submit}</span>
                     </div>
                   )}
-
-                  {/* Name */}
                   <div>
                     <label className="block text-xs font-bold text-gray-700 mb-1.5">
                       {lang === 'en' ? 'Your Name *' : 'आपका नाम *'}
@@ -209,7 +198,6 @@ export function EnquiryProvider({ children }: { children: ReactNode }) {
                     {errors.name && <span className="text-[10px] text-red-500 mt-1 block">{errors.name}</span>}
                   </div>
 
-                  {/* Phone */}
                   <div>
                     <label className="block text-[11px] sm:text-xs font-bold text-gray-700 mb-1">
                       {lang === 'en' ? 'Phone Number *' : 'फोन नंबर *'}
@@ -229,7 +217,6 @@ export function EnquiryProvider({ children }: { children: ReactNode }) {
                     {errors.phone && <span className="text-[10px] text-red-500 mt-1 block">{errors.phone}</span>}
                   </div>
 
-                  {/* Email & Company */}
                   <div className="grid grid-cols-2 gap-2.5">
                     <div>
                       <label className="block text-[11px] sm:text-xs font-bold text-gray-700 mb-1">
@@ -257,7 +244,6 @@ export function EnquiryProvider({ children }: { children: ReactNode }) {
                     </div>
                   </div>
 
-                  {/* Product & Quantity */}
                   <div className="grid grid-cols-3 gap-2.5">
                     <div className="col-span-2">
                       <label className="block text-[11px] sm:text-xs font-bold text-gray-700 mb-1">
@@ -290,7 +276,6 @@ export function EnquiryProvider({ children }: { children: ReactNode }) {
                     </div>
                   </div>
 
-                  {/* Requirements Message */}
                   <div>
                     <label className="block text-[11px] sm:text-xs font-bold text-gray-700 mb-1">
                       {lang === 'en' ? 'Describe Requirements' : 'आवश्यकताओं का विवरण'}
@@ -304,7 +289,6 @@ export function EnquiryProvider({ children }: { children: ReactNode }) {
                     />
                   </div>
 
-                  {/* Submit Button */}
                   <button
                     type="submit"
                     disabled={status === 'loading'}
@@ -323,7 +307,6 @@ export function EnquiryProvider({ children }: { children: ReactNode }) {
                     )}
                   </button>
 
-                  {/* Direct Contact Options */}
                   <div className="pt-3 border-t border-gray-100 flex flex-col sm:flex-row gap-2.5">
                     <a 
                       href={`tel:9425245291`}

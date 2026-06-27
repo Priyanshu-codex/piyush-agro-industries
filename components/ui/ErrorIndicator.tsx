@@ -136,11 +136,11 @@ export function FirebaseConfigWarning({ show }: ConfigWarningProps) {
       <div className="flex items-start gap-3">
         <span className="text-xl flex-shrink-0">⚠️</span>
         <div className="flex-1 min-w-0">
-          <p className="font-bold text-amber-800 text-sm">Firebase Not Configured</p>
+          <p className="font-bold text-amber-800 text-sm">Supabase Not Configured</p>
           <p className="text-amber-700 text-xs mt-0.5 leading-relaxed">
             Add your credentials to{' '}
             <code className="bg-amber-100 px-1 rounded text-amber-900 font-mono">
-              lib/firebase.ts
+              lib/supabase/client.ts
             </code>{' '}
             or{' '}
             <code className="bg-amber-100 px-1 rounded text-amber-900 font-mono">

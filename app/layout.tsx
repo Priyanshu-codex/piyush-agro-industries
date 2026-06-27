@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Noto_Sans, Rajdhani, Noto_Sans_Devanagari } from 'next/font/google';
-import './globals.css';
+import '@/styles/globals.css';
 
 const notoSans = Noto_Sans({
   subsets: ['latin'],
