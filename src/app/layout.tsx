@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Noto_Sans, Rajdhani, Noto_Sans_Devanagari } from 'next/font/google';
 import '@/styles/globals.css';
+import { OrganizationJsonLd, LocalBusinessJsonLd, WebSiteJsonLd } from '@/components/seo/JsonLd';
 
 const notoSans = Noto_Sans({
   subsets: ['latin'],
@@ -24,27 +25,51 @@ const devanagari = Noto_Sans_Devanagari({
 });
 
 export const metadata: Metadata = {
-  title: 'Piyush Agro Industries | Hydraulic Trolley & Agricultural Equipment Manufacturer in Rajnandgaon',
+  metadataBase: new URL('https://piyushagro.com'),
+  title: {
+    default: 'Piyush Agro Industries | Agricultural Equipment & Fabrication Manufacturer',
+    template: '%s | Piyush Agro Industries',
+  },
   description:
-    'Piyush Agro Industries is a leading manufacturer of hydraulic trolleys, tractor trolleys, agricultural equipment, water tankers, dumpers, vehicle fabrication and repairing services in Rajnandgaon, Chhattisgarh.',
+    'Piyush Agro Industries is a leading manufacturer of hydraulic trolleys, tractor trolleys, agricultural implements, water tanker trailers, and custom vehicle fabrication services in Rajnandgaon, Chhattisgarh, serving Central India & Pan-India.',
   keywords: [
     'Piyush Agro Industries',
-    'Hydraulic Trolley Manufacturer Rajnandgaon',
+    'Piyush Agro',
+    'Tractor Trolley Manufacturer',
     'Tractor Trolley Manufacturer Chhattisgarh',
-    'Agricultural Equipment Manufacturer',
+    'Tractor Trolley Manufacturer India',
+    'Hydraulic Trolley Manufacturer',
     'Hydraulic Dumper Manufacturer',
-    'Vehicle Fabrication Rajnandgaon',
-    'Water Tanker Manufacturer',
-    'Garbage Vehicle Manufacturer',
+    'Water Tanker Trailer',
+    'Agricultural Equipment Manufacturer',
+    'Agricultural Machinery India',
     'Cultivator Manufacturer',
-    'Welding Fabrication Services',
+    'Custom Fabrication Chhattisgarh',
+    'Steel Gate Fabrication',
+    'Vehicle Repairing Workshop',
     'Trailer Manufacturer Chhattisgarh',
   ],
   authors: [{ name: 'Piyush Agro Industries' }],
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  alternates: {
+    canonical: './',
+  },
   icons: {
-    icon: '/favicon.png',
-    shortcut: '/favicon.png',
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon.png', type: 'image/png' },
+    ],
+    shortcut: '/favicon.ico',
     apple: '/favicon.png',
   },
   openGraph: {
@@ -52,28 +77,24 @@ export const metadata: Metadata = {
     locale: 'en_IN',
     url: 'https://piyushagro.com',
     siteName: 'Piyush Agro Industries',
-    title: 'Piyush Agro Industries | Hydraulic Trolley & Agricultural Equipment Manufacturer',
+    title: 'Piyush Agro Industries | Agricultural Equipment & Fabrication Manufacturer',
     description:
-      'Leading manufacturer of hydraulic trolleys, tractor trolleys, agricultural equipment, and vehicle fabrication services in Rajnandgaon, Chhattisgarh.',
-  },
-  other: {
-    'application/ld+json': JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'LocalBusiness',
-      name: 'Piyush Agro Industries',
-      description:
-        'Manufacturer of hydraulic trolleys, agricultural equipment, and vehicle fabrication services',
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: 'Khairagarh Road, Thelkadih',
-        addressLocality: 'Rajnandgaon',
-        addressRegion: 'Chhattisgarh',
-        postalCode: '491441',
-        addressCountry: 'IN',
+      'Leading manufacturer of hydraulic trolleys, tractor trolleys, agricultural implements, water tankers, and custom fabrication in Rajnandgaon, Chhattisgarh.',
+    images: [
+      {
+        url: '/images/products/tractor-trolley.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Piyush Agro Industries Tractor Trolley & Agricultural Equipment',
       },
-      telephone: '+919425245291',
-      url: 'https://piyushagro.com',
-    }),
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Piyush Agro Industries | Agricultural Equipment & Fabrication',
+    description:
+      'Premier manufacturer of heavy-duty hydraulic trolleys, tractor trailers, agricultural machinery, and metal fabrication services in Chhattisgarh, India.',
+    images: ['/images/products/tractor-trolley.jpg'],
   },
 };
 
@@ -90,6 +111,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning className={`${notoSans.variable} ${rajdhani.variable} ${devanagari.variable} overflow-x-hidden`}>
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/favicon.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/favicon.png" />
+        <OrganizationJsonLd />
+        <LocalBusinessJsonLd />
+        <WebSiteJsonLd />
+      </head>
       <body suppressHydrationWarning className="overflow-x-hidden antialiased">{children}</body>
     </html>
   );

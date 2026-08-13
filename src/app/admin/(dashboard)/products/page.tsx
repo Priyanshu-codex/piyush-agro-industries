@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { createClient } from '@/supabase/client';
 import { Plus, Edit2, Trash2, Loader2, Image as ImageIcon } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
 
 export default function AdminProductsPage() {
   const [products, setProducts] = useState<any[]>([]);
@@ -73,15 +72,9 @@ export default function AdminProductsPage() {
               ) : products.map((p) => (
                 <tr key={p.slug} className="hover:bg-slate-50/80 transition-colors group">
                   <td className="px-6 py-4">
-                    {p.thumbnail ? (
-                      <div className="w-12 h-12 rounded-lg overflow-hidden relative border border-slate-200">
-                        <Image src={p.thumbnail} alt="" fill className="object-cover" unoptimized />
-                      </div>
-                    ) : (
-                      <div className="w-12 h-12 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-400">
-                        <ImageIcon size={20} />
-                      </div>
-                    )}
+                    <div className="w-12 h-12 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-400">
+                      <ImageIcon size={20} />
+                    </div>
                   </td>
                   <td className="px-6 py-4 font-medium text-slate-900">
                     {getTitle(p.title)}

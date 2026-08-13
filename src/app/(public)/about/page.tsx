@@ -7,6 +7,7 @@ import ErrorBoundary from '@/components/ui/ErrorBoundary';
 import Header        from '@/components/layout/public/Header';
 import { Target, Lightbulb } from 'lucide-react';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
+import { BreadcrumbJsonLd } from '@/components/seo/JsonLd';
 
 const Footer = dynamic(() => import('@/components/layout/public/Footer'));
 const About = dynamic(() => import('@/features/public/home/About'));
@@ -59,6 +60,12 @@ function PageContent() {
   return (
     <main className="relative">
       <Header />
+      <BreadcrumbJsonLd
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'About Us', url: '/about' },
+        ]}
+      />
       
       {/* Premium Hero Section for About Page */}
       <section className="relative bg-gray-900 pt-32 pb-20 sm:pt-40 sm:pb-32 overflow-hidden">

@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { subscribeGalleryDb, deleteGalleryItemDb, saveGalleryItemDb } from '@/repositories/galleryRepository';
 import type { GalleryItem } from '@/types';
-import Image from 'next/image';
 import { ImageUpload } from '@/components/admin/FileUpload';
 import { Loader2, X } from 'lucide-react';
 
@@ -85,13 +84,8 @@ export default function GalleryAdminPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {items.map((item) => (
             <div key={item.id} className="group relative border border-slate-200 rounded-2xl overflow-hidden bg-white hover:shadow-lg hover:border-slate-300 transition-all duration-300">
-              <div className="w-full h-48 relative overflow-hidden bg-slate-50">
-                <Image 
-                  src={item.imageUrl || '/placeholder.png'} 
-                  alt={item.label?.en || 'Gallery Image'} 
-                  fill 
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
+              <div className="w-full h-48 relative overflow-hidden bg-gradient-to-br from-primary-700 to-primary-900 flex items-center justify-center">
+                <span className="text-4xl">🖼️</span>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 transition-opacity duration-300"></div>
                 
                 <button suppressHydrationWarning 

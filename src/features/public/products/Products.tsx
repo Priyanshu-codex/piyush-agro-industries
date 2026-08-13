@@ -5,7 +5,9 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useEnquiry } from '@/contexts/EnquiryContext';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { t } from '@/constants/translations';
-import { ArrowRight, Settings, Weight, Maximize } from 'lucide-react';import { useData } from '@/contexts/DataContext';
+import { ArrowRight, Settings, Weight, Maximize } from 'lucide-react';
+import { useData } from '@/contexts/DataContext';
+import { ProductImage } from '@/components/ui/ProductImage';
 
 export default function Products() {
   const { tx } = useLanguage();
@@ -48,6 +50,8 @@ import type { Product } from '@/types';
 
 // ── Sub-component ─────────────────────────────────────────────────────────────
 
+import { getProductPrimaryImage } from '@/utils/imageUtils';
+
 interface ProductCardProps {
   product: Product;
   delay: string;
@@ -59,6 +63,8 @@ function ProductCard({ product, delay }: ProductCardProps) {
   const router = useRouter();
   const { openEnquiry } = useEnquiry();
 
+  const primaryImage = getProductPrimaryImage(product);
+
   return (
     <div
       ref={ref}
@@ -67,29 +73,14 @@ function ProductCard({ product, delay }: ProductCardProps) {
       style={{ transitionDelay: delay }}
     >
       {/* Icon/Image area */}
-      <div
-        className={`h-40 shrink-0 flex items-center justify-center relative overflow-hidden ${product.thumbnail || (product.images && product.images.length > 0) ? 'bg-gray-100' : `bg-gradient-to-br ${product.gradient}`}`}
-      >
-        {product.thumbnail || (product.images && product.images.length > 0) ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img 
-            src={product.thumbnail || product.images?.[0]} 
-            alt={tx(product.title)} 
-            className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-          />
-        ) : (
-          <>
-            <div
-              className="absolute inset-0 opacity-10"
-              style={{
-                backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.3) 1px, transparent 1px)`,
-                backgroundSize: '20px 20px',
-              }}
-            />
-            <span className="text-5xl relative z-10">{product.icon}</span>
-          </>
-        )}
-      </div>
+      <ProductImage
+        src={primaryImage}
+        alt={`${tx(product.title)} - Piyush Agro Industries`}
+        className="h-44 w-full shrink-0"
+        fill
+        fallbackIcon={product.icon}
+        fallbackGradient={product.gradient}
+      />
 
       {/* Body */}
       <div className="p-4 flex flex-col flex-1">
