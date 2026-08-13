@@ -12,10 +12,12 @@
     font-family: var(--font-noto), "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", emoji, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    touch-action: manipulation;
   }
 
   body {
     @apply text-gray-700 bg-white overflow-x-hidden;
+    touch-action: manipulation;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -47,6 +49,8 @@
   transform: translateY(28px);
   transition: opacity 0.65s cubic-bezier(0.4, 0, 0.2, 1),
               transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
 }
 
 .scroll-reveal[data-visible='true'] {
@@ -160,6 +164,7 @@
 /* ─── Card hover lift ───────────────────────────────────────────────────────── */
 .card-hover {
   @apply transition-all duration-300;
+  will-change: transform;
 }
 .card-hover:hover {
   @apply -translate-y-1.5;

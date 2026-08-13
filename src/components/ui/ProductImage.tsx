@@ -18,11 +18,12 @@ export function ProductImage({
   className = '',
   fallbackIcon = '🚜',
   fallbackGradient = 'from-primary-700 to-primary-900',
+  fill = false,
 }: ProductImageProps) {
   return (
     <div
       suppressHydrationWarning
-      className={`relative flex items-center justify-center bg-gradient-to-br ${fallbackGradient} ${className}`}
+      className={`${fill ? 'absolute inset-0 w-full h-full' : 'relative w-full h-full min-h-[160px]'} flex items-center justify-center bg-gradient-to-br ${fallbackGradient} ${className}`}
     >
       <div
         className="absolute inset-0 opacity-10 pointer-events-none"
