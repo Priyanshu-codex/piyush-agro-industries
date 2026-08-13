@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <!-- Primary Green Gradient -->
+    <linearGradient id="pa-green-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E8A44" />
+      <stop offset="100%" stop-color="#054A23" />
+    </linearGradient>
+
+    <!-- Warm Golden Wheat Gradient -->
+    <linearGradient id="pa-gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FBBF24" />
+      <stop offset="50%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+  </defs>
+
+  <g id="pa-symbol">
+    <!-- P Stem -->
+    <path d="M 45 30 C 41.7 30 39 32.7 39 36 L 39 164 C 39 167.3 41.7 170 45 170 L 63 170 C 66.3 170 69 167.3 69 164 L 69 36 C 69 32.7 66.3 30 65 30 Z" fill="url(#pa-green-grad)" />
+    
+    <!-- P Leaf Bowl -->
+    <path d="M 69 30 C 112 30 138 48 138 76 C 138 104 112 118 69 118 L 69 90 C 95 90 108 81 108 76 C 108 71 95 58 69 58 Z" fill="url(#pa-green-grad)" />
+    
+    <!-- Leaf Center Cutout -->
+    <path d="M 69 76 Q 92 73 112 76" stroke="#ffffff" stroke-width="4" stroke-linecap="round" fill="none" opacity="0.95" />
+
+    <!-- A Stem Diagonal -->
+    <path d="M 98 170 C 98 170 146 94 156 74 C 160 66 158 57 151 52 C 144 47 135 49 130 57 L 72 148 C 70 151 70 155 72 158 L 82 170 C 85 173 90 173 93 170 Z" fill="url(#pa-green-grad)" />
+
+    <!-- Wheat Crossbar & Spikes -->
+    <path d="M 76 122 Q 105 114 134 122 C 136 125 134 130 130 131 Q 105 125 80 131 C 76 129 74 124 76 122 Z" fill="url(#pa-gold-grad)" />
+
+    <!-- Wheat Grains (Gold) -->
+    <path d="M 142 46 Q 156 33 170 28 Q 159 44 148 53 Z" fill="url(#pa-gold-grad)" />
+    <path d="M 152 58 Q 170 52 184 50 Q 169 67 155 70 Z" fill="url(#pa-gold-grad)" />
+    <path d="M 138 78 Q 160 78 175 82 Q 157 95 142 92 Z" fill="url(#pa-gold-grad)" />
+    <path d="M 134 48 Q 148 76 160 106" stroke="url(#pa-gold-grad)" stroke-width="3.5" stroke-linecap="round" fill="none" />
+  </g>
+</svg>
