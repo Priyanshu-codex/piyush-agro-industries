@@ -10,6 +10,9 @@ import ErrorBoundary from '@/components/ui/ErrorBoundary';
 import Header        from '@/components/layout/public/Header';
 import { t } from '@/constants/translations';
 import { Search, ChevronRight, ArrowRight, X, Phone, MessageCircle, Settings, Weight, Maximize } from 'lucide-react';
+import { ProductImage } from '@/components/ui/ProductImage';
+import { getProductPrimaryImage } from '@/utils/imageUtils';
+import { BreadcrumbJsonLd } from '@/components/seo/JsonLd';
 
 const Footer = dynamic(() => import('@/components/layout/public/Footer'));
 
@@ -131,20 +134,14 @@ function ProductsContent() {
                 className="cursor-pointer card-hover bg-white rounded-2xl overflow-hidden shadow-card border border-gray-100 h-full flex flex-col animate-fade-up transition-transform hover:-translate-y-1 hover:shadow-lg"
                 style={{ animationDelay: `${(i % 8) * 50}ms` }}
               >
-                <div className={`h-48 shrink-0 flex items-center justify-center relative overflow-hidden ${product.thumbnail || (product.images && product.images.length > 0) ? 'bg-gray-100' : `bg-gradient-to-br ${product.gradient}`}`}>
-                  {product.thumbnail || (product.images && product.images.length > 0) ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img 
-                      src={product.thumbnail || product.images?.[0]} 
-                      alt={tx(product.title)} 
-                      className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                    />
-                  ) : (
-                    <>
-                      <div className="absolute inset-0 opacity-10" style={{ backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.3) 1px, transparent 1px)`, backgroundSize: '20px 20px' }} />
-                      <span className="text-6xl relative z-10 drop-shadow transition-transform duration-500 hover:scale-110">{product.icon}</span>
-                    </>
-                  )}
+                <div className="h-48 shrink-0 relative overflow-hidden bg-gray-100">
+                  <ProductImage
+                    src={getProductPrimaryImage(product)}
+                    alt={`${tx(product.title)} - Piyush Agro Industries`}
+                    fill
+                    fallbackIcon={product.icon}
+                    fallbackGradient={product.gradient}
+                  />
                 </div>
 
                 <div className="p-5 flex flex-col flex-1">

@@ -29,6 +29,16 @@
   section[id] {
     scroll-margin-top: 80px;
   }
+
+  /* Accessible focus-visible styles */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: 2px solid #0B7A3B !important;
+    outline-offset: 2px !important;
+  }
 }
 
 /* ─── Scroll-reveal animation ───────────────────────────────────────────────── */
@@ -132,7 +142,7 @@
   animation: pulseRing 2.5s ease-in-out infinite;
 }
 
-/* Keyframes already in tailwind.config, but CSS version for non-Tailwind usage */
+/* Keyframes */
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
   25%       { transform: translateX(-5px); }
@@ -179,29 +189,25 @@
   100% { transform: translate(20%, 20%) rotate(15deg); opacity: 0.03; }
 }
 
-.animate-float-slow {
-  animation: floatSlow 7s ease-in-out infinite;
-}
-.animate-float-fast {
-  animation: floatFast 4.5s ease-in-out infinite;
-}
-.animate-rotate-slow {
-  animation: rotateSlow 25s linear infinite;
-}
-.animate-pulse-slow {
-  animation: pulseSlow 5.5s ease-in-out infinite;
-}
-.animate-light-ray {
-  animation: lightRaySweep 16s ease-in-out infinite alternate;
-}
+.animate-float-slow { animation: floatSlow 7s ease-in-out infinite; }
+.animate-float-fast { animation: floatFast 4.5s ease-in-out infinite; }
+.animate-rotate-slow { animation: rotateSlow 25s linear infinite; }
+.animate-pulse-slow { animation: pulseSlow 5.5s ease-in-out infinite; }
+.animate-light-ray { animation: lightRaySweep 16s ease-in-out infinite alternate; }
 
-/* Hardware-accelerated parallax layer utility */
-.parallax-layer {
-  transform: translate3d(
-    calc(var(--mouse-x, 0) * var(--parallax-factor, 20px)),
-    calc(var(--mouse-y, 0) * var(--parallax-factor, 20px)),
-    0
-  );
-  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-  will-change: transform;
+/* Prefers-reduced-motion Accessibility Rule */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .animate-float-slow,
+  .animate-float-fast,
+  .animate-rotate-slow,
+  .animate-pulse-slow,
+  .animate-light-ray,
+  .wa-pulse,
+  .scroll-reveal {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
 }

@@ -8,6 +8,8 @@ import { EnquiryProvider, useEnquiry } from '@/contexts/EnquiryContext';
 import { DataProvider, useData } from '@/contexts/DataContext';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
 import Header from '@/components/layout/public/Header';
+import { normalizeImageUrl } from '@/utils/imageUtils';
+import { BreadcrumbJsonLd, ProductJsonLd } from '@/components/seo/JsonLd';
 import { t } from '@/constants/translations';
 import { submitInquiry } from '@/services/enquiryService';
 import type { InquiryFormData, FormErrors, SubmitStatus } from '@/types';
@@ -111,16 +113,25 @@ function ProductDetailContent({ params }: PageProps) {
     }
   }, [product, tx]);
 
-  // Compute multi-photo gallery using gradients variation
+  // Compute multi-photo gallery
   const galleryItems = useMemo(() => {
     if (!product) return [];
-    if (product.images && product.images.length > 0) {
-      return product.images.map((img: string) => ({ type: 'image', src: img }));
+    const imgs: string[] = [];
+    if (product.images && Array.isArray(product.images) && product.images.length > 0) {
+      product.images.forEach((img: string) => {
+        const norm = normalizeImageUrl(img);
+        if (norm && !imgs.includes(norm)) imgs.push(norm);
+      });
+    }
+    const normThumb = normalizeImageUrl(product.thumbnail);
+    if (normThumb && !imgs.includes(normThumb)) {
+      imgs.unshift(normThumb);
+    }
+    if (imgs.length > 0) {
+      return imgs.map((img: string) => ({ type: 'image', src: img }));
     }
     return [
       { type: 'icon', icon: product.icon, gradient: product.gradient },
-      { type: 'icon', icon: product.icon, gradient: product.gradient.replace('from-', 'to-').replace('to-', 'from-') }, // Swapped
-      { type: 'icon', icon: product.icon, gradient: 'from-[#111827] to-[#1f2937]' }, // Dark premium mode
     ];
   }, [product]);
 
@@ -262,6 +273,21 @@ function ProductDetailContent({ params }: PageProps) {
   return (
     <main className="relative bg-gray-50 min-h-screen pt-[64px] sm:pt-[100px]">
       <Header />
+      <BreadcrumbJsonLd
+        items={[
+          { name: 'Home', url: '/' },
+          { name: 'Products', url: '/products' },
+          { name: productCatName || 'Category', url: `/products?category=${encodeURIComponent(productCatName || '')}` },
+          { name: tx(product.title), url: `/products/${product.id}` },
+        ]}
+      />
+      <ProductJsonLd
+        name={tx(product.title)}
+        description={product.short_desc ? tx(product.short_desc) : tx(product.title)}
+        images={product.images || (product.thumbnail ? [product.thumbnail] : [])}
+        sku={product.id}
+        category={productCatName}
+      />
 
       {/* ── Breadcrumb Navigation ── */}
       <section className="bg-white border-b border-gray-100 py-4 shadow-sm relative z-20">

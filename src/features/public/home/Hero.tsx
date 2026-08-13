@@ -358,19 +358,19 @@ export default function Hero() {
                   <motion.div
                     key={i}
                     onClick={() => scroll('products')}
-                    whileHover={{ y: -5, scale: 1.02, borderColor: 'rgba(74, 222, 128, 0.4)', backgroundColor: 'rgba(255, 255, 255, 0.12)' }}
+                    whileHover={{ y: -5, scale: 1.02, borderColor: 'rgba(74, 222, 128, 0.4)' }}
                     whileTap={{ scale: 0.98 }}
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.35 + i * 0.08, duration: 0.6, type: 'spring', damping: 20 }}
-                    className={`glass-card rounded-2xl p-5 text-center cursor-pointer transition-shadow duration-300
-                      ${p.span ? 'col-span-2 bg-primary/25 border-brand-green/30' : ''}`}
+                    className={`relative overflow-hidden rounded-2xl cursor-pointer transition-shadow duration-300 border border-white/20 group h-32 flex flex-col justify-end p-3.5 ${p.span ? 'col-span-2' : ''}`}
                   >
-                    <div className="text-4xl mb-2 select-none">
-                      <span className={animClass}>{p.icon}</span>
-                    </div>
-                    <div className="text-white text-sm font-semibold font-rajdhani">
-                      {lang === 'hi' ? p.hi : p.en}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent" />
+                    <div className="relative z-10 flex items-center justify-between">
+                      <div className="text-white text-sm font-bold font-rajdhani drop-shadow">
+                        {lang === 'hi' ? p.hi : p.en}
+                      </div>
+                      <span className="text-xs text-brand-green font-bold opacity-0 group-hover:opacity-100 transition-opacity">View →</span>
                     </div>
                   </motion.div>
                 );

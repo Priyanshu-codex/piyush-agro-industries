@@ -8,6 +8,8 @@ import { t, GALLERY_ITEMS } from '@/constants/translations';
 import type { GalleryCategory, GalleryItem } from '@/types';
 import { ZoomIn, X } from 'lucide-react';
 
+import { ProductImage } from '@/components/ui/ProductImage';
+
 const FILTERS: { key: GalleryCategory; labelKey: keyof typeof t.gallery }[] = [
   { key: 'all',        labelKey: 'filterAll' },
   { key: 'hydraulic',  labelKey: 'f1' },
@@ -31,71 +33,79 @@ export default function Gallery() {
   const closeLightbox = useCallback(() => setLightbox(null), []);
 
   return (
-    <section id="gallery" className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4">
+    <section className="py-16 md:py-24 bg-white relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
-        <div ref={headerRef} className="scroll-reveal text-center mb-10">
-          <span className="inline-block px-4 py-1 bg-primary-50 text-primary text-xs font-bold
-            uppercase tracking-widest rounded-full mb-3">
-            {tx(t.gallery.badge)}
+        <div ref={headerRef} className="scroll-reveal text-center max-w-3xl mx-auto mb-10">
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-primary-100 text-primary-700 text-xs font-bold font-rajdhani uppercase tracking-wider mb-3">
+            📷 {tx(t.gallery.badge)}
           </span>
-          <h2 className="text-3xl sm:text-4xl font-bold font-rajdhani text-gray-900 mb-2">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-rajdhani text-gray-900 tracking-tight">
             {tx(t.gallery.title)}{' '}
-            <span className="text-primary">{tx(t.gallery.titleHL)}</span>
+            <span className="text-primary-600">{tx(t.gallery.titleHL)}</span>
           </h2>
-          <div className="section-divider" />
         </div>
 
-        {/* Filter tabs */}
-        <div className="flex flex-wrap justify-center gap-2 mb-8">
-          {FILTERS.map(({ key, labelKey }) => (
+        {/* Category Filters */}
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-10">
+          {FILTERS.map((f) => (
             <button suppressHydrationWarning
-              key={key}
-              onClick={() => setFilter(key)}
-              className={`px-4 py-2 rounded-full text-sm font-semibold font-rajdhani border-2 transition-all duration-200 ${
-                activeFilter === key
-                  ? 'bg-gradient-primary text-white border-transparent shadow-primary'
-                  : 'bg-white text-gray-600 border-gray-200 hover:border-primary hover:text-primary'
+              key={f.key}
+              onClick={() => setFilter(f.key)}
+              className={`px-4 py-2 rounded-xl text-xs font-bold font-rajdhani tracking-wider uppercase transition-all duration-200 ${
+                activeFilter === f.key
+                  ? 'bg-gradient-primary text-white shadow-primary scale-105'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >
-              {tx(t.gallery[labelKey])}
+              {tx(t.gallery[f.labelKey])}
             </button>
           ))}
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-          {filtered.map((item, i) => (
-            <GalleryCard key={item.id} item={item} delay={`${(i % 4) * 60}ms`} onOpen={setLightbox} />
+        {/* Gallery Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+          {filtered.map((item, idx) => (
+            <GalleryCard
+              key={item.id}
+              item={item}
+              delay={`${(idx % 4) * 0.08}s`}
+              onOpen={(i) => setLightbox(i)}
+            />
           ))}
         </div>
       </div>
 
-      {/* Lightbox */}
+      {/* Lightbox Modal */}
       {lightbox && (
         <div
-          className="fixed inset-0 z-[9990] bg-black/95 flex items-center justify-center p-4 animate-fade-in"
+          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4"
           onClick={closeLightbox}
+          role="dialog"
+          aria-modal="true"
         >
           <div
-            className="relative max-w-lg w-full animate-bounce-in"
+            className="relative bg-gray-900 rounded-3xl p-6 max-w-2xl w-full border border-white/10 shadow-2xl overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close */}
             <button suppressHydrationWarning
               onClick={closeLightbox}
-              className="absolute -top-10 right-0 text-white/70 hover:text-white transition-colors"
-              aria-label="Close lightbox"
+              className="absolute top-4 right-4 text-white/60 hover:text-white transition-colors z-20 p-2 rounded-full bg-black/40 hover:bg-black/60"
+              aria-label="Close modal"
             >
               <X size={28} />
             </button>
 
             {/* Image area */}
-            <div
-              className={`w-full aspect-video rounded-2xl bg-gradient-to-br ${lightbox.gradient}
-                flex items-center justify-center`}
-            >
-              <span className="text-7xl">{lightbox.icon}</span>
+            <div className="w-full aspect-video rounded-2xl overflow-hidden relative bg-gray-900">
+              <ProductImage
+                src={lightbox.imageUrl}
+                alt={tx(lightbox.label)}
+                fill
+                priority
+                fallbackIcon={lightbox.icon}
+                fallbackGradient={lightbox.gradient}
+              />
             </div>
 
             {/* Caption */}
@@ -114,10 +124,6 @@ export default function Gallery() {
                 <span>{lang === 'en' ? 'Get Quote' : 'कोटेशन प्राप्त करें'}</span>
               </button>
             </div>
-
-            <p className="text-center text-white/40 text-xs mt-3">
-              Piyush Agro Industries · Rajnandgaon, Chhattisgarh
-            </p>
           </div>
         </div>
       )}
@@ -150,11 +156,13 @@ function GalleryCard({
       aria-label={`View ${tx(item.label)}`}
     >
       {/* Background */}
-      <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} flex items-center justify-center`}>
-        <span className="text-5xl group-hover:scale-110 transition-transform duration-300">
-          {item.icon}
-        </span>
-      </div>
+      <ProductImage
+        src={item.imageUrl}
+        alt={tx(item.label)}
+        fill
+        fallbackIcon={item.icon}
+        fallbackGradient={item.gradient}
+      />
 
       {/* Hover overlay */}
       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300" />
