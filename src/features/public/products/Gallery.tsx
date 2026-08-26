@@ -6,7 +6,7 @@ import { useEnquiry } from '@/contexts/EnquiryContext';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { t, GALLERY_ITEMS } from '@/constants/translations';
 import type { GalleryCategory, GalleryItem } from '@/types';
-import { ZoomIn, X } from 'lucide-react';
+import { ZoomIn, X, Camera } from 'lucide-react';
 
 import { ProductImage } from '@/components/ui/ProductImage';
 
@@ -33,12 +33,12 @@ export default function Gallery() {
   const closeLightbox = useCallback(() => setLightbox(null), []);
 
   return (
-    <section className="py-16 md:py-24 bg-white relative overflow-hidden">
+    <section id="gallery" className="py-16 md:py-24 bg-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <div ref={headerRef} className="scroll-reveal text-center max-w-3xl mx-auto mb-10">
           <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-primary-100 text-primary-700 text-xs font-bold font-rajdhani uppercase tracking-wider mb-3">
-            📷 {tx(t.gallery.badge)}
+            <Camera size={13} /> {tx(t.gallery.badge)}
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-rajdhani text-gray-900 tracking-tight">
             {tx(t.gallery.title)}{' '}

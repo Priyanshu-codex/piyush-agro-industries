@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { t, MEGA_MENU, MEGA_MENU_CTA } from '@/constants/translations';
-import { Phone, Menu, X, ChevronDown, ArrowRight } from 'lucide-react';
+import { Phone, Menu, X, ChevronDown, ArrowRight, MapPin, MessageCircle } from 'lucide-react';
 import PiyushAgroLogo from '@/components/branding/PiyushAgroLogo';
 
 const NAV_LINKS = [
@@ -93,7 +93,7 @@ export default function Header() {
         }`}>
           <div className="max-w-7xl mx-auto px-4 flex flex-wrap justify-between items-center gap-2">
             <span className="opacity-90 flex items-center gap-1.5">
-              <span>📍</span> Khairagarh Road, Thelkadih, Rajnandgaon, CG
+              <MapPin size={11} className="shrink-0" /> Khairagarh Road, Thelkadih, Rajnandgaon, CG
             </span>
             <div className="flex flex-wrap items-center gap-3 sm:gap-4">
               <a href="tel:9425245291" className="hover:text-brand-green transition-colors flex items-center gap-1">
@@ -106,9 +106,9 @@ export default function Header() {
                 href="https://wa.me/919425245291"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-brand-green transition-colors"
+                className="hover:text-brand-green transition-colors flex items-center gap-1"
               >
-                💬 WhatsApp
+                <MessageCircle size={11} /> WhatsApp
               </a>
             </div>
           </div>

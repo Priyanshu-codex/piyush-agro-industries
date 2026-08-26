@@ -16,6 +16,22 @@ const PRODUCT_SLUGS = [
   'cultivators',
   'custom-fab',
   'vehicle-repair',
+  'tt-hydraulic',
+  'tt-tipping',
+  'tt-5ton',
+  'tt-2ton',
+  'tt-nontipping',
+  'ht-trolley',
+  'ht-special',
+  'ht-water',
+  'gt-4wheel',
+  'gt-set',
+  'gt-2wheel',
+  'gt-standard',
+  'mh-ugpu',
+  'mh-lowbed',
+  'mh-lowbedtrolley',
+  'mh-cart',
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

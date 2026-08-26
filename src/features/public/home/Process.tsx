@@ -3,6 +3,23 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { t, PROCESS_STEPS } from '@/constants/translations';
+import { MessageCircle, Ruler, Hammer, Search, Truck, type LucideIcon } from 'lucide-react';
+import type { ReactElement } from 'react';
+
+// Map PROCESS_STEPS emoji keys → Lucide icons
+const PROCESS_ICON_MAP: Record<string, LucideIcon> = {
+  '💬': MessageCircle,
+  '📐': Ruler,
+  '🔨': Hammer,
+  '🔍': Search,
+  '🚚': Truck,
+};
+
+function ProcessIcon({ icon, className = '' }: { icon: string; className?: string }): ReactElement {
+  const LucideComp = PROCESS_ICON_MAP[icon];
+  if (LucideComp) return <LucideComp size={22} className={className} />;
+  return <Hammer size={22} className={className} />;
+}
 
 export default function Process() {
   const { tx } = useLanguage();
@@ -43,7 +60,9 @@ export default function Process() {
               </div>
 
               {/* Icon */}
-              <div className="text-2xl mb-2">{step.icon}</div>
+              <div className="flex items-center justify-center text-primary mb-2 h-7">
+                <ProcessIcon icon={step.icon} />
+              </div>
 
               <h3 className="font-bold font-rajdhani text-gray-900 text-sm mb-1.5 px-2">
                 {tx(step.title)}
@@ -70,7 +89,9 @@ export default function Process() {
               </div>
 
               <div className="pt-3">
-                <div className="text-xl mb-1">{step.icon}</div>
+                <div className="flex items-center text-primary mb-1 h-6">
+                  <ProcessIcon icon={step.icon} />
+                </div>
                 <h3 className="font-bold font-rajdhani text-gray-900 text-base mb-1">
                   {tx(step.title)}
                 </h3>

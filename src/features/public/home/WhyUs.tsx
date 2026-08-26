@@ -6,6 +6,30 @@ import AutoScroll from 'embla-carousel-auto-scroll';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { t, WHY_FEATURES } from '@/constants/translations';
+import {
+  Award, ShieldCheck, Tag, HardHat, Clock, Phone, Target, MapPin,
+  type LucideIcon,
+} from 'lucide-react';
+import type { ReactElement } from 'react';
+
+// Map WHY_FEATURES emoji keys → Lucide icons
+const WHY_ICON_MAP: Record<string, LucideIcon> = {
+  '🏅': Award,
+  '💪': ShieldCheck,
+  '🏷️': Tag,
+  '👷': HardHat,
+  '⏰': Clock,
+  '📞': Phone,
+  '🎯': Target,
+  '📍': MapPin,
+};
+
+function WhyIcon({ icon, className = '' }: { icon: string; className?: string }): ReactElement {
+  const LucideComp = WHY_ICON_MAP[icon];
+  if (LucideComp) return <LucideComp size={24} className={className} />;
+  // Fallback: render nothing visible
+  return <Award size={24} className={className} />;
+}
 
 export default function WhyUs() {
   const { tx } = useLanguage();
@@ -73,8 +97,8 @@ function WhyCard({
         scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
 
       <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-primary-50 flex items-center
-        justify-center text-2xl group-hover:bg-gradient-primary transition-colors duration-300">
-        {feature.icon}
+        justify-center text-primary group-hover:bg-gradient-primary group-hover:text-white transition-colors duration-300">
+        <WhyIcon icon={feature.icon} />
       </div>
       <h3 className="font-bold font-rajdhani text-gray-900 text-base mb-2">
         {tx(feature.title)}

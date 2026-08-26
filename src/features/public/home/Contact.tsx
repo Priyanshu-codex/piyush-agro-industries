@@ -7,7 +7,7 @@ import { t, SERVICE_OPTIONS } from '@/constants/translations';
 import { FieldError, ErrorToast, FirebaseConfigWarning } from '@/components/ui/ErrorIndicator';
 import { submitInquiry } from '@/services/enquiryService';
 import type { InquiryFormData, FormErrors, SubmitStatus } from '@/types';
-import { Phone, MapPin, MessageCircle, Send, Loader2 } from 'lucide-react';
+import { Phone, MapPin, MessageCircle, Send, Loader2, AlertTriangle, CheckCircle2 } from 'lucide-react';
 
 const EMPTY_FORM: InquiryFormData = { name: '', phone: '', email: '', service: '', message: '' };
 
@@ -188,7 +188,7 @@ export default function Contact() {
               {errors.submit && (
                 <div className="mb-4 flex items-start gap-3 p-4 bg-red-50 border border-red-200
                   rounded-xl animate-bounce-in" role="alert">
-                  <span className="text-red-500 text-lg flex-shrink-0">⚠️</span>
+                  <AlertTriangle size={18} className="text-red-500 flex-shrink-0 mt-0.5" />
                   <p className="text-sm text-red-700 font-medium">{errors.submit}</p>
                 </div>
               )}
@@ -197,7 +197,7 @@ export default function Contact() {
               {status === 'success' && (
                 <div className="mb-4 flex items-start gap-3 p-4 bg-green-50 border border-green-200
                   rounded-xl animate-bounce-in" role="status">
-                  <span className="text-green-500 text-lg flex-shrink-0">✅</span>
+                  <CheckCircle2 size={18} className="text-green-500 flex-shrink-0 mt-0.5" />
                   <p className="text-sm text-green-700 font-medium">{tx(t.contact.successMsg)}</p>
                 </div>
               )}
