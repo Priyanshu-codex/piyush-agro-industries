@@ -4,10 +4,13 @@ import React, { createContext, useContext, useState, useEffect, useMemo } from '
 import { createClient } from '@/supabase/client';
 import {
   t as staticT,
+  PRODUCTS,
+  EXTENDED_PRODUCTS,
   GALLERY_ITEMS as staticGalleryItems,
   FAQ_ITEMS as staticFaqItems,
   TESTIMONIALS as staticTestimonials,
 } from '@/constants/translations';
+import { getProductPrimaryImage, getProductGalleryImages } from '@/utils/imageUtils';
 import type { Product, GalleryItem, FAQItem, Testimonial, HomepageSettings, ContactSettings, GeneralSettings } from '@/types';
 
 export type { HomepageSettings, ContactSettings, GeneralSettings };
@@ -40,16 +43,41 @@ export function useData() {
   return context;
 }
 
+export const ALL_STATIC_PRODUCTS: Product[] = [
+  ...PRODUCTS.map(p => ({
+    ...p,
+    slug: p.slug || p.id,
+    thumbnail: getProductPrimaryImage(p) || p.thumbnail || '/images/products/tractor-trolley.png',
+    images: getProductGalleryImages(p).length > 0 ? getProductGalleryImages(p) : (p.images || [p.thumbnail || '/images/products/tractor-trolley.png']),
+  })),
+  ...EXTENDED_PRODUCTS.map(p => ({
+    ...p,
+    slug: p.slug || p.id,
+    thumbnail: getProductPrimaryImage(p) || p.thumbnail || '/images/products/tractor-trolley.png',
+    images: getProductGalleryImages(p).length > 0 ? getProductGalleryImages(p) : (p.images || [p.thumbnail || '/images/products/tractor-trolley.png']),
+  })),
+];
+
 const MOCK_STORAGE_PREFIX = 'piyush_agro_mock_v2_';
+
+export const DEFAULT_STATIC_CATEGORIES = [
+  { id: 'tractor', name: { en: 'Tractor Trailers', hi: 'ट्रैक्टर ट्रेलर' }, icon: '🚜', gradient: 'from-[#065F2E] to-[#0B7A3B]', displayOrder: 1, status: 'active' },
+  { id: 'hydraulic', name: { en: 'Hydraulic Tractor Trolley', hi: 'हाइड्रोलिक ट्रैक्टर ट्रॉली' }, icon: '🔧', gradient: 'from-[#1a2f6f] to-[#243B8F]', displayOrder: 2, status: 'active' },
+  { id: 'water', name: { en: 'Water Tanker Trailers', hi: 'वाटर टैंकर ट्रेलर' }, icon: '💧', gradient: 'from-[#0c4a6e] to-[#0ea5e9]', displayOrder: 3, status: 'active' },
+  { id: 'agri', name: { en: 'Agricultural Implements', hi: 'कृषि उपकरण' }, icon: '🌾', gradient: 'from-[#365314] to-[#4d7c0f]', displayOrder: 4, status: 'active' },
+  { id: 'generator', name: { en: 'Generator Trolley', hi: 'जनरेटर ट्रॉली' }, icon: '⚡', gradient: 'from-[#78350f] to-[#92400e]', displayOrder: 5, status: 'active' },
+  { id: 'material', name: { en: 'Material Handling Equipment', hi: 'मटेरियल हैंडलिंग उपकरण' }, icon: '🏗️', gradient: 'from-[#991b1b] to-[#dc2626]', displayOrder: 6, status: 'active' },
+  { id: 'fabrication', name: { en: 'Custom Fabrication', hi: 'कस्टम फेब्रिकेशन' }, icon: '🔨', gradient: 'from-[#4c1d95] to-[#6d28d9]', displayOrder: 7, status: 'active' },
+];
 
 export function DataProvider({ children }: { children: React.ReactNode }) {
   const [supabaseConfigured, setSupabaseConfigured] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [products, setProducts] = useState<Product[]>([]);
-  const [categories, setCategories] = useState<any[]>([]);
-  const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([]);
-  const [faqs, setFaqs] = useState<FAQItem[]>([]);
-  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [products, setProducts] = useState<Product[]>(ALL_STATIC_PRODUCTS);
+  const [categories, setCategories] = useState<any[]>(DEFAULT_STATIC_CATEGORIES);
+  const [galleryItems, setGalleryItems] = useState<GalleryItem[]>(staticGalleryItems);
+  const [faqs, setFaqs] = useState<FAQItem[]>(staticFaqItems);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>(staticTestimonials);
 
   const defaultHomepageSettings: HomepageSettings = {
     hero: {
@@ -265,7 +293,25 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       });
 
       const unsubProducts = subscribeProducts((list) => {
-        setProducts(list);
+        if (list && list.length > 0) {
+          const enriched = list.map((p: any) => {
+            const staticProd = ALL_STATIC_PRODUCTS.find(sp => sp.id === p.id || sp.slug === p.slug || sp.id === p.slug || sp.title?.en === p.title?.en);
+            const thumb = getProductPrimaryImage(p) || (staticProd?.thumbnail || '/images/products/tractor-trolley.png');
+            const imgs = getProductGalleryImages(p);
+            const finalImages = imgs.length > 0 ? imgs : (staticProd?.images || [thumb]);
+            return {
+              ...p,
+              slug: p.slug || p.id,
+              thumbnail: thumb,
+              images: finalImages,
+            };
+          });
+          const existingIds = new Set(enriched.map((p: any) => (p.slug || p.id || '').toLowerCase()));
+          const remainingStatic = ALL_STATIC_PRODUCTS.filter(sp => !existingIds.has((sp.slug || sp.id || '').toLowerCase()));
+          setProducts([...enriched, ...remainingStatic]);
+        } else {
+          setProducts(ALL_STATIC_PRODUCTS);
+        }
       });
 
       const unsubGallery = subscribeGallery((list) => {
@@ -317,14 +363,8 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
     } else {
       const cachedCategories = getMockData('categories', null);
       if (!cachedCategories) {
-        setMockData('products', []);
-        setMockData('categories', [
-          { id: 'tractor', name: { en: 'Tractor Trailers', hi: 'ट्रैक्टर ट्रेलर' }, icon: '🚜', gradient: 'from-[#065F2E] to-[#0B7A3B]', displayOrder: 1, status: 'active' },
-          { id: 'hydraulic', name: { en: 'Hydraulic Tractor Trolley', hi: 'हाइड्रोलिक ट्रैक्टर ट्रॉली' }, icon: '🔧', gradient: 'from-[#1a2f6f] to-[#243B8F]', displayOrder: 2, status: 'active' },
-          { id: 'generator', name: { en: 'Generator Trolley', hi: 'जनरेटर ट्रॉली' }, icon: '⚡', gradient: 'from-[#78350f] to-[#92400e]', displayOrder: 3, status: 'active' },
-          { id: 'material', name: { en: 'Material Handling Equipment', hi: 'मटेरियल हैंडलिंग उपकरण' }, icon: '🏗️', gradient: 'from-[#991b1b] to-[#dc2626]', displayOrder: 4, status: 'active' },
-          { id: 'fabrication', name: { en: 'Custom Fabrication', hi: 'कस्टम फेब्रिकेशन' }, icon: '🔨', gradient: 'from-[#4c1d95] to-[#6d28d9]', displayOrder: 5, status: 'active' },
-        ]);
+        setMockData('products', ALL_STATIC_PRODUCTS);
+        setMockData('categories', DEFAULT_STATIC_CATEGORIES);
         setMockData('gallery', staticGalleryItems.map((g, idx) => ({ ...g, displayOrder: idx + 1, status: 'active' })));
         setMockData('faqs', staticFaqItems);
         setMockData('testimonials', staticTestimonials.map((t, idx) => ({ ...t, id: `t${idx}`, displayOrder: idx + 1 })));
@@ -333,11 +373,29 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
         setMockData('general', defaultGeneralSettings);
       }
 
-      setProducts(getMockData('products', []));
-      setCategories(getMockData('categories', []));
-      setGalleryItems(getMockData('gallery', []));
-      setFaqs(getMockData('faqs', []));
-      setTestimonials(getMockData('testimonials', []));
+      const initialProducts = getMockData('products', null);
+      if (!initialProducts || initialProducts.length === 0) {
+        setProducts(ALL_STATIC_PRODUCTS);
+      } else {
+        const resolvedProducts = initialProducts.map((p: any) => {
+          const staticProd = ALL_STATIC_PRODUCTS.find(sp => sp.id === p.id || sp.slug === p.slug || sp.id === p.slug || sp.title?.en === p.title?.en);
+          const thumb = getProductPrimaryImage(p) || staticProd?.thumbnail || '/images/products/tractor-trolley.png';
+          const imgs = getProductGalleryImages(p);
+          return {
+            ...p,
+            slug: p.slug || p.id,
+            thumbnail: thumb,
+            images: imgs.length > 0 ? imgs : (staticProd?.images || [thumb]),
+          };
+        });
+        const existingIds = new Set(resolvedProducts.map((p: any) => (p.slug || p.id || '').toLowerCase()));
+        const remainingStatic = ALL_STATIC_PRODUCTS.filter(sp => !existingIds.has((sp.slug || sp.id || '').toLowerCase()));
+        setProducts([...resolvedProducts, ...remainingStatic]);
+      }
+      setCategories(getMockData('categories', DEFAULT_STATIC_CATEGORIES));
+      setGalleryItems(getMockData('gallery', staticGalleryItems.map((g, idx) => ({ ...g, displayOrder: idx + 1, status: 'active' }))));
+      setFaqs(getMockData('faqs', staticFaqItems));
+      setTestimonials(getMockData('testimonials', staticTestimonials.map((t, idx) => ({ ...t, id: `t${idx}`, displayOrder: idx + 1 }))));
       setHomepageSettings(getMockData('homepage', defaultHomepageSettings));
       setContactSettings(getMockData('contact', defaultContactSettings));
       setGeneralSettings(getMockData('general', defaultGeneralSettings));

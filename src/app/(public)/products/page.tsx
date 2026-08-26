@@ -38,21 +38,28 @@ function ProductsContent() {
 
   const { categories = [], products = [] } = useData() || {};
   
-  const CATEGORIES = ['All', ...categories.map((c: any) => c.name?.en || '')];
+  const CATEGORIES = useMemo(() => {
+    const raw = ['All', ...categories.map((c: any) => typeof c.name === 'object' ? (c.name?.en || c.name?.hi) : c.name).filter(Boolean)];
+    return Array.from(new Set(raw));
+  }, [categories]);
 
   const filteredProducts = useMemo(() => {
     return products.filter((product: any) => {
-      let productCatName = 'Unknown';
-      const cat = categories.find((c: any) => c.id === product.category_id);
+      let productCatName = '';
+      const cat = categories.find((c: any) => c.id === product.category_id || c.slug === product.category_id);
       if (cat) {
-        productCatName = cat.name?.en || '';
+        productCatName = typeof cat.name === 'object' ? (cat.name?.en || cat.name?.hi) : cat.name;
       } else if (product.category) {
-        productCatName = product.category; // fallback to hardcoded string if no category_id is present
+        productCatName = typeof product.category === 'object' ? (product.category?.en || product.category?.hi) : product.category;
       }
       
-      const matchesCategory = activeCategory === 'All' || productCatName === activeCategory;
+      const matchesCategory = 
+        activeCategory === 'All' || 
+        productCatName.toLowerCase() === activeCategory.toLowerCase() ||
+        (product.category_id && product.category_id.toLowerCase() === activeCategory.toLowerCase());
+
       const titleStr = tx(product.title).toLowerCase();
-      const matchesSearch = titleStr.includes(searchQuery.toLowerCase());
+      const matchesSearch = !searchQuery || titleStr.includes(searchQuery.toLowerCase());
       return matchesCategory && matchesSearch;
     });
   }, [activeCategory, searchQuery, tx, products, categories]);
@@ -68,7 +75,7 @@ function ProductsContent() {
           className="absolute inset-0 opacity-20"
           style={{ backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)`, backgroundSize: '24px 24px' }}
         />
-        <div className="relative max-w-7xl mx-auto px-4 text-center animate-fade-up">
+        <div className="relative max-w-7xl mx-auto px-4 text-center scroll-reveal" data-visible="true">
           <div className="flex items-center justify-center gap-2 text-white/70 text-sm font-semibold mb-4">
             <a href="/" className="hover:text-white transition-colors">Home</a>
             <ChevronRight size={14} />
@@ -127,67 +134,76 @@ function ProductsContent() {
       <section className="py-12 max-w-7xl mx-auto px-4">
         {filteredProducts.length > 0 ? (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredProducts.map((product, i) => (
-              <div 
-                key={product.id}
-                onClick={() => router.push('/products/' + product.id)}
-                className="cursor-pointer card-hover bg-white rounded-2xl overflow-hidden shadow-card border border-gray-100 h-full flex flex-col animate-fade-up transition-transform hover:-translate-y-1 hover:shadow-lg"
-                style={{ animationDelay: `${(i % 8) * 50}ms` }}
-              >
-                <div className="h-48 shrink-0 relative overflow-hidden bg-gray-100">
-                  <ProductImage
-                    src={getProductPrimaryImage(product)}
-                    alt={`${tx(product.title)} - Piyush Agro Industries`}
-                    fill
-                    fallbackIcon={product.icon}
-                    fallbackGradient={product.gradient}
-                  />
-                </div>
+            {filteredProducts.map((product, i) => {
+              const productCategory = product.category 
+                || (typeof product.category_id === 'string' ? categories.find((c: any) => c.id === product.category_id)?.name?.en : '') 
+                || '';
+              const targetSlug = product.slug || product.id;
 
-                <div className="p-5 flex flex-col flex-1">
-                  <span className="text-[10px] uppercase font-bold tracking-widest text-primary mb-1.5">{product.category}</span>
-                  <h3 className="font-bold font-rajdhani text-gray-900 text-lg mb-2 line-clamp-2 break-words group-hover:text-primary transition-colors">{tx(product.title)}</h3>
-                  <p className="text-gray-500 text-xs leading-relaxed mb-4 line-clamp-3">{product.short_desc ? tx(product.short_desc) : ''}</p>
+              return (
+                <div 
+                  key={product.id || product.slug}
+                  onClick={() => router.push('/products/' + targetSlug)}
+                  className="cursor-pointer card-hover bg-white rounded-2xl overflow-hidden shadow-card border border-gray-100 h-full flex flex-col animate-fade-up transition-transform hover:-translate-y-1 hover:shadow-lg"
+                  style={{ animationDelay: `${(i % 8) * 50}ms` }}
+                >
+                  <div className="h-48 shrink-0 relative overflow-hidden bg-gray-100">
+                    <ProductImage
+                      src={getProductPrimaryImage(product)}
+                      alt={`${tx(product.title)} - Piyush Agro Industries`}
+                      fill
+                      fallbackIcon={product.icon}
+                      fallbackGradient={product.gradient}
+                    />
+                  </div>
 
-                  {product.specs && Object.keys(product.specs).length > 0 && (
-                    <div className="bg-gray-50/80 rounded-xl p-3 mb-4 flex flex-col gap-2.5 border border-gray-100 mt-auto">
-                      {Object.entries(product.specs).slice(0, 3).map(([key, value]) => (
-                        <div key={key} className="flex items-center justify-between">
-                          <span className="font-bold text-gray-900 text-[11px] sm:text-xs capitalize">{key}</span>
-                          <span className="text-gray-700 text-[11px] sm:text-xs font-semibold px-2 py-0.5 bg-white border border-gray-100 rounded-md shadow-sm text-right line-clamp-1 max-w-[120px]">
-                            {value as string}
-                          </span>
-                        </div>
-                      ))}
+                  <div className="p-5 flex flex-col flex-1">
+                    {productCategory ? (
+                      <span className="text-[10px] uppercase font-bold tracking-widest text-primary mb-1.5">{productCategory}</span>
+                    ) : null}
+                    <h3 className="font-bold font-rajdhani text-gray-900 text-lg mb-2 line-clamp-2 break-words group-hover:text-primary transition-colors">{tx(product.title)}</h3>
+                    <p className="text-gray-500 text-xs leading-relaxed mb-4 line-clamp-3">{product.short_desc ? tx(product.short_desc) : (product.desc ? tx(product.desc) : '')}</p>
+
+                    {product.specs && Object.keys(product.specs).length > 0 && (
+                      <div className="bg-gray-50/80 rounded-xl p-3 mb-4 flex flex-col gap-2.5 border border-gray-100 mt-auto">
+                        {Object.entries(product.specs).slice(0, 3).map(([key, value]) => (
+                          <div key={key} className="flex items-center justify-between">
+                            <span className="font-bold text-gray-900 text-[11px] sm:text-xs capitalize">{key}</span>
+                            <span className="text-gray-700 text-[11px] sm:text-xs font-semibold px-2 py-0.5 bg-white border border-gray-100 rounded-md shadow-sm text-right line-clamp-1 max-w-[120px]">
+                              {value as string}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {(!product.specs || Object.keys(product.specs).length === 0) && <div className="mt-auto" />}
+
+                    <div className="flex gap-2.5 mt-4 pt-3 border-t border-gray-100/60">
+                      <button suppressHydrationWarning
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          router.push('/products/' + targetSlug);
+                        }}
+                        className="flex-1 py-2.5 px-2 rounded-xl bg-gray-100 hover:bg-gray-200/80 text-gray-700 font-bold text-xs transition-colors text-center shadow-sm"
+                      >
+                        {lang === 'en' ? 'View Details' : 'विवरण देखें'}
+                      </button>
+                      <button suppressHydrationWarning
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openEnquiry(tx(product.title));
+                        }}
+                        className="flex-1 py-2.5 px-2 rounded-xl bg-gradient-primary text-white font-bold text-xs shadow-md hover:shadow-lg transition-all text-center relative overflow-hidden group"
+                      >
+                        <span className="relative z-10">{lang === 'en' ? 'Get Quote' : 'कोटेशन'}</span>
+                        <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out rounded-xl" />
+                      </button>
                     </div>
-                  )}
-
-                  {(!product.specs || Object.keys(product.specs).length === 0) && <div className="mt-auto" />}
-
-                  <div className="flex gap-2.5 mt-4 pt-3 border-t border-gray-100/60">
-                    <button suppressHydrationWarning
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        router.push('/products/' + product.id);
-                      }}
-                      className="flex-1 py-2.5 px-2 rounded-xl bg-gray-100 hover:bg-gray-200/80 text-gray-700 font-bold text-xs transition-colors text-center shadow-sm"
-                    >
-                      {lang === 'en' ? 'View Details' : 'विवरण देखें'}
-                    </button>
-                    <button suppressHydrationWarning
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        openEnquiry(tx(product.title));
-                      }}
-                      className="flex-1 py-2.5 px-2 rounded-xl bg-gradient-primary text-white font-bold text-xs shadow-md hover:shadow-lg transition-all text-center relative overflow-hidden group"
-                    >
-                      <span className="relative z-10">{lang === 'en' ? 'Get Quote' : 'कोटेशन'}</span>
-                      <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out rounded-xl" />
-                    </button>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         ) : (
           <div className="text-center py-20">

@@ -1,5 +1,7 @@
 import { createClient } from '@/supabase/client';
 import type { Product } from '@/types';
+import { PRODUCTS, EXTENDED_PRODUCTS } from '@/constants/translations';
+import { getProductPrimaryImage, getProductGalleryImages } from '@/utils/imageUtils';
 
 function safeParseJSON(str: any, fallback: any = { en: '', hi: '' }) {
   if (typeof str === 'string' && str.startsWith('{')) {
@@ -37,7 +39,7 @@ function mapDbToProduct(row: any, categoriesList: any[]): Product {
     try { specs = JSON.parse(row.specs); } catch (e) {}
   }
   
-  let images = safeParseArray(row.images);
+  let rawImages = safeParseArray(row.images);
   let features = safeParseArray(row.features);
   let applications = safeParseArray(row.applications);
   
@@ -45,27 +47,44 @@ function mapDbToProduct(row: any, categoriesList: any[]): Product {
   const seo_desc = safeParseJSON(row.seo_desc);
   const seo_keywords = safeParseJSON(row.seo_keywords);
 
-  const matchingCat = categoriesList.find((c) => c.id === row.category_id);
-  const categoryName = matchingCat ? matchingCat.name.en : '';
+  const matchingCat = categoriesList.find((c) => c.id === row.category_id || c.slug === row.category_id);
+  const categoryName = matchingCat 
+    ? (typeof matchingCat.name === 'object' ? matchingCat.name?.en : matchingCat.name) 
+    : (row.category || '');
+
+  const staticMatch = PRODUCTS.find(sp => sp.id === row.slug || sp.slug === row.slug || sp.title?.en === title?.en)
+    || EXTENDED_PRODUCTS.find(ep => ep.id === row.slug || ep.slug === row.slug || ep.title?.en === title?.en);
+
+  const productRef = {
+    thumbnail: row.thumbnail,
+    images: rawImages,
+    slug: row.slug,
+    id: row.id,
+    title,
+  };
+
+  const thumbnail = getProductPrimaryImage(productRef) || (staticMatch?.thumbnail || '/images/products/tractor-trolley.png');
+  const images = getProductGalleryImages(productRef);
+  const finalImages = images.length > 0 ? images : [thumbnail];
 
   return {
-    id: row.slug,
-    icon: row.icon || '🚜',
-    gradient: row.gradient || 'from-[#065F2E] to-[#0B7A3B]',
-    title,
-    short_desc,
-    full_desc,
-    category: categoryName,
+    id: row.slug || row.id,
+    icon: row.icon || staticMatch?.icon || '🚜',
+    gradient: row.gradient || staticMatch?.gradient || 'from-[#065F2E] to-[#0B7A3B]',
+    title: title || staticMatch?.title,
+    short_desc: short_desc || staticMatch?.desc,
+    full_desc: full_desc || staticMatch?.desc,
+    category: categoryName || staticMatch?.category || '',
     category_id: row.category_id,
     featured: row.featured,
     status: row.status,
     displayOrder: row.display_order || 10,
-    images,
-    thumbnail: row.thumbnail || '',
+    images: finalImages,
+    thumbnail,
     brochure_url: row.brochure_url || '',
-    specs,
-    features,
-    applications,
+    specs: (specs && Object.keys(specs).length > 0) ? specs : (staticMatch?.specs || {}),
+    features: features.length > 0 ? features : (staticMatch?.features || []),
+    applications: applications.length > 0 ? applications : (staticMatch?.applications || []),
     seo_title,
     seo_desc,
     seo_keywords,

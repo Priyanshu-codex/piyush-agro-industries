@@ -5,15 +5,36 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useEnquiry } from '@/contexts/EnquiryContext';
 import { t } from '@/constants/translations';
-import { Phone, MessageCircle, FileText, LayoutGrid } from 'lucide-react';
+import { Phone, MessageCircle, FileText, LayoutGrid, Tractor, Settings, Wrench, Settings2, Droplets, Sparkles, Hammer, Sprout, type LucideIcon } from 'lucide-react';
+import type { ReactElement } from 'react';
+
+// Map floating icon id → Lucide component
+const FLOATING_ICON_COMPONENT_MAP: Record<string, LucideIcon> = {
+  tractor:        Tractor,
+  gear:           Settings,
+  wrench:         Wrench,
+  bolt:           Settings2,
+  water:          Droplets,
+  'sparkle-left': Sparkles,
+  'sparkle-right':Sparkles,
+  hammer:         Hammer,
+  seedling:       Sprout,
+};
+
+function FloatingLucideIcon({ id }: { id: string }): ReactElement {
+  const LucideComp = FLOATING_ICON_COMPONENT_MAP[id];
+  if (LucideComp) return <LucideComp size={28} />;
+  return <Wrench size={28} />;
+}
+import { ProductImage } from '@/components/ui/ProductImage';
 import { FLOATING_ICONS } from '@/constants/floatingIcons';
 
 const HERO_PRODUCTS = [
-  { icon: '🚜', en: 'Tractor Trolley', hi: 'ट्रैक्टर ट्रॉली', span: false },
-  { icon: '🔧', en: 'Hydraulic Trolley', hi: 'हाइड्रोलिक ट्रॉली', span: true },
-  { icon: '💧', en: 'Water Tanker', hi: 'वाटर टैंकर', span: false },
-  { icon: '⚙️', en: 'Agri Equipment', hi: 'कृषि उपकरण', span: false },
-  { icon: '🔩', en: 'Fabrication', hi: 'फेब्रिकेशन', span: false },
+  { icon: '🚜', en: 'Tractor Trolley', hi: 'ट्रैक्टर ट्रॉली', span: false, image: '/images/products/tractor-trolley.png', position: 'object-center' },
+  { icon: '🔧', en: 'Hydraulic Trolley', hi: 'हाइड्रोलिक ट्रॉली', span: true, image: '/images/products/4-wheel-hydraulic-trolley.png', position: 'object-center' },
+  { icon: '💧', en: 'Water Tanker', hi: 'वाटर टैंकर', span: false, image: '/images/products/water-tanker.png', position: 'object-center' },
+  { icon: '⚙️', en: 'Agri Equipment', hi: 'कृषि उपकरण', span: false, image: '/images/products/agri-equipment.png', position: 'object-center' },
+  { icon: '🔩', en: 'Fabrication', hi: 'फेब्रिकेशन', span: false, image: '/images/products/fabrication.png', position: 'object-center' },
 ];
 
 const PARTICLES = [
@@ -226,7 +247,7 @@ export default function Hero() {
               animationDelay: icon.delay,
             } as React.CSSProperties}
           >
-            {icon.icon}
+            <FloatingLucideIcon id={icon.id} />
           </div>
         ))}
       </div>
@@ -358,19 +379,28 @@ export default function Hero() {
                   <motion.div
                     key={i}
                     onClick={() => scroll('products')}
-                    whileHover={{ y: -5, scale: 1.02, borderColor: 'rgba(74, 222, 128, 0.4)' }}
+                    whileHover={{ y: -4, scale: 1.02, borderColor: 'rgba(74, 222, 128, 0.5)' }}
                     whileTap={{ scale: 0.98 }}
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.35 + i * 0.08, duration: 0.6, type: 'spring', damping: 20 }}
-                    className={`relative overflow-hidden rounded-2xl cursor-pointer transition-shadow duration-300 border border-white/20 group h-32 flex flex-col justify-end p-3.5 ${p.span ? 'col-span-2' : ''}`}
+                    className={`relative overflow-hidden rounded-2xl cursor-pointer transition-all duration-300 border border-white/20 shadow-lg group h-32 flex flex-col justify-end p-3.5 bg-black/30 ${p.span ? 'col-span-2' : ''}`}
                   >
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent" />
+                    <ProductImage
+                      src={p.image}
+                      alt={p.en}
+                      fill
+                      objectFit="cover"
+                      objectPosition={p.position || 'object-center'}
+                      fallbackIcon={p.icon}
+                      className="rounded-2xl"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-black/10 z-[1] transition-opacity duration-300 group-hover:from-black/80" />
                     <div className="relative z-10 flex items-center justify-between">
-                      <div className="text-white text-sm font-bold font-rajdhani drop-shadow">
+                      <div className="text-white text-sm font-bold font-rajdhani drop-shadow-md">
                         {lang === 'hi' ? p.hi : p.en}
                       </div>
-                      <span className="text-xs text-brand-green font-bold opacity-0 group-hover:opacity-100 transition-opacity">View →</span>
+                      <span className="text-xs text-brand-green font-bold opacity-0 group-hover:opacity-100 transition-opacity translate-x-1 group-hover:translate-x-0 duration-200">View →</span>
                     </div>
                   </motion.div>
                 );
