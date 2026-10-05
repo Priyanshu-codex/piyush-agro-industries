@@ -134,6 +134,8 @@ function ProductDetailInner({ initialProduct, slug }: ProductDetailClientProps) 
   // Form submit
   const handleQuickSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (submitStatus === 'loading') return;
+
     const errs: FormErrors = {};
     if (!quickForm.name.trim()) errs.name = lang === 'en' ? 'Name is required' : 'नाम आवश्यक है';
     const digits = quickForm.phone.replace(/\D/g, '');
@@ -161,7 +163,7 @@ function ProductDetailInner({ initialProduct, slug }: ProductDetailClientProps) 
       setQuickForm((prev) => ({ ...prev, name: '', phone: '', email: '' }));
     } else {
       setSubmitStatus('error');
-      setErrors({ submit: tx(t.contact.errSubmit) });
+      setErrors({ submit: res.error || tx(t.contact.errSubmit) });
     }
   };
 
