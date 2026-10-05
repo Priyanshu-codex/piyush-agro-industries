@@ -1,43 +1,43 @@
 import { MetadataRoute } from 'next';
 
-const BASE_URL = 'https://piyushagro.com';
+const BASE_URL = 'https://www.piyushagroindustries.in';
 
-const PRODUCT_SLUGS = [
+export const CANONICAL_PRODUCT_SLUGS = [
   'tractor-trolley',
-  '4w-hydraulic',
-  '2w-hydraulic',
+  'hydraulic-tractor-trolley',
+  'tractor-tipping-trailer',
+  '2-ton-tractor-trailer',
+  'non-tipping-tractor-trailer',
+  'water-tanker-trailer',
+  'generator-trolley',
+  'custom-fabrication',
+  'agricultural-equipment',
+  '4-wheel-hydraulic-trolley',
+  '2-wheel-hydraulic-trolley',
   'hydraulic-dumper',
-  'water-tanker',
+  '5-ton-agricultural-tractor-trailer',
+  'hydraulic-tractor-trailer',
+  'special-tractor-trolley',
+  'mini-water-tank-trolley',
+  '4-wheel-generator-trolley',
+  'generator-set-trolley',
+  '2-wheeler-trolley',
+  'ugpu-trolley-4-wheel',
+  'customize-low-bed-trailer',
+  'customize-low-bed-trolley',
+  'wheeled-cart',
   'medical-vehicle',
-  'garbage-vehicle',
-  'agri-equipment',
-  'gates',
-  'railings',
+  'garbage-collection-vehicle',
   'cultivators',
-  'custom-fab',
-  'vehicle-repair',
-  'tt-hydraulic',
-  'tt-tipping',
-  'tt-5ton',
-  'tt-2ton',
-  'tt-nontipping',
-  'ht-trolley',
-  'ht-special',
-  'ht-water',
-  'gt-4wheel',
-  'gt-set',
-  'gt-2wheel',
-  'gt-standard',
-  'mh-ugpu',
-  'mh-lowbed',
-  'mh-lowbedtrolley',
-  'mh-cart',
+  'steel-gates',
+  'railings',
+  'vehicle-repairing',
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const currentDate = new Date().toISOString();
 
-  // Static routes
+  // Static indexable routes
   const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: `${BASE_URL}`,
@@ -55,16 +55,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${BASE_URL}/about`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
-      priority: 0.7,
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/contact`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: 0.8,
     },
   ];
 
-  // Dynamic product routes
-  const productRoutes: MetadataRoute.Sitemap = PRODUCT_SLUGS.map((slug) => ({
+  // Dynamic canonical product routes
+  const productRoutes: MetadataRoute.Sitemap = CANONICAL_PRODUCT_SLUGS.map((slug) => ({
     url: `${BASE_URL}/products/${slug}`,
     lastModified: currentDate,
     changeFrequency: 'weekly',
-    priority: 0.8,
+    priority: 0.85,
   }));
 
   return [...staticRoutes, ...productRoutes];

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { t, MEGA_MENU, MEGA_MENU_CTA } from '@/constants/translations';
@@ -8,12 +9,12 @@ import { Phone, Menu, X, ChevronDown, ArrowRight, MapPin, MessageCircle } from '
 import PiyushAgroLogo from '@/components/branding/PiyushAgroLogo';
 
 const NAV_LINKS = [
-  { href: '#hero',         key: 'home'     },
-  { href: '#products',     key: 'products' },
-  { href: '/about',        key: 'about'    },
-  { href: '#services',     key: 'services' },
-  { href: '#gallery',      key: 'gallery'  },
-  { href: '#contact',      key: 'contact'  },
+  { href: '/#hero',     key: 'home'     },
+  { href: '/products', key: 'products' },
+  { href: '/about',    key: 'about'    },
+  { href: '/#services', key: 'services' },
+  { href: '/#gallery',  key: 'gallery'  },
+  { href: '/contact',  key: 'contact'  },
 ] as const;
 
 export default function Header() {
@@ -37,6 +38,7 @@ export default function Header() {
     if (pathname !== '/') {
       if (pathname.includes('/about')) setActive('about');
       else if (pathname.includes('/products')) setActive('products');
+      else if (pathname.includes('/contact')) setActive('contact');
       return;
     }
 
@@ -54,23 +56,18 @@ export default function Header() {
     return () => observer.disconnect();
   }, [pathname]);
 
-  const handleNavClick = useCallback((href: string) => {
+  const handleNavClick = useCallback((href: string, e?: React.MouseEvent) => {
     setMenuOpen(false);
     
-    if (href.startsWith('/')) {
-      router.push(href);
-      return;
-    }
-    
-    if (href.startsWith('#')) {
-      if (pathname !== '/') {
-        router.push(`/${href}`);
-      } else {
-        const id = href.replace('#', '');
-        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (href.startsWith('/#')) {
+      const hash = href.replace('/#', '');
+      if (pathname === '/') {
+        if (e) e.preventDefault();
+        document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return;
       }
     }
-  }, [pathname, router]);
+  }, [pathname]);
 
   /* ── Prevent body scroll when mobile menu open ── */
   useEffect(() => {
@@ -93,7 +90,7 @@ export default function Header() {
         }`}>
           <div className="max-w-7xl mx-auto px-4 flex flex-wrap justify-between items-center gap-2">
             <span className="opacity-90 flex items-center gap-1.5">
-              <MapPin size={11} className="shrink-0" /> Khairagarh Road, Thelkadih, Rajnandgaon, CG
+              <MapPin size={11} className="shrink-0" /> Khairagarh Road, Thelkadih, Rajnandgaon, CG 491441
             </span>
             <div className="flex flex-wrap items-center gap-3 sm:gap-4">
               <a href="tel:9425245291" className="hover:text-brand-green transition-colors flex items-center gap-1">
@@ -117,13 +114,12 @@ export default function Header() {
         {/* ── Main Nav ── */}
         <nav className="relative max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
           {/* Logo + Brand Text */}
-          <a
-            href="#hero"
-            onClick={(e) => { e.preventDefault(); handleNavClick('#hero'); }}
+          <Link
+            href="/"
             className="flex items-center shrink min-w-0 max-w-[70%] sm:max-w-none h-full py-1.5"
           >
             <PiyushAgroLogo variant="horizontal" mode="light" size="md" />
-          </a>
+          </Link>
 
           {/* Desktop links */}
           <ul className="hidden lg:flex items-center gap-0.5">
@@ -131,8 +127,8 @@ export default function Header() {
               if (key === 'products') {
                 return (
                   <li key={key} className="group">
-                    <button suppressHydrationWarning
-                      onClick={() => handleNavClick(href)}
+                    <Link
+                      href="/products"
                       className={`flex items-center gap-1 px-3.5 py-2 rounded-lg text-sm font-semibold font-rajdhani transition-colors duration-150 ${
                         activeSection === 'products'
                           ? 'text-primary bg-primary-50'
@@ -141,7 +137,7 @@ export default function Header() {
                     >
                       {tx(t.nav[key as keyof typeof t.nav])}
                       <ChevronDown size={14} className="group-hover:rotate-180 transition-transform duration-200" />
-                    </button>
+                    </Link>
 
                     {/* Mega Menu Dropdown */}
                     <div className="absolute top-full left-0 right-0 mx-auto pt-2 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-focus-within:opacity-100 group-hover:translate-y-0 group-focus-within:translate-y-0 group-hover:pointer-events-auto group-focus-within:pointer-events-auto transition-all duration-300 z-[100] w-full max-w-[900px] px-4">
@@ -158,12 +154,12 @@ export default function Header() {
                               <ul className="space-y-1">
                                 {col.items.map((item, i) => (
                                   <li key={i}>
-                                    <button suppressHydrationWarning 
-                                      onClick={() => handleNavClick((item as any).id ? `/products/${(item as any).id}` : `/products?category=${encodeURIComponent(col.title.en)}`)}
+                                    <Link
+                                      href={(item as any).id ? `/products/${(item as any).id}` : `/products?category=${encodeURIComponent(col.title.en)}`}
                                       className="text-left text-[13px] font-medium text-gray-600 hover:text-primary hover:bg-primary-50 focus:text-primary focus:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-primary/20 hover:translate-x-1 transition-all duration-200 block w-full py-1.5 px-2 rounded-xl"
                                     >
                                       {tx(item)}
-                                    </button>
+                                    </Link>
                                   </li>
                                 ))}
                               </ul>
@@ -172,12 +168,12 @@ export default function Header() {
                         </div>
                         {/* CTA Row */}
                         <div className="mt-6 pt-4 border-t border-gray-100 flex justify-center">
-                          <button suppressHydrationWarning
-                            onClick={() => handleNavClick('/products')}
+                          <Link
+                            href="/products"
                             className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-primary/5 text-sm font-bold text-primary hover:bg-primary hover:text-white transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:ring-offset-2"
                           >
                             {tx(MEGA_MENU_CTA)} <ArrowRight size={15} />
-                          </button>
+                          </Link>
                         </div>
                       </div>
                     </div>
@@ -187,16 +183,17 @@ export default function Header() {
 
               return (
                 <li key={key}>
-                  <button suppressHydrationWarning
-                    onClick={() => handleNavClick(href)}
+                  <Link
+                    href={href}
+                    onClick={(e) => handleNavClick(href, e)}
                     className={`px-3.5 py-2 rounded-lg text-sm font-semibold font-rajdhani transition-colors duration-150 ${
-                      activeSection === href.replace('#', '')
+                      activeSection === href.replace('/#', '').replace('/', '')
                         ? 'text-primary bg-primary-50'
                         : 'text-gray-600 hover:text-primary hover:bg-primary-50'
                     }`}
                   >
                     {tx(t.nav[key as keyof typeof t.nav])}
-                  </button>
+                  </Link>
                 </li>
               );
             })}
@@ -210,7 +207,7 @@ export default function Header() {
                 <button suppressHydrationWarning
                   key={l}
                   onClick={() => setLang(l)}
-                  className={`px-3 py-1 rounded-full text-xs font-bold transition-all duration-200 ${
+                  className={`px-3 py-1 rounded-full text-xs font-bold transition-all duration-200 cursor-pointer ${
                     lang === l
                       ? 'bg-gradient-primary text-white shadow-sm'
                       : 'text-gray-500 hover:text-gray-700'
@@ -237,7 +234,7 @@ export default function Header() {
               onClick={() => setMenuOpen((v) => !v)}
               aria-label="Toggle mobile menu"
               aria-expanded={menuOpen}
-              className="lg:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
+              className="lg:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors cursor-pointer"
             >
               {menuOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
@@ -265,10 +262,12 @@ export default function Header() {
         >
           {/* Mobile header */}
           <div className="flex items-center justify-between p-4 border-b border-gray-100">
-            <PiyushAgroLogo variant="horizontal" mode="light" size="sm" />
+            <Link href="/" onClick={() => setMenuOpen(false)}>
+              <PiyushAgroLogo variant="horizontal" mode="light" size="sm" />
+            </Link>
             <button suppressHydrationWarning
               onClick={() => setMenuOpen(false)}
-              className="p-1.5 rounded-lg text-gray-500 hover:bg-gray-100 hover:text-gray-950 transition-colors"
+              className="p-1.5 rounded-lg text-gray-500 hover:bg-gray-100 hover:text-gray-950 transition-colors cursor-pointer"
               aria-label="Close menu"
             >
               <X size={20} />
@@ -279,13 +278,13 @@ export default function Header() {
           <nav className="flex-1 p-4 overflow-y-auto">
             <ul className="space-y-1.5">
               {NAV_LINKS.map(({ href, key }) => {
-                const isActive = activeSection === href.replace('#', '');
+                const isActive = activeSection === href.replace('/#', '').replace('/', '');
                 if (key === 'products') {
                   return (
                     <li key={key} className="flex flex-col">
                       <button suppressHydrationWarning
                         onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
-                        className={`w-full text-left px-4 py-3 rounded-xl text-sm font-semibold font-rajdhani transition-all flex items-center justify-between ${
+                        className={`w-full text-left px-4 py-3 rounded-xl text-sm font-semibold font-rajdhani transition-all flex items-center justify-between cursor-pointer ${
                           isActive || mobileProductsOpen
                             ? 'text-primary bg-primary-50'
                             : 'text-gray-700 hover:text-primary hover:bg-primary-50'
@@ -313,23 +312,25 @@ export default function Header() {
                               <ul className="space-y-1 border-l-2 border-gray-100 pl-3 ml-2">
                                 {col.items.map((item, i) => (
                                   <li key={i}>
-                                    <button suppressHydrationWarning
-                                      onClick={() => handleNavClick((item as any).id ? `/products/${(item as any).id}` : `/products?category=${encodeURIComponent(col.title.en)}`)}
+                                    <Link
+                                      href={(item as any).id ? `/products/${(item as any).id}` : `/products?category=${encodeURIComponent(col.title.en)}`}
+                                      onClick={() => setMenuOpen(false)}
                                       className="text-left text-[13px] font-medium text-gray-600 hover:text-primary block w-full py-2.5 px-3 rounded-xl hover:bg-primary-50 focus:bg-primary-50 focus:text-primary transition-colors"
                                     >
                                       {tx(item)}
-                                    </button>
+                                    </Link>
                                   </li>
                                 ))}
                               </ul>
                             </div>
                           ))}
-                          <button suppressHydrationWarning
-                            onClick={() => handleNavClick('/products')}
+                          <Link
+                            href="/products"
+                            onClick={() => setMenuOpen(false)}
                             className="w-full justify-center text-[13px] font-bold text-primary py-3 px-4 bg-primary/5 hover:bg-primary hover:text-white rounded-xl flex items-center gap-2 mt-4 transition-colors"
                           >
                             {tx(MEGA_MENU_CTA)} <ArrowRight size={14} className="shrink-0" />
-                          </button>
+                          </Link>
                         </div>
                       </div>
                     </li>
@@ -338,16 +339,17 @@ export default function Header() {
 
                 return (
                   <li key={key}>
-                    <button suppressHydrationWarning
-                      onClick={() => handleNavClick(href)}
-                      className={`w-full text-left px-4 py-3 rounded-xl text-sm font-semibold font-rajdhani transition-all ${
+                    <Link
+                      href={href}
+                      onClick={(e) => handleNavClick(href, e)}
+                      className={`w-full text-left px-4 py-3 rounded-xl text-sm font-semibold font-rajdhani transition-all block ${
                         isActive
                           ? 'text-primary bg-primary-50'
                           : 'text-gray-700 hover:text-primary hover:bg-primary-50'
                       }`}
                     >
                       {tx(t.nav[key as keyof typeof t.nav])}
-                    </button>
+                    </Link>
                   </li>
                 );
               })}
@@ -361,7 +363,7 @@ export default function Header() {
                 <button suppressHydrationWarning
                   key={l}
                   onClick={() => setLang(l)}
-                  className={`flex-1 py-1.5 rounded-full text-xs font-bold transition-all duration-200 ${
+                  className={`flex-1 py-1.5 rounded-full text-xs font-bold transition-all duration-200 cursor-pointer ${
                     lang === l ? 'bg-gradient-primary text-white shadow-sm' : 'text-gray-500 hover:text-gray-700'
                   }`}
                 >

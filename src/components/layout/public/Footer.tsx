@@ -1,6 +1,7 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useEnquiry } from '@/contexts/EnquiryContext';
 import { t } from '@/constants/translations';
@@ -8,47 +9,43 @@ import { Phone, MapPin, MessageCircle, Facebook, Instagram } from 'lucide-react'
 import PiyushAgroLogo from '@/components/branding/PiyushAgroLogo';
 
 const QUICK_LINKS = [
-  { href: '#hero',     enLabel: 'Home',     hiLabel: 'होम' },
-  { href: '#products', enLabel: 'Products',  hiLabel: 'उत्पाद' },
-  { href: '/about',    enLabel: 'About Us',  hiLabel: 'हमारे बारे में' },
-  { href: '#services', enLabel: 'Services',  hiLabel: 'सेवाएं' },
-  { href: '#gallery',  enLabel: 'Gallery',   hiLabel: 'गैलरी' },
-  { href: '#contact',  enLabel: 'Contact',   hiLabel: 'संपर्क' },
+  { href: '/',         enLabel: 'Home',         hiLabel: 'होम' },
+  { href: '/products', enLabel: 'Products',     hiLabel: 'उत्पाद' },
+  { href: '/about',    enLabel: 'About Us',     hiLabel: 'हमारे बारे में' },
+  { href: '/#services',enLabel: 'Services',     hiLabel: 'सेवाएं' },
+  { href: '/#gallery', enLabel: 'Gallery',      hiLabel: 'गैलरी' },
+  { href: '/contact',  enLabel: 'Contact',      hiLabel: 'संपर्क' },
 ];
 
 const PRODUCT_LINKS = [
-  { enLabel: 'Tractor Trolley',       hiLabel: 'ट्रैक्टर ट्रॉली' },
-  { enLabel: 'Hydraulic Trolley',     hiLabel: 'हाइड्रोलिक ट्रॉली' },
-  { enLabel: 'Hydraulic Dumper',      hiLabel: 'हाइड्रोलिक डम्पर' },
-  { enLabel: 'Water Tanker',          hiLabel: 'वाटर टैंकर' },
-  { enLabel: 'Cultivator',            hiLabel: 'कल्टीवेटर' },
-  { enLabel: 'Custom Fabrication',    hiLabel: 'कस्टम फेब्रिकेशन' },
+  { href: '/products/tractor-trolley',           enLabel: 'Tractor Trolley',            hiLabel: 'ट्रैक्टर ट्रॉली' },
+  { href: '/products/hydraulic-tractor-trolley', enLabel: 'Hydraulic Tractor Trolley',  hiLabel: 'हाइड्रोलिक ट्रॉली' },
+  { href: '/products/tractor-tipping-trailer',   enLabel: 'Tractor Tipping Trailer',    hiLabel: 'टिपिंग ट्रेलर' },
+  { href: '/products/2-ton-tractor-trailer',     enLabel: '2 Ton Tractor Trailer',      hiLabel: '2 टन ट्रैक्टर ट्रेलर' },
+  { href: '/products/water-tanker-trailer',      enLabel: 'Water Tanker Trailer',       hiLabel: 'वाटर टैंकर ट्रेलर' },
+  { href: '/products/custom-fabrication',        enLabel: 'Custom Fabrication',         hiLabel: 'कस्टम फेब्रिकेशन' },
 ];
 
 const SERVICE_LINKS = [
-  { enLabel: 'Vehicle Fabrication',   hiLabel: 'वाहन फेब्रिकेशन' },
-  { enLabel: 'Vehicle Repairing',     hiLabel: 'वाहन मरम्मत' },
-  { enLabel: 'Welding Services',      hiLabel: 'वेल्डिंग सेवाएं' },
-  { enLabel: 'Vehicle Modification',  hiLabel: 'वाहन संशोधन' },
-  { enLabel: 'Get Free Quote',        hiLabel: 'मुफ्त कोटेशन' },
+  { href: '/#services', enLabel: 'Vehicle Fabrication',   hiLabel: 'वाहन फेब्रिकेशन' },
+  { href: '/#services', enLabel: 'Vehicle Repairing',     hiLabel: 'वाहन मरम्मत' },
+  { href: '/#services', enLabel: 'Welding Services',      hiLabel: 'वेल्डिंग सेवाएं' },
+  { href: '/#services', enLabel: 'Vehicle Modification',  hiLabel: 'वाहन संशोधन' },
+  { href: '#quote',     enLabel: 'Get Free Quote',        hiLabel: 'मुफ्त कोटेशन' },
 ];
 
 export default function Footer() {
   const { lang, tx } = useLanguage();
   const { openEnquiry } = useEnquiry();
   const pathname = usePathname();
-  const router = useRouter();
 
-  const scroll = (href: string) => {
-    if (href.startsWith('/')) {
-      router.push(href);
-      return;
-    }
-    if (pathname !== '/') {
-      router.push(`/${href}`);
-    } else {
-      const id = href.replace('#', '');
-      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  const handleHashClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith('/#') || href.startsWith('#')) {
+      const hash = href.replace('/#', '').replace('#', '');
+      if (pathname === '/') {
+        e.preventDefault();
+        document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
@@ -70,7 +67,7 @@ export default function Footer() {
             <div className="space-y-2.5 text-sm">
               <div className="flex items-start gap-2">
                 <MapPin size={14} className="text-primary mt-0.5 flex-shrink-0" />
-                <span>Khairagarh Road, Thelkadih, Rajnandgaon, CG</span>
+                <span>Khairagarh Road, Thelkadih, Rajnandgaon, CG 491441</span>
               </div>
               <a href="tel:9425245291" className="flex items-center gap-2 hover:text-brand-green transition-colors">
                 <Phone size={14} className="text-primary flex-shrink-0" /> +91 9425245291
@@ -112,14 +109,15 @@ export default function Footer() {
             <ul className="space-y-2">
               {QUICK_LINKS.map(({ href, enLabel, hiLabel }) => (
                 <li key={href}>
-                  <button suppressHydrationWarning
-                    onClick={() => scroll(href)}
+                  <Link
+                    href={href}
+                    onClick={(e) => handleHashClick(e, href)}
                     className="flex items-center gap-1.5 text-sm hover:text-brand-green hover:pl-1
                       transition-all duration-150 text-left"
                   >
                     <span className="text-primary text-xs">→</span>
                     {lang === 'hi' ? hiLabel : enLabel}
-                  </button>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -131,16 +129,16 @@ export default function Footer() {
               {tx(t.footer.products)}
             </h5>
             <ul className="space-y-2">
-              {PRODUCT_LINKS.map(({ enLabel, hiLabel }) => (
-                <li key={enLabel}>
-                  <button suppressHydrationWarning
-                    onClick={() => scroll('#products')}
+              {PRODUCT_LINKS.map(({ href, enLabel, hiLabel }) => (
+                <li key={href}>
+                  <Link
+                    href={href}
                     className="flex items-center gap-1.5 text-sm hover:text-brand-green hover:pl-1
                       transition-all duration-150 text-left"
                   >
                     <span className="text-primary text-xs">→</span>
                     {lang === 'hi' ? hiLabel : enLabel}
-                  </button>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -152,22 +150,28 @@ export default function Footer() {
               {tx(t.footer.servicesH)}
             </h5>
             <ul className="space-y-2">
-              {SERVICE_LINKS.map(({ enLabel, hiLabel }) => (
+              {SERVICE_LINKS.map(({ href, enLabel, hiLabel }) => (
                 <li key={enLabel}>
-                  <button suppressHydrationWarning
-                    onClick={() => {
-                      if (enLabel === 'Get Free Quote') {
-                        openEnquiry(lang === 'en' ? 'General Enquiry' : 'सामान्य पूछताछ');
-                      } else {
-                        scroll('#services');
-                      }
-                    }}
-                    className="flex items-center gap-1.5 text-sm hover:text-brand-green hover:pl-1
-                      transition-all duration-150 text-left"
-                  >
-                    <span className="text-primary text-xs">→</span>
-                    {lang === 'hi' ? hiLabel : enLabel}
-                  </button>
+                  {href === '#quote' ? (
+                    <button suppressHydrationWarning
+                      onClick={() => openEnquiry(lang === 'en' ? 'General Enquiry' : 'सामान्य पूछताछ')}
+                      className="flex items-center gap-1.5 text-sm hover:text-brand-green hover:pl-1
+                        transition-all duration-150 text-left cursor-pointer"
+                    >
+                      <span className="text-primary text-xs">→</span>
+                      {lang === 'hi' ? hiLabel : enLabel}
+                    </button>
+                  ) : (
+                    <Link
+                      href={href}
+                      onClick={(e) => handleHashClick(e, href)}
+                      className="flex items-center gap-1.5 text-sm hover:text-brand-green hover:pl-1
+                        transition-all duration-150 text-left"
+                    >
+                      <span className="text-primary text-xs">→</span>
+                      {lang === 'hi' ? hiLabel : enLabel}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>

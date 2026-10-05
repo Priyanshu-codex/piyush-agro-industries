@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect, useState } from 'react';
+import React from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { t } from '@/constants/translations';
@@ -13,36 +13,6 @@ const STATS = [
   { numKey: 'stat2' as const, labelKey: 'stat2L' as const },
   { numKey: 'stat3' as const, labelKey: 'stat3L' as const },
 ];
-
-function AnimatedCounter({ target, suffix = '' }: { target: number; suffix?: string }) {
-  const [count, setCount] = useState(0);
-  const ref = useRef<HTMLDivElement>(null);
-  const ran = useRef(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !ran.current) {
-          ran.current = true;
-          let start = 0;
-          const step = Math.ceil(target / 60);
-          const timer = setInterval(() => {
-            start += step;
-            if (start >= target) { setCount(target); clearInterval(timer); }
-            else setCount(start);
-          }, 20);
-        }
-      },
-      { threshold: 0.5 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [target]);
-
-  return <div ref={ref}>{count}{suffix}</div>;
-}
 
 export default function About() {
   const { tx } = useLanguage();
@@ -113,22 +83,18 @@ export default function About() {
               })}
             </div>
 
-            {/* Stats */}
+            {/* Key Capabilities */}
             <div className="grid grid-cols-3 gap-4 pt-6 border-t border-gray-100 mb-7">
-              {STATS.map(({ numKey, labelKey }) => {
-                const raw = tx(t.about[numKey]).replace(/\D/g, '');
-                const suffix = tx(t.about[numKey]).replace(/\d/g, '');
-                return (
-                  <div key={numKey} className="text-center">
-                    <div className="text-2xl font-bold text-primary font-rajdhani leading-none">
-                      <AnimatedCounter target={parseInt(raw) || 0} suffix={suffix} />
-                    </div>
-                    <div className="text-[11px] uppercase tracking-wide text-gray-400 mt-1">
-                      {tx(t.about[labelKey])}
-                    </div>
+              {STATS.map(({ numKey, labelKey }) => (
+                <div key={numKey} className="text-center">
+                  <div className="text-lg sm:text-xl font-bold text-primary font-rajdhani leading-tight">
+                    {tx(t.about[numKey])}
                   </div>
-                );
-              })}
+                  <div className="text-[11px] uppercase tracking-wide text-gray-500 mt-1">
+                    {tx(t.about[labelKey])}
+                  </div>
+                </div>
+              ))}
             </div>
 
             <button suppressHydrationWarning

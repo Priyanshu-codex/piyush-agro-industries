@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { Package } from 'lucide-react';
 import { normalizeImageUrl } from '@/utils/imageUtils';
 
@@ -21,12 +22,15 @@ interface ProductImageProps {
 
 export function ProductImage({
   src,
-  alt = '',
+  alt = 'Piyush Agro Industries Product',
   className = '',
   imageClassName = '',
   fallbackIcon = '🚜',
   fallbackGradient = 'from-primary-700 to-primary-900',
+  priority = false,
   fill = false,
+  width,
+  height,
   objectFit = 'contain',
   objectPosition = 'object-center',
 }: ProductImageProps) {
@@ -44,12 +48,12 @@ export function ProductImage({
         suppressHydrationWarning
         className={`${fill ? 'absolute inset-0 w-full h-full' : 'relative w-full h-full min-h-[160px]'} ${isCover ? 'bg-transparent' : 'bg-slate-50'} flex items-center justify-center overflow-hidden ${className}`}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src={normalizedSrc}
-          alt={alt}
-          loading="lazy"
-          decoding="async"
+          alt={alt || 'Piyush Agro Industries product equipment in Rajnandgaon, Chhattisgarh'}
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          priority={priority}
           onError={() => setImageError(true)}
           className={`w-full h-full ${isCover ? 'object-cover p-0' : 'object-contain p-2'} ${objectPosition} transition-transform duration-500 ease-out group-hover:scale-105 ${imageClassName}`}
         />
