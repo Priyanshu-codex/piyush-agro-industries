@@ -78,6 +78,8 @@ export function EnquiryProvider({ children }: { children: ReactNode }) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (status === 'loading') return;
+
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
@@ -94,6 +96,8 @@ export function EnquiryProvider({ children }: { children: ReactNode }) {
       phone: form.phone,
       email: form.email,
       service: form.service,
+      company: form.company,
+      quantity: form.quantity,
       message: msg,
       language: lang,
       source: 'get_quote_modal',
@@ -105,14 +109,8 @@ export function EnquiryProvider({ children }: { children: ReactNode }) {
       setStatus('success');
       setForm(EMPTY_FORM);
     } else {
-      if (result.error.includes('Supabase not configured')) {
-        // Fallback for demo purposes
-        setStatus('success');
-        setForm(EMPTY_FORM);
-      } else {
-        setStatus('error');
-        setErrors({ submit: tx(t.contact.errSubmit) });
-      }
+      setStatus('error');
+      setErrors({ submit: result.error || tx(t.contact.errSubmit) });
     }
   };
 

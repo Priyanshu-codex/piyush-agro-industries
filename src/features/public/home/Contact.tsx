@@ -46,6 +46,8 @@ export default function Contact() {
   /* ── Submit ── */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (status === 'loading') return;
+
     const fieldErrors = validate();
     if (Object.keys(fieldErrors).length) {
       setErrors(fieldErrors);
@@ -68,15 +70,7 @@ export default function Contact() {
       setForm(EMPTY_FORM);
     } else {
       setStatus('error');
-      // Check if it's a config error
-      if (result.error.includes('Supabase not configured') || result.error.includes('YOUR_PROJECT_ID')) {
-        setFbWarn(true);
-        // Still show success for demo purposes when Firebase isn't configured
-        setStatus('success');
-        setForm(EMPTY_FORM);
-      } else {
-        setErrors({ submit: tx(t.contact.errSubmit) });
-      }
+      setErrors({ submit: result.error || tx(t.contact.errSubmit) });
     }
   };
 
