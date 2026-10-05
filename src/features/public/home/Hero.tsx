@@ -50,35 +50,6 @@ const PARTICLES = [
   { top: 32, left: 48, size: 4, delay: '1.5s', duration: '7s' },
 ];
 
-function AnimatedCounter({ value, duration = 1.5 }: { value: string; duration?: number }) {
-  const [count, setCount] = useState(0);
-  const target = parseInt(value.replace(/[^0-9]/g, ''), 10);
-  const suffix = value.replace(/[0-9]/g, '');
-
-  useEffect(() => {
-    if (isNaN(target)) return;
-    let start = 0;
-    const end = target;
-    if (start === end) return;
-
-    let startTimestamp: number | null = null;
-    const step = (timestamp: number) => {
-      if (!startTimestamp) startTimestamp = timestamp;
-      const progress = Math.min((timestamp - startTimestamp) / (duration * 1000), 1);
-      setCount(Math.floor(progress * (end - start) + start));
-      if (progress < 1) {
-        window.requestAnimationFrame(step);
-      }
-    };
-    window.requestAnimationFrame(step);
-  }, [target, duration]);
-
-  if (isNaN(target)) {
-    return <span>{value}</span>;
-  }
-  return <span>{count}{suffix}</span>;
-}
-
 export default function Hero() {
   const { lang, tx } = useLanguage();
   const { openEnquiry } = useEnquiry();
@@ -342,10 +313,10 @@ export default function Hero() {
               </motion.button>
             </motion.div>
 
-            {/* Stats */}
+            {/* Capability Highlights */}
             <motion.div
               variants={itemVariants}
-              className="flex gap-8 pt-8 border-t border-white/15"
+              className="flex flex-wrap gap-6 sm:gap-8 pt-8 border-t border-white/15"
             >
               {[
                 { num: t.hero.stat1Num, label: t.hero.stat1Label },
@@ -353,10 +324,10 @@ export default function Hero() {
                 { num: t.hero.stat3Num, label: t.hero.stat3Label },
               ].map(({ num, label }, i) => (
                 <div key={i}>
-                  <div className="text-2xl sm:text-3xl font-bold text-brand-green font-rajdhani leading-none">
-                    <AnimatedCounter value={tx(num)} />
+                  <div className="text-xl sm:text-2xl font-bold text-brand-green font-rajdhani leading-none">
+                    {tx(num)}
                   </div>
-                  <div className="text-[11px] text-white/60 uppercase tracking-wide mt-1.5">
+                  <div className="text-[11px] text-white/70 uppercase tracking-wide mt-1.5">
                     {tx(label)}
                   </div>
                 </div>
