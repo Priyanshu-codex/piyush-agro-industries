@@ -54,6 +54,13 @@ export default function NotFound() {
                   >
                     <ArrowLeft size={16} /> Browse All Products
                   </Link>
+
+                  <Link
+                    href="/services"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold font-rajdhani text-sm transition-all"
+                  >
+                    <Wrench size={16} /> Our Services
+                  </Link>
                 </div>
 
                 {/* Quick Product Links */}

@@ -34,6 +34,15 @@ export const CANONICAL_PRODUCT_SLUGS = [
   'vehicle-repairing',
 ];
 
+export const CANONICAL_SERVICE_SLUGS = [
+  'vehicle-fabrication',
+  'vehicle-repairing',
+  'welding-services',
+  'vehicle-modification',
+  'custom-fabrication',
+  'agricultural-equipment',
+];
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const currentDate = new Date().toISOString();
 
@@ -52,9 +61,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: `${BASE_URL}/services`,
+      lastModified: currentDate,
+      changeFrequency: 'weekly',
+      priority: 0.85,
+    },
+    {
       url: `${BASE_URL}/about`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/gallery`,
+      lastModified: currentDate,
+      changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
@@ -73,5 +94,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.85,
   }));
 
-  return [...staticRoutes, ...productRoutes];
+  // Dynamic canonical service routes
+  const serviceRoutes: MetadataRoute.Sitemap = CANONICAL_SERVICE_SLUGS.map((slug) => ({
+    url: `${BASE_URL}/services/${slug}`,
+    lastModified: currentDate,
+    changeFrequency: 'weekly',
+    priority: 0.8,
+  }));
+
+  return [...staticRoutes, ...productRoutes, ...serviceRoutes];
 }

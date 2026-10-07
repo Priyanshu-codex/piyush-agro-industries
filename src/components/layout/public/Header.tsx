@@ -12,8 +12,8 @@ const NAV_LINKS = [
   { href: '/#hero',     key: 'home'     },
   { href: '/products', key: 'products' },
   { href: '/about',    key: 'about'    },
-  { href: '/#services', key: 'services' },
-  { href: '/#gallery',  key: 'gallery'  },
+  { href: '/services', key: 'services' },
+  { href: '/gallery',  key: 'gallery'  },
   { href: '/contact',  key: 'contact'  },
 ] as const;
 
@@ -38,6 +38,8 @@ export default function Header() {
     if (pathname !== '/') {
       if (pathname.includes('/about')) setActive('about');
       else if (pathname.includes('/products')) setActive('products');
+      else if (pathname.includes('/services')) setActive('services');
+      else if (pathname.includes('/gallery')) setActive('gallery');
       else if (pathname.includes('/contact')) setActive('contact');
       return;
     }
@@ -58,6 +60,24 @@ export default function Header() {
 
   const handleNavClick = useCallback((href: string, e?: React.MouseEvent) => {
     setMenuOpen(false);
+
+    if (href === '/services' && pathname === '/') {
+      const el = document.getElementById('services');
+      if (el) {
+        if (e) e.preventDefault();
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return;
+      }
+    }
+
+    if (href === '/gallery' && pathname === '/') {
+      const el = document.getElementById('gallery');
+      if (el) {
+        if (e) e.preventDefault();
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return;
+      }
+    }
     
     if (href.startsWith('/#')) {
       const hash = href.replace('/#', '');

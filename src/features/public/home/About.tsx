@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useEnquiry } from '@/contexts/EnquiryContext';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { t } from '@/constants/translations';
 import { ArrowRight, Tractor, HardHat, Truck, Building2, Car, Factory } from 'lucide-react';
@@ -15,7 +16,8 @@ const STATS = [
 ];
 
 export default function About() {
-  const { tx } = useLanguage();
+  const { lang, tx } = useLanguage();
+  const { openEnquiry } = useEnquiry();
   const leftRef  = useScrollReveal();
   const rightRef = useScrollReveal(0.1);
 
@@ -98,10 +100,17 @@ export default function About() {
             </div>
 
             <button suppressHydrationWarning
-              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+              onClick={() => {
+                const el = document.getElementById('contact');
+                if (el) {
+                  el.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                  openEnquiry(lang === 'en' ? 'General Enquiry' : 'सामान्य पूछताछ');
+                }
+              }}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-primary
                 text-white font-semibold font-rajdhani shadow-primary hover:shadow-primary-lg
-                hover:-translate-y-0.5 transition-all duration-200"
+                hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
             >
               {tx(t.about.cta)} <ArrowRight size={16} />
             </button>

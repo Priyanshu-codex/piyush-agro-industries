@@ -12,8 +12,8 @@ const QUICK_LINKS = [
   { href: '/',         enLabel: 'Home',         hiLabel: 'होम' },
   { href: '/products', enLabel: 'Products',     hiLabel: 'उत्पाद' },
   { href: '/about',    enLabel: 'About Us',     hiLabel: 'हमारे बारे में' },
-  { href: '/#services',enLabel: 'Services',     hiLabel: 'सेवाएं' },
-  { href: '/#gallery', enLabel: 'Gallery',      hiLabel: 'गैलरी' },
+  { href: '/services', enLabel: 'Services',     hiLabel: 'सेवाएं' },
+  { href: '/gallery',  enLabel: 'Gallery',      hiLabel: 'गैलरी' },
   { href: '/contact',  enLabel: 'Contact',      hiLabel: 'संपर्क' },
 ];
 
@@ -27,11 +27,11 @@ const PRODUCT_LINKS = [
 ];
 
 const SERVICE_LINKS = [
-  { href: '/#services', enLabel: 'Vehicle Fabrication',   hiLabel: 'वाहन फेब्रिकेशन' },
-  { href: '/#services', enLabel: 'Vehicle Repairing',     hiLabel: 'वाहन मरम्मत' },
-  { href: '/#services', enLabel: 'Welding Services',      hiLabel: 'वेल्डिंग सेवाएं' },
-  { href: '/#services', enLabel: 'Vehicle Modification',  hiLabel: 'वाहन संशोधन' },
-  { href: '#quote',     enLabel: 'Get Free Quote',        hiLabel: 'मुफ्त कोटेशन' },
+  { href: '/services/vehicle-fabrication', enLabel: 'Vehicle Fabrication',   hiLabel: 'वाहन फेब्रिकेशन' },
+  { href: '/services/vehicle-repairing',   enLabel: 'Vehicle Repairing',     hiLabel: 'वाहन मरम्मत' },
+  { href: '/services/welding-services',    enLabel: 'Welding Services',      hiLabel: 'वेल्डिंग सेवाएं' },
+  { href: '/services/vehicle-modification',enLabel: 'Vehicle Modification',  hiLabel: 'वाहन संशोधन' },
+  { href: '#quote',                        enLabel: 'Get Free Quote',        hiLabel: 'मुफ्त कोटेशन' },
 ];
 
 export default function Footer() {
@@ -40,7 +40,19 @@ export default function Footer() {
   const pathname = usePathname();
 
   const handleHashClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (href.startsWith('/#') || href.startsWith('#')) {
+    if (href === '/services' && pathname === '/') {
+      const el = document.getElementById('services');
+      if (el) {
+        e.preventDefault();
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else if (href === '/gallery' && pathname === '/') {
+      const el = document.getElementById('gallery');
+      if (el) {
+        e.preventDefault();
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else if (href.startsWith('/#') || href.startsWith('#')) {
       const hash = href.replace('/#', '').replace('#', '');
       if (pathname === '/') {
         e.preventDefault();
@@ -81,8 +93,8 @@ export default function Footer() {
             <div className="flex gap-2.5 mt-5">
               {[
                 { icon: <MessageCircle size={16} />, href: 'https://wa.me/919425245291', label: 'WhatsApp' },
-                { icon: <Facebook size={16} />,       href: '#',                          label: 'Facebook' },
-                { icon: <Instagram size={16} />,      href: '#',                          label: 'Instagram' },
+                { icon: <Facebook size={16} />,       href: 'https://facebook.com/piyushagro', label: 'Facebook' },
+                { icon: <Instagram size={16} />,      href: 'https://instagram.com/piyushagro', label: 'Instagram' },
                 { icon: <Phone size={16} />,           href: 'tel:9425245291',             label: 'Call' },
               ].map(({ icon, href, label }) => (
                 <a
