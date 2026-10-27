@@ -25,12 +25,26 @@ export const t = {
     cta2:        { en: 'WhatsApp',       hi: 'व्हाट्सएप' },
     cta3:        { en: 'Get Free Quote', hi: 'मुफ्त कोटेशन' },
     cta4:        { en: 'View Products',  hi: 'उत्पाद देखें' },
-    stat1Num:    { en: 'Agri', hi: 'कृषि' },
-    stat1Label:  { en: 'Equipment Solutions', hi: 'उपकरण समाधान' },
-    stat2Num:    { en: 'Custom', hi: 'कस्टम' },
-    stat2Label:  { en: 'Fabrication Solutions', hi: 'फेब्रिकेशन समाधान' },
-    stat3Num:    { en: 'CG', hi: 'CG' },
-    stat3Label:  { en: 'Serving Chhattisgarh', hi: 'छत्तीसगढ़ में सेवा' },
+    stat1Num:    { en: '15+',            hi: '15+' },
+    stat1Label:  { en: 'Years Experience', hi: 'वर्षों का अनुभव' },
+    stat2Num:    { en: '500+',           hi: '500+' },
+    stat2Label:  { en: 'Satisfied Clients', hi: 'संतुष्ट ग्राहक' },
+    stat3Num:    { en: '100%',           hi: '100%' },
+    stat3Label:  { en: 'Quality Assurance', hi: 'गुणवत्ता आश्वासन' },
+    refEyebrow:   { en: 'AGRICULTURE SOLUTIONS | COMMERCIAL VEHICLE SUPPORT | A STRONGER TOMORROW', hi: 'कृषि समाधान | वाणिज्यिक वाहन सहयोग | एक सशक्त कल' },
+    refHeading1:  { en: 'Powering Agriculture', hi: 'कृषि को गति' },
+    refHeading2:  { en: 'and Keeping Your', hi: 'और आपके' },
+    refHeading3:  { en: 'Trucks & Buses Moving', hi: 'ट्रक व बसों को निरंतर अग्रसर' },
+    refSubtitle:  {
+      en: 'Piyush Agro Industries delivers quality agricultural products and is associated with SML Mahindra to provide reliable commercial vehicle servicing support.',
+      hi: 'पियूष एग्रो इंडस्ट्रीज गुणवत्तापूर्ण कृषि उत्पाद प्रदान करता है एवं एसएमएल महिंद्रा के साथ संबद्ध होकर कमर्शियल वाहन सर्विस सहायता उपलब्ध कराता है।',
+    },
+    highlight1:   { en: 'Quality Agri Products', hi: 'गुणवत्तापूर्ण कृषि उत्पाद' },
+    highlight2:   { en: 'Commercial Vehicle Servicing', hi: 'कमर्शियल वाहन सर्विसिंग' },
+    highlight3:   { en: 'Trusted Association', hi: 'विश्वसनीय सहयोग' },
+    highlight4:   { en: 'Customer Focused Support', hi: 'ग्राहक केंद्रित सहायता' },
+    refCta1:      { en: 'Explore Our Services', hi: 'हमारी सेवाएं देखें' },
+    refCta2:      { en: 'Enquire About Vehicle Servicing', hi: 'वाहन सर्विसिंग के लिए पूछताछ करें' },
   },
 
   // TRUST BAR
@@ -91,6 +105,71 @@ export const t = {
     mfgTitle:   { en: 'We Manufacture',      hi: 'हम बनाते हैं' },
     agriTitle:  { en: 'Agricultural Equipment', hi: 'कृषि उपकरण' },
     addTitle:   { en: 'Additional Services', hi: 'अतिरिक्त सेवाएं' },
+  },
+
+  // SML MAHINDRA
+  sml: {
+    badge:                  { en: 'Commercial Vehicle Support', hi: 'वाणिज्यिक वाहन सहयोग एवं सर्विस' },
+    assocBadge:             { en: 'Associated with SML Mahindra Limited', hi: 'एसएमएल महिंद्रा लिमिटेड के साथ संबद्ध' },
+    title:                  { en: 'SML Mahindra', hi: 'एसएमएल महिंद्रा' },
+    titleHL:                { en: 'Commercial Vehicle Service', hi: 'कमर्शियल वाहन सर्विस' },
+    subtitle:               {
+      en: 'Associated with SML Mahindra Limited for commercial vehicle servicing and customer support. Piyush Agro Industries provides dedicated servicing and maintenance support to help commercial truck and bus operators keep their vehicles operating reliably.',
+      hi: 'कमर्शियल वाहन सर्विसिंग और ग्राहक सहायता के लिए एसएमएल महिंद्रा लिमिटेड के साथ संबद्ध। पियूष एग्रो इंडस्ट्रीज कमर्शियल ट्रक और बस ऑपरेटरों को उनके वाहनों के सुचारू व विश्वसनीय संचालन में सहायता के लिए समर्पित सर्विसिंग और रखरखाव सहायता प्रदान करता है।'
+    },
+    trucksCategory:         { en: 'Commercial Trucks', hi: 'वाणिज्यिक ट्रक' },
+    trucksModel:            { en: 'SML Samrat GS Series', hi: 'एसएमएल सम्राट जीएस सीरीज' },
+    trucksDesc:             {
+      en: 'Routine servicing, chassis & tipping subframe check, engine diagnostics support, and brake overhaul for commercial haulage trucks.',
+      hi: 'कमर्शियल ढुलाई ट्रकों के लिए नियमित सर्विसिंग, चेसिस व टिपिंग सबफ्रेम जांच, इंजन डायग्नोस्टिक्स सहायता और ब्रेक ओवरहाल।'
+    },
+    busesCategory:          { en: 'Passenger & School Buses', hi: 'पैसेंजर एवं स्कूल बसें' },
+    busesModel:             { en: 'SML S7 School & Passenger Buses', hi: 'एसएमएल एस7 स्कूल एवं पैसेंजर बसें' },
+    busesDesc:              {
+      en: 'Comprehensive maintenance, passenger safety inspection, suspension balancing, and preventive servicing for institutional and fleet buses.',
+      hi: 'संस्थागत और फ्लीट बसों के लिए व्यापक रखरखाव, यात्री सुरक्षा निरीक्षण, सस्पेंशन संतुलन और निवारक सर्विसिंग।'
+    },
+    servicesOffered:        { en: 'Commercial Vehicle Services Provided', hi: 'प्रदान की जाने वाली वाहन सर्विस सुविधाएं' },
+    svc1:                   { en: 'Commercial vehicle servicing and maintenance', hi: 'कमर्शियल वाहन सर्विसिंग एवं रखरखाव' },
+    svc2:                   { en: 'Vehicle inspection and troubleshooting', hi: 'वाहन निरीक्षण एवं तकनीकी खराबी निवारण' },
+    svc3:                   { en: 'Repairs and technical support', hi: 'मरम्मत एवं तकनीकी सहायता' },
+    svc4:                   { en: 'Spare-parts assistance, if available', hi: 'स्पेयर पार्ट्स सहायता (उपलब्धता अनुसार)' },
+    svc5:                   { en: 'Preventive maintenance and periodic servicing', hi: 'निवारक रखरखाव एवं आवधिक सर्विसिंग' },
+    ctaBtn:                 { en: 'Enquire About Vehicle Servicing', hi: 'वाहन सर्विसिंग के लिए पूछताछ करें' },
+    bookBtn:                { en: 'Book a Service', hi: 'सर्विस बुक करें' },
+    callBtn:                { en: 'Call for Service', hi: 'सर्विस के लिए कॉल करें' },
+    waBtn:                  { en: 'WhatsApp Service Support', hi: 'व्हाट्सएप सर्विस सहायता' },
+    disclaimer:             {
+      en: 'Associated with SML Mahindra Limited for commercial vehicle servicing and customer support. Workshop servicing and technical assistance is provided by Piyush Agro Industries. For official dealership vehicle sales or factory warranty claims, kindly connect with authorized manufacturer channels.',
+      hi: 'वाणिज्यिक वाहन सर्विसिंग और ग्राहक सहायता के लिए एसएमएल महिंद्रा लिमिटेड के साथ संबद्ध। कार्यशाला सर्विसिंग और तकनीकी सहायता पियूष एग्रो इंडस्ट्रीज द्वारा प्रदान की जाती है। आधिकारिक डीलरशिप नए वाहन बिक्री या फैक्टरी वारंटी दावों के लिए अधिकृत निर्माता चैनलों से संपर्क करें।'
+    },
+    galleryBadge:           { en: 'Commercial Vehicle Range', hi: 'कमर्शियल वाहन रेंज' },
+    gallerySubtitle:        {
+      en: 'Genuine SML Mahindra commercial trucks and passenger buses supported at our Rajnandgaon workshop',
+      hi: 'हमारी राजनांदगांव कार्यशाला में समर्थित वास्तविक एसएमएल महिंद्रा कमर्शियल ट्रक और यात्री बसें'
+    },
+    allModels:              { en: 'All Fleet', hi: 'सभी वाहन' },
+    trucksTab:              { en: 'Commercial Trucks', hi: 'कमर्शियल ट्रक' },
+    busesTab:               { en: 'Passenger & School Buses', hi: 'पैसेंजर व स्कूल बस' },
+    enquireModel:           { en: 'Book Service', hi: 'सर्विस बुक करें' },
+    // Form and Booking Modal strings
+    modalTitle:             { en: 'Book Vehicle Service', hi: 'वाहन सर्विस बुक करें' },
+    modalSub:               { en: 'Associated with SML Mahindra Limited for commercial vehicle servicing and customer support', hi: 'कमर्शियल वाहन सर्विसिंग और ग्राहक सहायता के लिए एसएमएल महिंद्रा लिमिटेड के साथ संबद्ध' },
+    nameLabel:              { en: 'Customer / Owner Name *', hi: 'ग्राहक / मालिक का नाम *' },
+    phoneLabel:             { en: 'Phone Number *', hi: 'फोन नंबर *' },
+    modelLabel:             { en: 'Vehicle Model *', hi: 'वाहन मॉडल *' },
+    modelPH:                { en: 'e.g. SML Samrat GS, SML S7 Bus, Sartaj', hi: 'उदा. एसएमएल सम्राट जीएस, एस7 बस, सरताज' },
+    regLabel:               { en: 'Registration Number (Optional)', hi: 'पंजीकरण संख्या (वैकल्पिक)' },
+    regPH:                  { en: 'e.g. CG 08 AB 1234', hi: 'उदा. CG 08 AB 1234' },
+    reqLabel:               { en: 'Service Requirement *', hi: 'सर्विस आवश्यकता *' },
+    dateLabel:              { en: 'Preferred Appointment Date', hi: 'पसंदीदा अपॉइंटमेंट तिथि' },
+    notesLabel:             { en: 'Additional Notes / Problem Symptoms', hi: 'अतिरिक्त विवरण / समस्या के लक्षण' },
+    submitBooking:          { en: 'Book Service Appointment', hi: 'सर्विस अपॉइंटमेंट बुक करें' },
+    bookingSuccess:         { en: 'Vehicle Service Request Received!', hi: 'वाहन सर्विस अनुरोध प्राप्त हुआ!' },
+    bookingSuccessMsg:      {
+      en: 'Thank you for contacting Piyush Agro Industries. Our commercial vehicle support team will review your booking and call you shortly to confirm your service slot.',
+      hi: 'पियूष एग्रो इंडस्ट्रीज से संपर्क करने के लिए धन्यवाद। हमारी कमर्शियल वाहन टीम आपकी बुकिंग की समीक्षा करेगी और आपकी सर्विस स्लॉट की पुष्टि के लिए शीघ्र कॉल करेगी।'
+    },
   },
 
   // WHY US
@@ -313,6 +392,7 @@ export const SERVICE_OPTIONS = [
   { value: 'cultivator',        label: 'Cultivator / कल्टीवेटर' },
   { value: 'custom-fabrication',label: 'Custom Fabrication / कस्टम फेब्रिकेशन' },
   { value: 'vehicle-repair',    label: 'Vehicle Repairing / वाहन मरम्मत' },
+  { value: 'sml-vehicle-service', label: 'SML Mahindra Vehicle Servicing / एसएमएल महिंद्रा वाहन सर्विस' },
   { value: 'other',             label: 'Other / अन्य' },
 ];
 

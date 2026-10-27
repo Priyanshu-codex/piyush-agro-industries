@@ -84,8 +84,13 @@ export default function GalleryAdminPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {items.map((item) => (
             <div key={item.id} className="group relative border border-slate-200 rounded-2xl overflow-hidden bg-white hover:shadow-lg hover:border-slate-300 transition-all duration-300">
-              <div className="w-full h-48 relative overflow-hidden bg-gradient-to-br from-primary-700 to-primary-900 flex items-center justify-center">
-                <span className="text-4xl">🖼️</span>
+              <div className="w-full h-48 relative overflow-hidden bg-slate-100 flex items-center justify-center">
+                {item.imageUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={item.imageUrl} alt={item.label?.en || 'Gallery Image'} className="w-full h-full object-cover" />
+                ) : (
+                  <span className="text-4xl">🖼️</span>
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 transition-opacity duration-300"></div>
                 
                 <button suppressHydrationWarning 
@@ -123,7 +128,7 @@ export default function GalleryAdminPage() {
               </button>
             </div>
             
-            <div className="p-6 overflow-y-auto space-y-4 flex-1">
+            <div className="p-6 overflow-y-auto space-y-4 flex-1 scrollbar-dropdown">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Image <span className="text-red-500">*</span></label>
                 <ImageUpload 

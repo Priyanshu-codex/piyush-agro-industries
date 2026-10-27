@@ -198,3 +198,44 @@ export function FAQPageJsonLd({ items }: { items: { question: string; answer: st
     />
   );
 }
+
+export function CommercialVehicleServiceJsonLd() {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': `${BASE_URL}/#sml-service`,
+    name: 'SML Mahindra Commercial Vehicle Service',
+    serviceType: 'Commercial Vehicle Servicing & Maintenance',
+    description: 'Commercial vehicle servicing, maintenance, diagnostics, and repairs for trucks and buses in association with SML Mahindra Limited at Piyush Agro Industries, Rajnandgaon, Chhattisgarh.',
+    provider: {
+      '@type': 'LocalBusiness',
+      '@id': `${BASE_URL}/#localbusiness`,
+      name: 'Piyush Agro Industries',
+      telephone: '+91-9425245291',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'Khairagarh Road, Thelkadih',
+        addressLocality: 'Rajnandgaon',
+        addressRegion: 'Chhattisgarh',
+        postalCode: '491441',
+        addressCountry: 'IN',
+      },
+    },
+    areaServed: [
+      { '@type': 'AdministrativeArea', name: 'Rajnandgaon' },
+      { '@type': 'AdministrativeArea', name: 'Durg' },
+      { '@type': 'AdministrativeArea', name: 'Bhilai' },
+      { '@type': 'AdministrativeArea', name: 'Raipur' },
+      { '@type': 'AdministrativeArea', name: 'Chhattisgarh' },
+    ],
+    termsOfService: `${BASE_URL}/#sml-service`,
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+

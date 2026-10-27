@@ -6,6 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { t, MEGA_MENU, MEGA_MENU_CTA } from '@/constants/translations';
 import { Phone, Menu, X, ChevronDown, ArrowRight, MapPin, MessageCircle } from 'lucide-react';
+import Image from 'next/image';
 import PiyushAgroLogo from '@/components/branding/PiyushAgroLogo';
 
 const NAV_LINKS = [
@@ -44,10 +45,14 @@ export default function Header() {
       return;
     }
 
-    const ids = ['hero', 'products', 'services', 'gallery', 'faq', 'contact'];
+    const ids = ['hero', 'products', 'services', 'sml-service', 'gallery', 'faq', 'contact'];
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((e) => { if (e.isIntersecting) setActive(e.target.id); });
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            setActive(e.target.id === 'sml-service' ? 'services' : e.target.id);
+          }
+        });
       },
       { rootMargin: '-40% 0px -55% 0px' }
     );
@@ -100,8 +105,8 @@ export default function Header() {
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
           scrolled
-            ? 'shadow-lg shadow-gray-100/40 bg-white/90 backdrop-blur-md border-gray-200/50'
-            : 'bg-white border-transparent'
+            ? 'shadow-lg shadow-gray-100/40 bg-white/95 backdrop-blur-md border-gray-200/60'
+            : 'bg-white border-gray-100 shadow-2xs'
         }`}
       >
         {/* ── Top bar ── */}
@@ -132,14 +137,29 @@ export default function Header() {
         </div>
 
         {/* ── Main Nav ── */}
-        <nav className="relative max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
-          {/* Logo + Brand Text */}
-          <Link
-            href="/"
-            className="flex items-center shrink min-w-0 max-w-[70%] sm:max-w-none h-full py-1.5"
-          >
-            <PiyushAgroLogo variant="horizontal" mode="light" size="md" />
-          </Link>
+        <nav className="relative max-w-7xl mx-auto px-3 sm:px-4 h-16 flex items-center justify-between gap-2 sm:gap-4">
+          {/* Logo + SML Partner Brand (matching reference image header) */}
+          <div className="flex items-center gap-2 sm:gap-3 shrink min-w-0 max-w-[65%] xs:max-w-[72%] sm:max-w-none h-full py-1.5">
+            <Link
+              href="/"
+              className="flex items-center shrink min-w-0"
+            >
+              <PiyushAgroLogo variant="horizontal" mode="light" size="md" />
+            </Link>
+            <div className="h-6 w-px bg-gray-300 hidden sm:block" />
+            <div className="hidden sm:flex items-center gap-1.5 pl-0.5">
+              <div className="h-6 w-16 relative overflow-hidden shrink-0">
+                <Image
+                  src="/images/sml-mahindra/sml-mahindra-logo.png"
+                  alt="SML Mahindra"
+                  fill
+                  sizes="64px"
+                  className="object-contain"
+                  priority
+                />
+              </div>
+            </div>
+          </div>
 
           {/* Desktop links */}
           <ul className="hidden lg:flex items-center gap-0.5">
@@ -164,7 +184,7 @@ export default function Header() {
                       {/* Invisible hover bridge to prevent unexpected closing */}
                       <div className="absolute -top-4 left-0 right-0 h-6 bg-transparent" />
                       
-                      <div className="bg-white rounded-[1.5rem] shadow-2xl border border-gray-100 p-6 max-h-[85vh] overflow-y-auto cursor-default ring-1 ring-black/5 relative">
+                      <div className="bg-white rounded-[1.5rem] shadow-2xl border border-gray-100 p-6 max-h-[85vh] overflow-y-auto cursor-default ring-1 ring-black/5 relative scrollbar-dropdown">
                         <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-6">
                           {MEGA_MENU.map((col, idx) => (
                             <div key={idx} className="space-y-2.5">
@@ -220,14 +240,14 @@ export default function Header() {
           </ul>
 
           {/* Right actions */}
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
             {/* Language toggle */}
             <div className="flex bg-gray-100 rounded-full p-0.5 gap-0.5">
               {(['en', 'hi'] as const).map((l) => (
                 <button suppressHydrationWarning
                   key={l}
                   onClick={() => setLang(l)}
-                  className={`px-3 py-1 rounded-full text-xs font-bold transition-all duration-200 cursor-pointer ${
+                  className={`px-2.5 sm:px-3 py-1 rounded-full text-[11px] sm:text-xs font-bold transition-all duration-200 cursor-pointer ${
                     lang === l
                       ? 'bg-gradient-primary text-white shadow-sm'
                       : 'text-gray-500 hover:text-gray-700'
@@ -254,9 +274,9 @@ export default function Header() {
               onClick={() => setMenuOpen((v) => !v)}
               aria-label="Toggle mobile menu"
               aria-expanded={menuOpen}
-              className="lg:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors cursor-pointer"
+              className="lg:hidden p-1.5 sm:p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors cursor-pointer"
             >
-              {menuOpen ? <X size={22} /> : <Menu size={22} />}
+              {menuOpen ? <X size={20} className="sm:w-[22px] sm:h-[22px]" /> : <Menu size={20} className="sm:w-[22px] sm:h-[22px]" />}
             </button>
           </div>
         </nav>
@@ -295,7 +315,7 @@ export default function Header() {
           </div>
 
           {/* Links */}
-          <nav className="flex-1 p-4 overflow-y-auto">
+          <nav className="flex-1 p-4 overflow-y-auto scrollbar-dropdown">
             <ul className="space-y-1.5">
               {NAV_LINKS.map(({ href, key }) => {
                 const isActive = activeSection === href.replace('/#', '').replace('/', '');
