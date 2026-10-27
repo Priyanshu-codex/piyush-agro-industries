@@ -3,6 +3,7 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
+import Image from 'next/image';
 import { LanguageProvider, useLanguage } from '@/contexts/LanguageContext';
 import { EnquiryProvider, useEnquiry } from '@/contexts/EnquiryContext';
 import { DataProvider } from '@/contexts/DataContext';
@@ -195,6 +196,52 @@ function ServicesContent() {
               </div>
             );
           })}
+        </div>
+
+        {/* ── SML MAHINDRA SERVICING SPOTLIGHT BANNER ── */}
+        <div className="mt-12 bg-white rounded-3xl border border-gray-200/80 shadow-card p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
+          <div className="flex-1">
+            <div className="flex flex-wrap items-center gap-2.5 mb-3">
+              <div className="h-7 w-20 relative overflow-hidden rounded bg-white border border-gray-200 p-0.5">
+                <Image
+                  src="/images/sml-mahindra/sml-mahindra-logo.png"
+                  alt="SML Mahindra Limited"
+                  fill
+                  className="object-contain"
+                />
+              </div>
+              <span className="px-3 py-0.5 rounded-full bg-red-50 text-[#E31837] text-[11px] font-bold font-rajdhani uppercase tracking-wider border border-red-100">
+                {lang === 'en' ? 'Associated with SML Mahindra Limited' : 'एसएमएल महिंद्रा लिमिटेड के साथ संबद्ध'}
+              </span>
+            </div>
+            <h3 className="text-2xl sm:text-3xl font-bold font-rajdhani text-gray-900 mb-2">
+              {lang === 'en' ? 'SML Mahindra Commercial Vehicle Service' : 'एसएमएल महिंद्रा कमर्शियल वाहन सर्विस'}
+            </h3>
+            <p className="text-gray-600 text-xs sm:text-sm leading-relaxed max-w-2xl">
+              {lang === 'en'
+                ? 'Associated with SML Mahindra Limited for commercial vehicle servicing and customer support. Workshop inspection, troubleshooting, maintenance, and technical repairs for commercial haulage trucks and school/passenger buses.'
+                : 'कमर्शियल वाहन सर्विसिंग और ग्राहक सहायता के लिए एसएमएल महिंद्रा लिमिटेड के साथ संबद्ध। कमर्शियल ट्रकों और स्कूल/पैसेंजर बसों के लिए कार्यशाला निरीक्षण, खराबी निवारण, रखरखाव और तकनीकी मरम्मत।'}
+            </p>
+          </div>
+          <div className="flex flex-wrap sm:flex-nowrap items-center gap-3 shrink-0 w-full md:w-auto">
+            <Link
+              href="/#sml-service"
+              className="w-full sm:w-auto py-3 px-5 rounded-xl bg-gray-900 hover:bg-[#E31837] text-white font-bold font-rajdhani text-xs sm:text-sm transition-colors text-center flex items-center justify-center gap-1.5"
+            >
+              <span>{lang === 'en' ? 'Explore SML Services' : 'एसएमएल सेवाएं देखें'}</span>
+              <ArrowRight size={14} />
+            </Link>
+            <button
+              suppressHydrationWarning
+              onClick={() => openEnquiry(
+                lang === 'en' ? 'SML Mahindra Commercial Vehicle Service' : 'एसएमएल महिंद्रा कमर्शियल वाहन सर्विस',
+                { isVehicleService: true }
+              )}
+              className="w-full sm:w-auto py-3 px-5 rounded-xl bg-[#E31837] hover:bg-[#C8102E] text-white font-bold font-rajdhani text-xs sm:text-sm shadow-md transition-all text-center cursor-pointer"
+            >
+              {lang === 'en' ? 'Book a Service' : 'सर्विस बुक करें'}
+            </button>
+          </div>
         </div>
       </section>
 

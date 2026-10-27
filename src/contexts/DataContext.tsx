@@ -255,14 +255,24 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
         await saveGalleryItem(g.id, { ...g, displayOrder: 10, status: 'active' });
       }
 
-      let fIdx = 0;
+      let fOrder = 1;
       for (const f of staticFaqItems) {
-        await supabase.from('faqs').upsert({ id: `faq${fIdx++}`, ...f });
+        await supabase.from('faqs').insert([{
+          question: f.question,
+          answer: f.answer,
+          display_order: fOrder++,
+        }]);
       }
 
-      let tIdx = 0;
+      let tOrder = 1;
       for (const t of staticTestimonials) {
-        await supabase.from('testimonials').upsert({ id: `test${tIdx++}`, ...t, displayOrder: 10 });
+        await supabase.from('testimonials').insert([{
+          name: t.name,
+          role: t.role,
+          content: t.text,
+          rating: t.rating || 5,
+          display_order: tOrder++,
+        }]);
       }
 
       await saveSettings('homepage', defaultHomepageSettings);

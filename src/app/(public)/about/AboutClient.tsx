@@ -1,6 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { LanguageProvider, useLanguage } from '@/contexts/LanguageContext';
 import { EnquiryProvider } from '@/contexts/EnquiryContext';
 import { DataProvider } from '@/contexts/DataContext';
@@ -81,7 +82,7 @@ function PageContent() {
         />
         <div className="relative max-w-7xl mx-auto px-4 text-center">
           <div className="flex items-center justify-center gap-2 text-white/75 text-sm font-semibold mb-3">
-            <a href="/" className="hover:text-white transition-colors">Home</a>
+            <Link href="/" className="hover:text-white transition-colors">Home</Link>
             <ChevronRight size={14} />
             <span className="text-white">About Us</span>
           </div>

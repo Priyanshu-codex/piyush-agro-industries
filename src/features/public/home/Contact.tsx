@@ -4,32 +4,47 @@ import { useState, useCallback } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { t, SERVICE_OPTIONS } from '@/constants/translations';
-import { FieldError, ErrorToast, FirebaseConfigWarning } from '@/components/ui/ErrorIndicator';
+import { FieldError, ErrorToast, SupabaseConfigWarning } from '@/components/ui/ErrorIndicator';
 import { submitInquiry } from '@/services/enquiryService';
 import type { InquiryFormData, FormErrors, SubmitStatus } from '@/types';
 import { Phone, MapPin, MessageCircle, Send, Loader2, AlertTriangle, CheckCircle2 } from 'lucide-react';
 
-const EMPTY_FORM: InquiryFormData = { name: '', phone: '', email: '', service: '', message: '' };
+const EMPTY_FORM = {
+  name: '',
+  phone: '',
+  email: '',
+  service: '',
+  message: '',
+  vehicleModel: '',
+  regNumber: '',
+  preferredDate: '',
+};
 
 export default function Contact() {
   const { lang, tx } = useLanguage();
-  const [form, setForm]             = useState<InquiryFormData>(EMPTY_FORM);
-  const [errors, setErrors]         = useState<FormErrors>({});
+  const [form, setForm]             = useState(EMPTY_FORM);
+  const [errors, setErrors]         = useState<Record<string, string | undefined>>({});
   const [status, setStatus]         = useState<SubmitStatus>('idle');
   const [showFbWarning, setFbWarn]  = useState(false);
 
   const infoRef = useScrollReveal();
   const formRef = useScrollReveal();
 
+  const isVehicleService = form.service === 'sml-vehicle-service';
+  const todayStr = new Date().toISOString().split('T')[0];
+
   /* ── Validation ── */
-  const validate = useCallback((): FormErrors => {
-    const e: FormErrors = {};
+  const validate = useCallback((): Record<string, string | undefined> => {
+    const e: Record<string, string | undefined> = {};
     if (!form.name.trim()) e.name = tx(t.contact.errName);
     const phoneDigits = form.phone.replace(/\D/g, '');
     if (!phoneDigits || phoneDigits.length < 10) e.phone = tx(t.contact.errPhone);
     if (!form.service) e.service = tx(t.contact.errService);
+    if (form.service === 'sml-vehicle-service' && !form.vehicleModel.trim()) {
+      e.vehicleModel = lang === 'en' ? 'Vehicle model is required' : 'वाहन मॉडल आवश्यक है';
+    }
     return e;
-  }, [form, tx]);
+  }, [form, lang, tx]);
 
   /* ── Field change ── */
   const handleChange = (
@@ -38,8 +53,8 @@ export default function Contact() {
     const { id, value } = e.target;
     setForm((prev) => ({ ...prev, [id]: value }));
     // Clear the error for this field on change
-    if (errors[id as keyof FormErrors]) {
-      setErrors((prev) => { const next = { ...prev }; delete next[id as keyof FormErrors]; return next; });
+    if (errors[id]) {
+      setErrors((prev) => { const next = { ...prev }; delete next[id]; return next; });
     }
   };
 
@@ -57,13 +72,21 @@ export default function Contact() {
     setStatus('loading');
     setErrors({});
 
+    const formattedMessage = isVehicleService
+      ? `Vehicle Model: ${form.vehicleModel.trim()} | Reg No: ${form.regNumber.trim() || 'N/A'} | Preferred Date: ${form.preferredDate || 'Flexible'}${form.message.trim() ? ` | Message: ${form.message.trim()}` : ''}`
+      : form.message;
+
     const result = await submitInquiry({
-      ...form,
+      name: form.name.trim(),
+      phone: form.phone.trim(),
+      email: form.email.trim(),
+      service: isVehicleService ? 'SML Mahindra Commercial Vehicle Service' : form.service,
+      message: formattedMessage,
       language: lang,
-      source: 'website',
+      source: isVehicleService ? 'sml_contact_form' : 'website',
       status: 'new',
-      userAgent: navigator.userAgent,
-    });
+      userAgent: typeof window !== 'undefined' ? navigator.userAgent : 'Server',
+    } as any);
 
     if (result.success) {
       setStatus('success');
@@ -266,6 +289,69 @@ export default function Contact() {
                   <FieldError message={errors.service} />
                 </div>
 
+                {/* Conditional SML Vehicle Servicing Fields */}
+                {isVehicleService && (
+                  <div className="p-4 rounded-xl bg-red-50/60 border border-red-100 mb-4 space-y-3 animate-fade-in">
+                    <div className="text-xs font-bold font-rajdhani text-[#E31837] uppercase tracking-wider flex items-center gap-1.5">
+                      <span>SML Mahindra Vehicle Servicing Details</span>
+                    </div>
+
+                    <div className="grid sm:grid-cols-2 gap-3">
+                      <div>
+                        <label htmlFor="vehicleModel" className="block text-[11px] font-semibold text-gray-700 mb-1">
+                          {tx(t.sml.modelLabel)}
+                        </label>
+                        <input
+                          id="vehicleModel"
+                          type="text"
+                          list="contact-sml-models"
+                          value={form.vehicleModel}
+                          onChange={handleChange}
+                          placeholder={tx(t.sml.modelPH)}
+                          className={`input-field bg-white ${errors.vehicleModel ? 'error' : ''}`}
+                        />
+                        <datalist id="contact-sml-models">
+                          <option value="SML Samrat GS (Commercial Truck)" />
+                          <option value="SML S7 School Bus" />
+                          <option value="SML S7 Passenger / Staff Bus" />
+                          <option value="SML Sartaj GS Series" />
+                          <option value="SML Supreme Commercial Vehicle" />
+                          <option value="Other Commercial Vehicle" />
+                        </datalist>
+                        <FieldError message={errors.vehicleModel} />
+                      </div>
+
+                      <div>
+                        <label htmlFor="regNumber" className="block text-[11px] font-semibold text-gray-700 mb-1">
+                          {tx(t.sml.regLabel)}
+                        </label>
+                        <input
+                          id="regNumber"
+                          type="text"
+                          value={form.regNumber}
+                          onChange={handleChange}
+                          placeholder={tx(t.sml.regPH)}
+                          className="input-field bg-white uppercase"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label htmlFor="preferredDate" className="block text-[11px] font-semibold text-gray-700 mb-1">
+                        {tx(t.sml.dateLabel)}
+                      </label>
+                      <input
+                        id="preferredDate"
+                        type="date"
+                        min={todayStr}
+                        value={form.preferredDate}
+                        onChange={handleChange}
+                        className="input-field bg-white"
+                      />
+                    </div>
+                  </div>
+                )}
+
                 {/* Message */}
                 <div className="mb-5">
                   <label htmlFor="message" className="block text-xs font-semibold text-gray-700 mb-1.5">
@@ -303,7 +389,7 @@ export default function Contact() {
       </div>
 
       {/* Supabase config warning (dev only) */}
-      <FirebaseConfigWarning show={showFbWarning} />
+      <SupabaseConfigWarning show={showFbWarning} />
     </section>
   );
 }

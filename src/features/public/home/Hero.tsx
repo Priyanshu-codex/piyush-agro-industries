@@ -1,418 +1,267 @@
 'use client';
 
-import { useRef, useEffect, useState } from 'react';
+import React, { useRef } from 'react';
+import Image from 'next/image';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useEnquiry } from '@/contexts/EnquiryContext';
 import { t } from '@/constants/translations';
-import { Phone, MessageCircle, FileText, LayoutGrid, Tractor, Settings, Wrench, Settings2, Droplets, Sparkles, Hammer, Sprout, type LucideIcon } from 'lucide-react';
-import type { ReactElement } from 'react';
-
-// Map floating icon id → Lucide component
-const FLOATING_ICON_COMPONENT_MAP: Record<string, LucideIcon> = {
-  tractor:        Tractor,
-  gear:           Settings,
-  wrench:         Wrench,
-  bolt:           Settings2,
-  water:          Droplets,
-  'sparkle-left': Sparkles,
-  'sparkle-right':Sparkles,
-  hammer:         Hammer,
-  seedling:       Sprout,
-};
-
-function FloatingLucideIcon({ id }: { id: string }): ReactElement {
-  const LucideComp = FLOATING_ICON_COMPONENT_MAP[id];
-  if (LucideComp) return <LucideComp size={28} />;
-  return <Wrench size={28} />;
-}
-import { ProductImage } from '@/components/ui/ProductImage';
-import { FLOATING_ICONS } from '@/constants/floatingIcons';
-
-const HERO_PRODUCTS = [
-  { icon: '🚜', en: 'Tractor Trolley', hi: 'ट्रैक्टर ट्रॉली', span: false, image: '/images/products/tractor-trolley.png', position: 'object-center' },
-  { icon: '🔧', en: 'Hydraulic Trolley', hi: 'हाइड्रोलिक ट्रॉली', span: true, image: '/images/products/4-wheel-hydraulic-trolley.png', position: 'object-center' },
-  { icon: '💧', en: 'Water Tanker', hi: 'वाटर टैंकर', span: false, image: '/images/products/water-tanker.png', position: 'object-center' },
-  { icon: '⚙️', en: 'Agri Equipment', hi: 'कृषि उपकरण', span: false, image: '/images/products/agri-equipment.png', position: 'object-center' },
-  { icon: '🔩', en: 'Fabrication', hi: 'फेब्रिकेशन', span: false, image: '/images/products/fabrication.png', position: 'object-center' },
-];
-
-const PARTICLES = [
-  { top: 15, left: 12, size: 3, delay: '0.5s', duration: '6s' },
-  { top: 25, left: 85, size: 4, delay: '2.1s', duration: '5s' },
-  { top: 40, left: 22, size: 2, delay: '1.2s', duration: '7s' },
-  { top: 55, left: 70, size: 3, delay: '3.4s', duration: '6s' },
-  { top: 72, left: 15, size: 4, delay: '0.8s', duration: '4s' },
-  { top: 80, left: 80, size: 2, delay: '2.5s', duration: '8s' },
-  { top: 10, left: 60, size: 3, delay: '1.7s', duration: '5s' },
-  { top: 90, left: 35, size: 2, delay: '0.1s', duration: '6s' },
-  { top: 62, left: 92, size: 3, delay: '4.2s', duration: '5s' },
-  { top: 32, left: 48, size: 4, delay: '1.5s', duration: '7s' },
-];
+import {
+  ArrowRight,
+  Leaf,
+  Cog,
+  Handshake,
+  Users,
+  Truck,
+  Bus,
+  ShieldCheck
+} from 'lucide-react';
 
 export default function Hero() {
   const { lang, tx } = useLanguage();
   const { openEnquiry } = useEnquiry();
-  const sectionRef = useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion();
+  const heroRef = useRef<HTMLDivElement>(null);
 
-  const scroll = (id: string) =>
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-
-  /* ── Interactive mouse-parallax handler ── */
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (shouldReduceMotion || !sectionRef.current) return;
-    const { currentTarget, clientX, clientY } = e;
-    const { left, top, width, height } = currentTarget.getBoundingClientRect();
-    const x = (clientX - left) / width - 0.5; // range: -0.5 to 0.5
-    const y = (clientY - top) / height - 0.5; // range: -0.5 to 0.5
-    sectionRef.current.style.setProperty('--mouse-x', x.toString());
-    sectionRef.current.style.setProperty('--mouse-y', y.toString());
+  const scroll = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-  const handleMouseLeave = () => {
-    if (!sectionRef.current) return;
-    sectionRef.current.style.setProperty('--mouse-x', '0');
-    sectionRef.current.style.setProperty('--mouse-y', '0');
-  };
-
-  /* ── Framer Motion Reveal Variants ── */
+  /* ── Motion Variants ── */
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.1,
+        staggerChildren: shouldReduceMotion ? 0 : 0.08,
+        delayChildren: shouldReduceMotion ? 0 : 0.05,
       },
     },
-  } as const;
+  };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 25 },
+    hidden: shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
         type: 'spring' as const,
-        damping: 22,
+        damping: 24,
         stiffness: 90,
       },
     },
-  } as const;
+  };
 
   return (
     <section
       id="hero"
-      ref={sectionRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      className="relative min-h-screen bg-gradient-hero flex items-center overflow-hidden pt-32 pb-16"
+      ref={heroRef}
+      className="relative min-h-[calc(100svh-4rem)] sm:min-h-[85vh] lg:min-h-[90vh] xl:min-h-[92vh] flex items-center overflow-hidden pt-24 pb-12 sm:pt-28 sm:pb-14 md:pt-32 md:pb-16 lg:pt-36 lg:pb-20 bg-[#F9FAFB]"
     >
-      <style>
-        {`
-          @keyframes emoji-tractor-bounce {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-2px) rotate(-1deg) translateX(1px); }
-          }
-          @keyframes emoji-gear-spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-          }
-          @keyframes emoji-trolley-bounce {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-1.5px) rotate(1deg); }
-          }
-          @keyframes emoji-tanker-bounce {
-            0%, 100% { transform: translateY(0) scaleY(1) scaleX(1); }
-            50% { transform: translateY(-2px) scaleY(1.04) scaleX(0.96); }
-          }
-          @keyframes emoji-fabrication-spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-          }
-          .animate-emoji-tractor {
-            animation: emoji-tractor-bounce 0.6s ease-in-out infinite;
-            display: inline-block;
-          }
-          .animate-emoji-gear {
-            animation: emoji-gear-spin 6s linear infinite;
-            display: inline-block;
-            transform-origin: center;
-          }
-          .animate-emoji-trolley {
-            animation: emoji-trolley-bounce 0.55s ease-in-out infinite;
-            display: inline-block;
-          }
-          .animate-emoji-tanker {
-            animation: emoji-tanker-bounce 0.5s ease-in-out infinite;
-            display: inline-block;
-          }
-          .animate-emoji-fabrication {
-            animation: emoji-fabrication-spin 5s linear infinite;
-            display: inline-block;
-            transform-origin: center;
-          }
-          @keyframes text-drift {
-            0% { transform: translateX(-3%); }
-            50% { transform: translateX(3%); }
-            100% { transform: translateX(-3%); }
-          }
-          .animate-text-drift {
-            animation: text-drift 15s ease-in-out infinite;
-            display: inline-block;
-          }
-          @media (prefers-reduced-motion: reduce) {
-            .animate-emoji-tractor,
-            .animate-emoji-gear,
-            .animate-emoji-trolley,
-            .animate-emoji-tanker,
-            .animate-emoji-fabrication,
-            .animate-text-drift {
-              animation: none !important;
-            }
-          }
-        `}
-      </style>
+      {/* ── CINEMATIC VEHICLE WORKSHOP & AGRICULTURE BACKGROUND ── */}
+      <div className="absolute inset-0 select-none z-0">
+        <Image
+          src="/images/hero/hero-cinematic-bg.webp"
+          alt="Piyush Agro Industries and SML Mahindra Commercial Vehicle Service Support Workshop"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-[70%_center] sm:object-[75%_center] md:object-[80%_center] lg:object-[84%_center]"
+        />
 
-      {/* Grid overlay */}
-      <div className="absolute inset-0 hero-grid pointer-events-none z-0" />
+        {/* Soft atmospheric white-to-transparent gradient on tablet & desktop */}
+        <div className="hidden sm:block absolute inset-0 bg-gradient-to-r from-white/95 via-white/90 via-50% to-transparent w-full lg:w-[65%] pointer-events-none" />
 
-      {/* Light sweep ray */}
-      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.015] to-transparent pointer-events-none animate-light-ray z-0" />
-
-      {/* Glowing background blobs */}
-      <div className="absolute top-1/2 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px]
-        bg-primary/20 rounded-full blur-3xl pointer-events-none animate-pulse-slow z-0" />
-      <div
-        className="absolute top-1/3 right-1/4 w-80 h-80 bg-accent/15 rounded-full blur-3xl pointer-events-none animate-pulse-slow z-0"
-        style={{ animationDelay: '2s' }}
-      />
-
-      {/* Twinkling particle stars */}
-      <div className="absolute inset-0 pointer-events-none select-none overflow-hidden z-0">
-        {PARTICLES.map((p, i) => (
-          <div
-            key={i}
-            className="absolute bg-white/25 rounded-full animate-pulse-slow"
-            style={{
-              top: `${p.top}%`,
-              left: `${p.left}%`,
-              width: `${p.size}px`,
-              height: `${p.size}px`,
-              animationDelay: p.delay,
-              animationDuration: p.duration,
-            }}
-          />
-        ))}
+        {/* High-legibility atmospheric gradient on mobile viewports */}
+        <div className="sm:hidden absolute inset-0 bg-gradient-to-b from-white/95 via-white/92 to-white/85 pointer-events-none" />
       </div>
 
-      {/* Floating moving icons */}
-      <div className="absolute inset-0 pointer-events-none select-none overflow-hidden z-0">
-        {FLOATING_ICONS.map((icon) => (
-          <div
-            key={icon.id}
-            className={`absolute parallax-layer ${icon.className} ${icon.animationClass}`}
-            style={{
-              '--parallax-factor': `${icon.parallaxFactor}px`,
-              animationDelay: icon.delay,
-            } as React.CSSProperties}
-          >
-            <FloatingLucideIcon id={icon.id} />
-          </div>
-        ))}
-      </div>
+      {/* ── HERO CONTENT WRAPPER ── */}
+      <div className="relative z-10 max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 w-full">
+        <div className="grid lg:grid-cols-12 gap-6 sm:gap-8 items-center">
 
-      {/* Ghost text watermark */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden z-0">
-        <span className="text-[10vw] font-bold text-white/[0.025] whitespace-nowrap font-rajdhani tracking-widest select-none animate-text-drift">
-          पियूष एग्रो
-        </span>
-      </div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-4 w-full">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-
-          {/* ── Left: Text ── */}
+          {/* Left Column: Text & Features (matching reference layout) */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="flex flex-col"
+            className="lg:col-span-7 xl:col-span-7 flex flex-col justify-center"
           >
-            {/* Badge */}
-            <motion.div
-              variants={itemVariants}
-              className="inline-flex self-start items-center gap-2 px-4 py-1.5 rounded-full
-                bg-primary/25 border border-primary/40 text-white/90 text-xs font-semibold
-                uppercase tracking-widest mb-6"
-            >
-              <span className="text-brand-green">✦</span>
-              {tx(t.hero.badge)}
+
+            {/* Eyebrow Text */}
+            <motion.div variants={itemVariants} className="mb-2 sm:mb-3">
+              <span className="inline-block text-[10px] xs:text-[11px] sm:text-xs font-bold uppercase tracking-wider sm:tracking-[0.18em] text-gray-700 font-rajdhani leading-snug">
+                {tx(t.hero.refEyebrow)}
+              </span>
             </motion.div>
 
-            {/* Title */}
-            <motion.h1 variants={itemVariants} className="mb-4">
-              <span className="block gradient-text font-bold leading-tight text-3.5xl sm:text-4.5xl font-noto mb-1" style={{ fontFamily: "'Noto Sans Devanagari', sans-serif" }}>
-                पियूष एग्रो इंडस्ट्रीज
-              </span>
-              <span className="block text-white font-rajdhani font-bold leading-none text-4xl sm:text-5xl lg:text-6xl">
-                {lang === 'hi' ? 'राजनांदगांव, छत्तीसगढ़' : 'Piyush Agro\nIndustries'}
-              </span>
+            {/* Main Headline */}
+            <motion.h1
+              variants={itemVariants}
+              className="font-extrabold text-gray-900 tracking-tight leading-[1.12] sm:leading-[1.08] text-2.5xl xs:text-3xl sm:text-4xl md:text-[46px] lg:text-[54px] xl:text-[58px] mb-3.5 sm:mb-5 font-rajdhani break-words"
+            >
+              <span className="block sm:inline">{tx(t.hero.refHeading1)}</span>{' '}
+              <span className="block sm:inline">{tx(t.hero.refHeading2)}</span>{' '}
+              <span className="block sm:inline text-[#E31837]">{tx(t.hero.refHeading3)}</span>
             </motion.h1>
 
-            {/* Subtitle */}
+            {/* Supporting Description */}
             <motion.p
               variants={itemVariants}
-              className="text-white/75 text-base sm:text-lg leading-relaxed max-w-xl mb-8"
+              className="text-gray-700 text-xs xs:text-sm sm:text-base leading-relaxed max-w-xl mb-5 sm:mb-7 font-medium"
             >
-              {tx(t.hero.subtitle)}
+              {tx(t.hero.refSubtitle)}
             </motion.p>
 
-            {/* CTA Buttons */}
-            <motion.div variants={itemVariants} className="flex flex-wrap gap-3 mb-10">
-              <motion.a
-                href="tel:9425245291"
-                whileHover={{ y: -2, scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="inline-flex justify-center w-full sm:w-auto items-center gap-2 px-6 py-3 rounded-xl bg-gradient-primary
-                  text-white font-semibold font-rajdhani shadow-primary hover:shadow-primary-lg
-                  transition-all duration-250"
+            {/* Four Service Highlights (Direct outline icons matching reference design) */}
+            <motion.div
+              variants={itemVariants}
+              className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-4 mb-6 sm:mb-8 py-2.5 sm:py-3.5 border-y border-gray-300/80 max-w-xl lg:max-w-2xl bg-white/50 sm:bg-transparent backdrop-blur-[2px] sm:backdrop-blur-none rounded-xl p-2.5 sm:p-0"
+            >
+              {/* 1. Quality Agri Products */}
+              <div className="flex flex-col items-center text-center group cursor-default p-1 sm:p-0">
+                <Leaf
+                  size={22}
+                  strokeWidth={1.8}
+                  className="text-gray-800 mb-1.5 sm:mb-2 sm:w-[26px] sm:h-[26px] transition-transform duration-200 group-hover:scale-110 group-hover:text-primary shrink-0"
+                />
+                <span className="text-[11px] sm:text-xs md:text-[13px] font-bold text-gray-800 leading-tight font-rajdhani">
+                  {tx(t.hero.highlight1)}
+                </span>
+              </div>
+
+              {/* 2. Commercial Vehicle Servicing */}
+              <div className="flex flex-col items-center text-center group cursor-default p-1 sm:p-0">
+                <Cog
+                  size={22}
+                  strokeWidth={1.8}
+                  className="text-gray-800 mb-1.5 sm:mb-2 sm:w-[26px] sm:h-[26px] transition-transform duration-200 group-hover:scale-110 group-hover:text-[#E31837] shrink-0"
+                />
+                <span className="text-[11px] sm:text-xs md:text-[13px] font-bold text-gray-800 leading-tight font-rajdhani">
+                  {tx(t.hero.highlight2)}
+                </span>
+              </div>
+
+              {/* 3. Trusted Association */}
+              <div className="flex flex-col items-center text-center group cursor-default p-1 sm:p-0">
+                <Handshake
+                  size={22}
+                  strokeWidth={1.8}
+                  className="text-gray-800 mb-1.5 sm:mb-2 sm:w-[26px] sm:h-[26px] transition-transform duration-200 group-hover:scale-110 group-hover:text-primary shrink-0"
+                />
+                <span className="text-[11px] sm:text-xs md:text-[13px] font-bold text-gray-800 leading-tight font-rajdhani">
+                  {tx(t.hero.highlight3)}
+                </span>
+              </div>
+
+              {/* 4. Customer Focused Support */}
+              <div className="flex flex-col items-center text-center group cursor-default p-1 sm:p-0">
+                <Users
+                  size={22}
+                  strokeWidth={1.8}
+                  className="text-gray-800 mb-1.5 sm:mb-2 sm:w-[26px] sm:h-[26px] transition-transform duration-200 group-hover:scale-110 group-hover:text-[#E31837] shrink-0"
+                />
+                <span className="text-[11px] sm:text-xs md:text-[13px] font-bold text-gray-800 leading-tight font-rajdhani">
+                  {tx(t.hero.highlight4)}
+                </span>
+              </div>
+            </motion.div>
+
+            {/* Call to Action Buttons */}
+            <motion.div
+              variants={itemVariants}
+              className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-3.5 mb-2 w-full sm:w-auto"
+            >
+              {/* Button 1: Explore Our Services */}
+              <motion.button
+                suppressHydrationWarning
+                onClick={() => scroll('services')}
+                whileHover={shouldReduceMotion ? undefined : { y: -2, scale: 1.02 }}
+                whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3 sm:py-3.5 rounded-xl bg-[#E31837] hover:bg-[#C8102E] text-white font-bold font-rajdhani text-sm sm:text-base shadow-md shadow-red-950/20 hover:shadow-red-950/30 transition-all duration-200 cursor-pointer min-h-[44px]"
               >
-                <Phone size={16} /> {tx(t.hero.cta1)}
-              </motion.a>
-              <motion.a
-                href="https://wa.me/919425245291?text=Hello%2C%20interested%20in%20your%20products"
-                target="_blank" rel="noopener noreferrer"
-                whileHover={{ y: -2, scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="inline-flex justify-center w-full sm:w-auto items-center gap-2 px-6 py-3 rounded-xl bg-gradient-whatsapp
-                  text-white font-semibold font-rajdhani transition-all duration-250
-                  shadow-[0_4px_15px_rgba(37,211,102,0.3)]"
-              >
-                <MessageCircle size={16} /> {tx(t.hero.cta2)}
-              </motion.a>
-              <motion.button suppressHydrationWarning
-                onClick={() => openEnquiry(lang === 'en' ? 'General Enquiry' : 'सामान्य पूछताछ')}
-                whileHover={{ y: -2, scale: 1.02, backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
-                whileTap={{ scale: 0.98 }}
-                className="inline-flex justify-center w-full sm:w-auto items-center gap-2 px-6 py-3 rounded-xl border-2 border-white/60
-                  text-white font-semibold font-rajdhani transition-all duration-250"
-              >
-                <FileText size={16} /> {tx(t.hero.cta3)}
+                <span>{tx(t.hero.refCta1)}</span>
+                <ArrowRight size={17} className="shrink-0" />
               </motion.button>
-              <motion.button suppressHydrationWarning
-                onClick={() => scroll('products')}
-                whileHover={{ y: -2, scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="inline-flex justify-center w-full sm:w-auto items-center gap-2 px-6 py-3 rounded-xl
-                  bg-brand-amber text-white font-semibold font-rajdhani transition-all duration-250
-                  shadow-[0_4px_15px_rgba(245,158,11,0.3)]"
+
+              {/* Button 2: Enquire About Vehicle Servicing */}
+              <motion.button
+                suppressHydrationWarning
+                onClick={() => openEnquiry(
+                  lang === 'en' ? 'SML Mahindra Commercial Vehicle Service' : 'एसएमएल महिंद्रा कमर्शियल वाहन सर्विस',
+                  { isVehicleService: true }
+                )}
+                whileHover={shouldReduceMotion ? undefined : { y: -2, scale: 1.02 }}
+                whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3 sm:py-3.5 rounded-xl bg-white/80 hover:bg-white text-gray-900 font-bold font-rajdhani text-sm sm:text-base border border-gray-400 hover:border-gray-800 backdrop-blur-sm transition-all duration-200 cursor-pointer shadow-xs min-h-[44px]"
               >
-                <LayoutGrid size={16} /> {tx(t.hero.cta4)}
+                <span className="text-center">{tx(t.hero.refCta2)}</span>
               </motion.button>
             </motion.div>
 
-            {/* Capability Highlights */}
+            {/* Mobile Visual Preview Card (Truck & Bus visible on narrow mobile viewports) */}
             <motion.div
               variants={itemVariants}
-              className="flex flex-wrap gap-6 sm:gap-8 pt-8 border-t border-white/15"
+              className="mt-5 sm:hidden bg-white/95 backdrop-blur-md rounded-2xl p-2.5 sm:p-3 border border-gray-200 shadow-sm w-full"
             >
-              {[
-                { num: t.hero.stat1Num, label: t.hero.stat1Label },
-                { num: t.hero.stat2Num, label: t.hero.stat2Label },
-                { num: t.hero.stat3Num, label: t.hero.stat3Label },
-              ].map(({ num, label }, i) => (
-                <div key={i}>
-                  <div className="text-xl sm:text-2xl font-bold text-brand-green font-rajdhani leading-none">
-                    {tx(num)}
-                  </div>
-                  <div className="text-[11px] text-white/70 uppercase tracking-wide mt-1.5">
-                    {tx(label)}
-                  </div>
+              <div className="flex items-center justify-between gap-2 mb-2 pb-1.5 border-b border-gray-200">
+                <span className="text-xs font-bold font-rajdhani text-gray-900 flex items-center gap-1.5">
+                  <ShieldCheck size={14} className="text-[#E31837] shrink-0" />
+                  <span>SML Mahindra Workshop</span>
+                </span>
+                <span className="text-[10px] font-bold uppercase text-[#E31837] bg-red-50 border border-red-200 px-1.5 py-0.5 rounded font-rajdhani shrink-0">
+                  Rajnandgaon
+                </span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2">
+                <div
+                  onClick={() => openEnquiry(
+                    lang === 'en' ? 'SML Mahindra Commercial Truck Servicing' : 'एसएमएल महिंद्रा कमर्शियल ट्रक सर्विसिंग',
+                    { isVehicleService: true, vehicleModel: 'SML Samrat GS Series' }
+                  )}
+                  className="relative aspect-[16/10] rounded-xl overflow-hidden border border-gray-200 bg-gray-50 cursor-pointer group active:scale-[0.98] transition-transform"
+                >
+                  <Image
+                    src="/images/sml-mahindra/sml-mahindra-truck.webp"
+                    alt="SML Mahindra Samrat GS Commercial Truck"
+                    fill
+                    sizes="(max-width: 640px) 45vw, 250px"
+                    className="object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                  <span className="absolute bottom-1.5 left-2 text-white text-[10px] font-bold font-rajdhani drop-shadow">
+                    SML Samrat Truck
+                  </span>
                 </div>
-              ))}
+
+                <div
+                  onClick={() => openEnquiry(
+                    lang === 'en' ? 'SML Mahindra Passenger Bus Servicing' : 'एसएमएल महिंद्रा पैसेंजर बस सर्विसिंग',
+                    { isVehicleService: true, vehicleModel: 'SML S7 School & Passenger Buses' }
+                  )}
+                  className="relative aspect-[16/10] rounded-xl overflow-hidden border border-gray-200 bg-gray-50 cursor-pointer group active:scale-[0.98] transition-transform"
+                >
+                  <Image
+                    src="/images/sml-mahindra/sml-mahindra-bus.webp"
+                    alt="SML Mahindra S7 Passenger and School Bus"
+                    fill
+                    sizes="(max-width: 640px) 45vw, 250px"
+                    className="object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                  <span className="absolute bottom-1.5 left-2 text-white text-[10px] font-bold font-rajdhani drop-shadow">
+                    SML S7 Bus
+                  </span>
+                </div>
+              </div>
             </motion.div>
           </motion.div>
 
-          {/* ── Right: Product showcase ── */}
-          <div className="hidden lg:block z-10">
-            <div className="grid grid-cols-2 gap-3">
-              {HERO_PRODUCTS.map((p, i) => {
-                let animClass = '';
-                if (p.en === 'Tractor Trolley') animClass = 'animate-emoji-tractor';
-                else if (p.en === 'Agri Equipment') animClass = 'animate-emoji-gear';
-                else if (p.en === 'Hydraulic Trolley') animClass = 'animate-emoji-trolley';
-                else if (p.en === 'Water Tanker') animClass = 'animate-emoji-tanker';
-                else if (p.en === 'Fabrication') animClass = 'animate-emoji-fabrication';
-
-                return (
-                  <motion.div
-                    key={i}
-                    onClick={() => scroll('products')}
-                    whileHover={{ y: -4, scale: 1.02, borderColor: 'rgba(74, 222, 128, 0.5)' }}
-                    whileTap={{ scale: 0.98 }}
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.35 + i * 0.08, duration: 0.6, type: 'spring', damping: 20 }}
-                    className={`relative overflow-hidden rounded-2xl cursor-pointer transition-all duration-300 border border-white/20 shadow-lg group h-32 flex flex-col justify-end p-3.5 bg-black/30 ${p.span ? 'col-span-2' : ''}`}
-                  >
-                    <ProductImage
-                      src={p.image}
-                      alt={p.en}
-                      fill
-                      objectFit="cover"
-                      objectPosition={p.position || 'object-center'}
-                      fallbackIcon={p.icon}
-                      className="rounded-2xl"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-black/10 z-[1] transition-opacity duration-300 group-hover:from-black/80" />
-                    <div className="relative z-10 flex items-center justify-between">
-                      <div className="text-white text-sm font-bold font-rajdhani drop-shadow-md">
-                        {lang === 'hi' ? p.hi : p.en}
-                      </div>
-                      <span className="text-xs text-brand-green font-bold opacity-0 group-hover:opacity-100 transition-opacity translate-x-1 group-hover:translate-x-0 duration-200">View →</span>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
-
-            {/* Quick contact bar */}
-            <motion.div
-              initial={{ opacity: 0, y: 25 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8, duration: 0.6, type: 'spring', damping: 22 }}
-              className="mt-4 glass-card rounded-2xl p-4 flex items-center justify-between gap-4"
-            >
-              <div>
-                <div className="text-white/60 text-xs mb-0.5">Call or WhatsApp</div>
-                <div className="text-white font-bold font-rajdhani text-sm">9425245291</div>
-              </div>
-              <div className="h-8 w-px bg-white/15" />
-              <div>
-                <div className="text-white/60 text-xs mb-0.5">Location</div>
-                <div className="text-white font-bold font-rajdhani text-sm">Rajnandgaon, CG</div>
-              </div>
-              <motion.a
-                href="tel:9425245291"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                className="flex-shrink-0 px-4 py-2 rounded-lg bg-gradient-primary text-white
-                  text-sm font-semibold font-rajdhani transition-all duration-200"
-              >
-                Call Now
-              </motion.a>
-            </motion.div>
-          </div>
+          {/* Right Column: Spacious photographic staging area for the background SML vehicles & workshop */}
+          <div className="hidden lg:block lg:col-span-4 xl:col-span-5 pointer-events-none" />
 
         </div>
-      </div>
-
-      {/* Scroll indicator */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 animate-pulse z-10">
-        <div className="w-px h-8 bg-gradient-to-b from-transparent via-white/40 to-transparent" />
-        <div className="w-1.5 h-1.5 rounded-full bg-white/40 animate-bounce" />
       </div>
     </section>
   );

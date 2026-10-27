@@ -52,8 +52,9 @@ export function ImageUpload({ bucket, folder = 'misc', value, onChange, label, c
       {label && <label className="block text-sm font-medium text-slate-700">{label}</label>}
       <div className="flex items-center gap-4">
         {value ? (
-          <div className="relative w-32 h-32 rounded-xl border border-slate-200 bg-slate-100 flex flex-col items-center justify-center text-xs font-semibold text-slate-500 overflow-hidden group">
-            <span className="truncate max-w-[100px] px-2">Uploaded Asset</span>
+          <div className="relative w-32 h-32 rounded-xl border border-slate-200 bg-slate-100 overflow-hidden group">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={value} alt="Preview" className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
               <button 
                 type="button" 
@@ -145,8 +146,9 @@ export function MultiImageUpload({ bucket, folder = 'misc', value, onChange, lab
       {label && <label className="block text-sm font-medium text-slate-700">{label}</label>}
       <div className="flex flex-wrap items-center gap-4">
         {value?.map((url, idx) => (
-          <div key={idx} className="relative w-24 h-24 rounded-xl border border-slate-200 bg-slate-100 flex items-center justify-center text-[10px] font-semibold text-slate-500 overflow-hidden group shrink-0">
-            <span>Asset #{idx + 1}</span>
+          <div key={idx} className="relative w-24 h-24 rounded-xl border border-slate-200 bg-slate-100 overflow-hidden group shrink-0">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={url} alt={`Asset ${idx + 1}`} className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
               <button 
                 type="button" 

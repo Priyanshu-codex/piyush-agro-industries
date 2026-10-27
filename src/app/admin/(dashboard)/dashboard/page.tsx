@@ -10,6 +10,7 @@ export default function DashboardPage() {
     products: 0,
     categories: 0,
     inquiries: 0,
+    gallery: 0,
   });
 
   useEffect(() => {
@@ -28,10 +29,15 @@ export default function DashboardPage() {
         .from('inquiries')
         .select('*', { count: 'exact', head: true });
 
+      const { count: galleryCount } = await supabase
+        .from('gallery')
+        .select('*', { count: 'exact', head: true });
+
       setStats({
         products: productsCount || 0,
         categories: categoriesCount || 0,
         inquiries: inquiriesCount || 0,
+        gallery: galleryCount || 0,
       });
     }
 
@@ -42,7 +48,7 @@ export default function DashboardPage() {
     { name: 'Total Products', value: stats.products, icon: Package, href: '/admin/products', color: 'text-blue-600', bgColor: 'bg-blue-100/50', border: 'border-blue-100' },
     { name: 'Total Categories', value: stats.categories, icon: FolderTree, href: '/admin/categories', color: 'text-purple-600', bgColor: 'bg-purple-100/50', border: 'border-purple-100' },
     { name: 'Total Enquiries', value: stats.inquiries, icon: ClipboardList, href: '/admin/orders', color: 'text-green-600', bgColor: 'bg-green-100/50', border: 'border-green-100' },
-    { name: 'Monthly Views', value: '1,234', icon: TrendingUp, href: '#', color: 'text-orange-600', bgColor: 'bg-orange-100/50', border: 'border-orange-100' },
+    { name: 'Gallery Photos', value: stats.gallery, icon: ImageIcon, href: '/admin/gallery', color: 'text-orange-600', bgColor: 'bg-orange-100/50', border: 'border-orange-100' },
   ];
 
   return (

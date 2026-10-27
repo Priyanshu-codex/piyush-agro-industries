@@ -29,6 +29,7 @@ const PRODUCT_LINKS = [
 const SERVICE_LINKS = [
   { href: '/services/vehicle-fabrication', enLabel: 'Vehicle Fabrication',   hiLabel: 'वाहन फेब्रिकेशन' },
   { href: '/services/vehicle-repairing',   enLabel: 'Vehicle Repairing',     hiLabel: 'वाहन मरम्मत' },
+  { href: '/#sml-service',                 enLabel: 'SML Mahindra Vehicle Service', hiLabel: 'एसएमएल महिंद्रा वाहन सर्विस' },
   { href: '/services/welding-services',    enLabel: 'Welding Services',      hiLabel: 'वेल्डिंग सेवाएं' },
   { href: '/services/vehicle-modification',enLabel: 'Vehicle Modification',  hiLabel: 'वाहन संशोधन' },
   { href: '#quote',                        enLabel: 'Get Free Quote',        hiLabel: 'मुफ्त कोटेशन' },

@@ -115,14 +115,14 @@ export function ErrorToast({
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// 3. Firebase / configuration warning banner (shown in development)
+// 3. Supabase configuration warning banner (shown in development)
 // ─────────────────────────────────────────────────────────────────────────────
 
 interface ConfigWarningProps {
   show: boolean;
 }
 
-export function FirebaseConfigWarning({ show }: ConfigWarningProps) {
+export function SupabaseConfigWarning({ show }: ConfigWarningProps) {
   const [dismissed, setDismissed] = useState(false);
 
   if (!show || dismissed) return null;
@@ -138,11 +138,7 @@ export function FirebaseConfigWarning({ show }: ConfigWarningProps) {
         <div className="flex-1 min-w-0">
           <p className="font-bold text-amber-800 text-sm">Supabase Not Configured</p>
           <p className="text-amber-700 text-xs mt-0.5 leading-relaxed">
-            Add your credentials to{' '}
-            <code className="bg-amber-100 px-1 rounded text-amber-900 font-mono">
-              lib/supabase/client.ts
-            </code>{' '}
-            or{' '}
+            Add your Supabase credentials to{' '}
             <code className="bg-amber-100 px-1 rounded text-amber-900 font-mono">
               .env.local
             </code>
@@ -159,3 +155,7 @@ export function FirebaseConfigWarning({ show }: ConfigWarningProps) {
     </div>
   );
 }
+
+// Backwards-compatibility alias
+export const FirebaseConfigWarning = SupabaseConfigWarning;
+

@@ -49,7 +49,16 @@ export default function AdminCategoriesPage() {
 
   const openEditModal = (cat: any) => {
     setEditingId(cat.slug);
-    let nameObj = typeof cat.name === 'string' ? JSON.parse(cat.name) : (cat.name || {});
+    let nameObj: any = {};
+    if (typeof cat.name === 'string') {
+      try {
+        nameObj = JSON.parse(cat.name);
+      } catch {
+        nameObj = { en: cat.name, hi: cat.name };
+      }
+    } else {
+      nameObj = cat.name || {};
+    }
     setFormData({
       slug: cat.slug,
       nameEn: nameObj.en || '',
@@ -156,7 +165,7 @@ export default function AdminCategoriesPage() {
               <button suppressHydrationWarning type="button" onClick={() => setShowModal(false)} className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"><X size={20} /></button>
             </div>
             
-            <form onSubmit={saveCategory} className="flex-1 overflow-y-auto p-6 space-y-6">
+            <form onSubmit={saveCategory} className="flex-1 overflow-y-auto p-6 space-y-6 scrollbar-dropdown">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1.5">Name (English) <span className="text-red-500">*</span></label>
                 <input suppressHydrationWarning required value={formData.nameEn} onChange={e => setFormData({...formData, nameEn: e.target.value})} className="block w-full rounded-xl border border-slate-200 px-4 py-2.5 text-sm focus:border-primary/50 focus:ring-2 focus:ring-primary/20 outline-none transition-all" placeholder="e.g. Tractors" />

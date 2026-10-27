@@ -105,14 +105,166 @@
   animation: shake 0.4s ease;
 }
 
-/* ─── Custom scrollbar ──────────────────────────────────────────────────────── */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #f5f7fa; }
-::-webkit-scrollbar-thumb {
-  background: #0B7A3B;
-  border-radius: 3px;
+/* ─── Scrollbar System (Theme-Matched & Root Cause Fix) ─────────────────────── */
+:root {
+  --scrollbar-width: 6px;
+  --scrollbar-track: #f1f5f9;
+  --scrollbar-thumb: #cbd5e1;
+  --scrollbar-thumb-hover: #94a3b8;
+  --scrollbar-thumb-active: #64748b;
 }
-::-webkit-scrollbar-thumb:hover { background: #065F2E; }
+
+/* Universal thin scrollbar for Firefox & modern standards */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb, #cbd5e1) var(--scrollbar-track, #f1f5f9);
+}
+
+/* Webkit scrollbars (Chrome, Edge, Safari, Opera) */
+::-webkit-scrollbar {
+  width: var(--scrollbar-width, 6px);
+  height: var(--scrollbar-width, 6px);
+}
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track, #f1f5f9);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb, #cbd5e1);
+  border-radius: 9999px;
+  transition: background-color 0.15s ease-in-out;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover, #94a3b8);
+}
+::-webkit-scrollbar-thumb:active {
+  background: var(--scrollbar-thumb-active, #64748b);
+}
+
+/* ── Form Controls & Dropdown Lists (clean neutral slate) ─────────────────── */
+select,
+textarea,
+input,
+.input-field,
+[role="listbox"],
+[role="menu"] {
+  --scrollbar-track: #f8fafc;
+  --scrollbar-thumb: #cbd5e1;
+  --scrollbar-thumb-hover: #94a3b8;
+  --scrollbar-thumb-active: #64748b;
+  scrollbar-color: #cbd5e1 #f8fafc;
+}
+
+select::-webkit-scrollbar-track,
+textarea::-webkit-scrollbar-track,
+input::-webkit-scrollbar-track,
+.input-field::-webkit-scrollbar-track {
+  background: #f8fafc;
+}
+select::-webkit-scrollbar-thumb,
+textarea::-webkit-scrollbar-thumb,
+input::-webkit-scrollbar-thumb,
+.input-field::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+}
+select::-webkit-scrollbar-thumb:hover,
+textarea::-webkit-scrollbar-thumb:hover,
+input::-webkit-scrollbar-thumb:hover,
+.input-field::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+select::-webkit-scrollbar-thumb:active,
+textarea::-webkit-scrollbar-thumb:active,
+input::-webkit-scrollbar-thumb:active,
+.input-field::-webkit-scrollbar-thumb:active {
+  background: #64748b;
+}
+
+/* ── Red / SML Mahindra Vehicle Button Scheme ────────────────────────────── */
+/* Matches #E31837 button background, #C8102E hover, #991B1B active */
+.scrollbar-vehicle,
+.scrollbar-red {
+  --scrollbar-track: #fef2f2;
+  --scrollbar-thumb: #ef4444;
+  --scrollbar-thumb-hover: #dc2626;
+  --scrollbar-thumb-active: #991b1b;
+  scrollbar-color: #ef4444 #fef2f2;
+}
+.scrollbar-vehicle::-webkit-scrollbar-track,
+.scrollbar-red::-webkit-scrollbar-track {
+  background: #fef2f2;
+}
+.scrollbar-vehicle::-webkit-scrollbar-thumb,
+.scrollbar-red::-webkit-scrollbar-thumb {
+  background: #ef4444;
+}
+.scrollbar-vehicle::-webkit-scrollbar-thumb:hover,
+.scrollbar-red::-webkit-scrollbar-thumb:hover {
+  background: #dc2626;
+}
+.scrollbar-vehicle::-webkit-scrollbar-thumb:active,
+.scrollbar-red::-webkit-scrollbar-thumb:active {
+  background: #991b1b;
+}
+
+/* ── Primary Brand Green Button Scheme ───────────────────────────────────── */
+/* Matches #0B7A3B primary button background, #065F2E hover */
+.scrollbar-primary,
+.scrollbar-agri {
+  --scrollbar-track: #f0fdf4;
+  --scrollbar-thumb: #86efac;
+  --scrollbar-thumb-hover: #16a34a;
+  --scrollbar-thumb-active: #0b7a3b;
+  scrollbar-color: #86efac #f0fdf4;
+}
+.scrollbar-primary::-webkit-scrollbar-track,
+.scrollbar-agri::-webkit-scrollbar-track {
+  background: #f0fdf4;
+}
+.scrollbar-primary::-webkit-scrollbar-thumb,
+.scrollbar-agri::-webkit-scrollbar-thumb {
+  background: #86efac;
+}
+.scrollbar-primary::-webkit-scrollbar-thumb:hover,
+.scrollbar-agri::-webkit-scrollbar-thumb:hover {
+  background: #16a34a;
+}
+.scrollbar-primary::-webkit-scrollbar-thumb:active,
+.scrollbar-agri::-webkit-scrollbar-thumb:active {
+  background: #0b7a3b;
+}
+
+/* ── Neutral Dropdown & Modal Scrollbar Scheme ───────────────────────────── */
+/* Matches white cards, borders, and neutral/gray button triggers */
+.custom-scrollbar,
+.scrollbar-dropdown,
+.scrollbar-neutral {
+  --scrollbar-track: #f8fafc;
+  --scrollbar-thumb: #cbd5e1;
+  --scrollbar-thumb-hover: #94a3b8;
+  --scrollbar-thumb-active: #64748b;
+  scrollbar-color: #cbd5e1 #f8fafc;
+}
+.custom-scrollbar::-webkit-scrollbar-track,
+.scrollbar-dropdown::-webkit-scrollbar-track,
+.scrollbar-neutral::-webkit-scrollbar-track {
+  background: #f8fafc;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb,
+.scrollbar-dropdown::-webkit-scrollbar-thumb,
+.scrollbar-neutral::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover,
+.scrollbar-dropdown::-webkit-scrollbar-thumb:hover,
+.scrollbar-neutral::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:active,
+.scrollbar-dropdown::-webkit-scrollbar-thumb:active,
+.scrollbar-neutral::-webkit-scrollbar-thumb:active {
+  background: #64748b;
+}
 
 /* ─── Hide scrollbar utility ────────────────────────────────────────────────── */
 .hide-scrollbar {
@@ -200,6 +352,28 @@
 .animate-pulse-slow { animation: pulseSlow 5.5s ease-in-out infinite; }
 .animate-light-ray { animation: lightRaySweep 16s ease-in-out infinite alternate; }
 
+/* ─── Infinite Industrial Marquee ────────────────────────────────────────── */
+@keyframes marqueeScroll {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-marquee-infinite {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: marqueeScroll 50s linear infinite;
+}
+
+.animate-marquee-infinite:hover,
+.marquee-container:hover .animate-marquee-infinite {
+  animation-play-state: paused;
+}
+
 /* Prefers-reduced-motion Accessibility Rule */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -208,6 +382,7 @@
   .animate-rotate-slow,
   .animate-pulse-slow,
   .animate-light-ray,
+  .animate-marquee-infinite,
   .wa-pulse,
   .scroll-reveal {
     animation: none !important;

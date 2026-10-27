@@ -72,8 +72,13 @@ export default function AdminProductsPage() {
               ) : products.map((p) => (
                 <tr key={p.slug} className="hover:bg-slate-50/80 transition-colors group">
                   <td className="px-6 py-4">
-                    <div className="w-12 h-12 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-400">
-                      <ImageIcon size={20} />
+                    <div className="w-12 h-12 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-400 overflow-hidden relative">
+                      {p.thumbnail ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={p.thumbnail} alt={getTitle(p.title)} className="w-full h-full object-contain p-1" />
+                      ) : (
+                        <ImageIcon size={20} />
+                      )}
                     </div>
                   </td>
                   <td className="px-6 py-4 font-medium text-slate-900">

@@ -166,19 +166,30 @@ BEGIN
 END $$;
 
 ----------------------------------------------------------
--- 7. ROW LEVEL SECURITY POLICIES
+-- 7. ROW LEVEL SECURITY POLICIES (PRODUCTION-GRADE)
 ----------------------------------------------------------
 
--- PUBLIC ALL ACCESS (To allow Admin Panel to work without auth restrictions for now)
-CREATE POLICY "Public all categories"    ON public.categories   FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "Public all products"      ON public.products     FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "Public all gallery"       ON public.gallery      FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "Public all faqs"          ON public.faqs         FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "Public all testimonials"  ON public.testimonials FOR ALL USING (true) WITH CHECK (true);
-CREATE POLICY "Public all settings"      ON public.settings     FOR ALL USING (true) WITH CHECK (true);
+-- PUBLIC READ ACCESS (Visitors can read public content)
+CREATE POLICY "Public read categories"    ON public.categories   FOR SELECT USING (true);
+CREATE POLICY "Public read products"      ON public.products     FOR SELECT USING (true);
+CREATE POLICY "Public read gallery"       ON public.gallery      FOR SELECT USING (true);
+CREATE POLICY "Public read faqs"          ON public.faqs         FOR SELECT USING (true);
+CREATE POLICY "Public read testimonials"  ON public.testimonials FOR SELECT USING (true);
+CREATE POLICY "Public read settings"      ON public.settings     FOR SELECT USING (true);
 
--- PUBLIC SUBMISSION (INSERT ONLY)
+-- AUTHENTICATED ADMIN FULL ACCESS (Only authenticated staff can modify catalog/settings)
+CREATE POLICY "Admin manage categories"   ON public.categories   FOR ALL TO authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Admin manage products"     ON public.products     FOR ALL TO authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Admin manage gallery"      ON public.gallery      FOR ALL TO authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Admin manage faqs"         ON public.faqs         FOR ALL TO authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Admin manage testimonials" ON public.testimonials FOR ALL TO authenticated USING (true) WITH CHECK (true);
+CREATE POLICY "Admin manage settings"     ON public.settings     FOR ALL TO authenticated USING (true) WITH CHECK (true);
+
+-- INQUIRIES ACCESS CONTROL
+-- Public users can submit inquiries (INSERT only)
 CREATE POLICY "Public submit inquiries"   ON public.inquiries    FOR INSERT WITH CHECK (true);
+-- Authenticated admins can view and manage all inquiries
+CREATE POLICY "Admin manage inquiries"    ON public.inquiries    FOR ALL TO authenticated USING (true) WITH CHECK (true);
 
 ----------------------------------------------------------
 -- 8. STORAGE
@@ -203,9 +214,13 @@ BEGIN
     END LOOP;
 END $$;
 
--- Public all access to product images and brochures (For admin uploads without auth)
-CREATE POLICY "Public All Images" ON storage.objects FOR ALL USING (bucket_id = 'product-images') WITH CHECK (bucket_id = 'product-images');
-CREATE POLICY "Public All Brochures" ON storage.objects FOR ALL USING (bucket_id = 'brochures') WITH CHECK (bucket_id = 'brochures');
+-- Public read access to media buckets
+CREATE POLICY "Public Read Product Images" ON storage.objects FOR SELECT USING (bucket_id = 'product-images');
+CREATE POLICY "Public Read Brochures" ON storage.objects FOR SELECT USING (bucket_id = 'brochures');
+
+-- Authenticated admin full access for uploads, modifications and deletions
+CREATE POLICY "Admin Manage Product Images" ON storage.objects FOR ALL TO authenticated USING (bucket_id = 'product-images') WITH CHECK (bucket_id = 'product-images');
+CREATE POLICY "Admin Manage Brochures" ON storage.objects FOR ALL TO authenticated USING (bucket_id = 'brochures') WITH CHECK (bucket_id = 'brochures');
 
 ----------------------------------------------------------
 -- 9. SEED DATA

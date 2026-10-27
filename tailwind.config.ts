@@ -11,6 +11,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        'xs': '380px',
+      },
       fontSize: {
         'xs': ['0.8125rem', { lineHeight: '1.125rem' }],
         'sm': ['0.9375rem', { lineHeight: '1.375rem' }],

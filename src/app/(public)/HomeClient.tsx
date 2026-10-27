@@ -13,6 +13,7 @@ import Hero from '@/features/public/home/Hero';
 const TrustBar = dynamic(() => import('@/features/public/home/TrustBar'));
 const Products = dynamic(() => import('@/features/public/products/Products'));
 const Services = dynamic(() => import('@/features/public/home/Services'));
+const SMLMahindraSection = dynamic(() => import('@/features/public/home/SMLMahindraSection'));
 const WhyUs = dynamic(() => import('@/features/public/home/WhyUs'));
 const Process = dynamic(() => import('@/features/public/home/Process'));
 const Gallery = dynamic(() => import('@/features/public/products/Gallery'));
@@ -28,11 +29,12 @@ export default function HomeClient() {
       <DataProvider>
         <EnquiryProvider>
           <ErrorBoundary>
-            <main className="relative">
+            <main className="relative overflow-x-hidden w-full max-w-full">
               <Header />
               <Hero />
               <TrustBar />
               <Products />
+              <SMLMahindraSection />
               <Services />
               <Gallery />
               <WhyUs />
