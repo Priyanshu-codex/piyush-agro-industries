@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import { EnquiryProvider } from '@/contexts/EnquiryContext';
 import { DataProvider } from '@/contexts/DataContext';
+import { SMLShowcaseProvider } from '@/contexts/SMLShowcaseContext';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
 
 import Header from '@/components/layout/public/Header';
@@ -22,14 +23,16 @@ const FAQ = dynamic(() => import('@/features/public/home/FAQ'));
 const Contact = dynamic(() => import('@/features/public/home/Contact'));
 const Footer = dynamic(() => import('@/components/layout/public/Footer'));
 const FloatingButtons = dynamic(() => import('@/components/ui/FloatingButtons'), { ssr: false });
+const SMLVehicleDiscoveryModal = dynamic(() => import('@/components/sml/SMLVehicleDiscoveryModal'), { ssr: false });
 
 export default function HomeClient() {
   return (
     <LanguageProvider>
       <DataProvider>
         <EnquiryProvider>
-          <ErrorBoundary>
-            <main className="relative overflow-x-hidden w-full max-w-full">
+          <SMLShowcaseProvider>
+            <ErrorBoundary>
+              <main className="relative overflow-x-hidden w-full max-w-full">
               <Header />
               <Hero />
               <TrustBar />
@@ -44,10 +47,12 @@ export default function HomeClient() {
               <Contact />
               <Footer />
               <FloatingButtons />
+              <SMLVehicleDiscoveryModal />
             </main>
           </ErrorBoundary>
-        </EnquiryProvider>
-      </DataProvider>
-    </LanguageProvider>
-  );
+        </SMLShowcaseProvider>
+      </EnquiryProvider>
+    </DataProvider>
+  </LanguageProvider>
+);
 }

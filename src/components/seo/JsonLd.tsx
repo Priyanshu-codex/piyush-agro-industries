@@ -29,7 +29,7 @@ export function OrganizationJsonLd() {
       },
       {
         '@type': 'ContactPoint',
-        telephone: '+91-9479244691',
+        telephone: '+91-8319634646',
         contactType: 'customer support',
         areaServed: ['IN-CT', 'IN'],
         availableLanguage: ['en', 'hi'],

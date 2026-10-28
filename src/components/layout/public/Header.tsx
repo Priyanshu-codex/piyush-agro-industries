@@ -5,9 +5,24 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { t, MEGA_MENU, MEGA_MENU_CTA } from '@/constants/translations';
-import { Phone, Menu, X, ChevronDown, ArrowRight, MapPin, MessageCircle } from 'lucide-react';
+import { 
+  Phone, 
+  Menu, 
+  X, 
+  ChevronDown, 
+  ArrowRight, 
+  MapPin, 
+  MessageCircle,
+  Truck,
+  Bus,
+  ShieldCheck,
+  Users,
+  HardHat,
+  ArrowUpRight
+} from 'lucide-react';
 import Image from 'next/image';
 import PiyushAgroLogo from '@/components/branding/PiyushAgroLogo';
+import { useOptionalSMLShowcase } from '@/contexts/SMLShowcaseContext';
 
 const NAV_LINKS = [
   { href: '/#hero',     key: 'home'     },
@@ -18,6 +33,58 @@ const NAV_LINKS = [
   { href: '/contact',  key: 'contact'  },
 ] as const;
 
+const SML_NAV_CATEGORIES = [
+  {
+    key: 'all',
+    label: { en: 'All Commercial Vehicles', hi: 'सभी कमर्शियल वाहन' },
+    desc: { en: 'Complete range of trucks & buses', hi: 'ट्रकों एवं बसों की संपूर्ण रेंज' },
+    icon: Truck,
+    href: '/#sml-catalogue',
+  },
+  {
+    key: 'trucks',
+    label: { en: 'Trucks & Cargo Vehicles', hi: 'ट्रक एवं भारी कार्गो' },
+    desc: { en: 'Samrat GS & Sartaj haulage series', hi: 'सम्राट जीएस और सरताज कार्गो सीरीज' },
+    icon: Truck,
+    href: '/?showcase=sml&category=trucks#sml-catalogue',
+  },
+  {
+    key: 'passenger-buses',
+    label: { en: 'Passenger & Tourist Buses', hi: 'पैसेंजर एवं टूरिस्ट बसें' },
+    desc: { en: 'Executive LX coach & transit buses', hi: 'एग्जीक्यूटिव एलएक्स व टूरिस्ट बसें' },
+    icon: Bus,
+    href: '/?showcase=sml&category=passenger-buses#sml-catalogue',
+  },
+  {
+    key: 'school-buses',
+    label: { en: 'School Buses (AIS 063)', hi: 'स्कूल बसें (सुरक्षित मानक)' },
+    desc: { en: 'S7 & Hiroi student transit safety', hi: 'एस7 और हिरोई छात्र सुरक्षा बसें' },
+    icon: ShieldCheck,
+    href: '/?showcase=sml&category=school-buses#sml-catalogue',
+  },
+  {
+    key: 'staff-buses',
+    label: { en: 'Staff & Employee Transport', hi: 'स्टाफ एवं एम्प्लॉई बसें' },
+    desc: { en: 'Corporate commute & factory transport', hi: 'कॉर्पोरेट व फैक्ट्री कर्मचारी परिवहन' },
+    icon: Users,
+    href: '/?showcase=sml&category=staff-buses#sml-catalogue',
+  },
+  {
+    key: 'sml-samrat-tipper',
+    label: { en: 'SML Samrat Tipper', hi: 'एसएमएल सम्राट टिपर' },
+    desc: { en: 'Heavy construction & tipping trucks', hi: 'हैवी कंस्ट्रक्शन एवं टिपिंग ट्रक' },
+    icon: HardHat,
+    href: '/vehicles/sml-samrat-tipper',
+  },
+];
+
+const SML_FLAGSHIP_MODELS = [
+  { id: 'sml-samrat-gs', name: 'Samrat GS', tag: '10.7T GVW', href: '/vehicles/sml-samrat-gs' },
+  { id: 'sml-sartaj-5252', name: 'Sartaj 5252', tag: '5.2T GVW', href: '/vehicles/sml-sartaj-5252' },
+  { id: 'sml-s7-school-bus', name: 'S7 School Bus', tag: '38-52 Seats', href: '/vehicles/sml-s7-school-bus' },
+  { id: 'sml-executive-lx-coach', name: 'Executive LX', tag: 'Luxury Coach', href: '/vehicles/sml-executive-lx-coach' },
+];
+
 export default function Header() {
   const { lang, setLang, tx } = useLanguage();
   const [scrolled, setScrolled]     = useState(false);
@@ -26,6 +93,25 @@ export default function Header() {
   const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
+  const showcase = useOptionalSMLShowcase();
+
+  const handleSMLCategoryClick = useCallback((categoryKey: string, href?: string, e?: React.MouseEvent) => {
+    setMenuOpen(false);
+    if (href && href.startsWith('/vehicles/')) {
+      // Direct vehicle details page link - allow default navigation
+      return;
+    }
+    if (pathname === '/') {
+      if (e) e.preventDefault();
+      if (showcase) {
+        showcase.openShowcase(categoryKey as any);
+      }
+      const el = document.getElementById('sml-catalogue') || document.getElementById('sml-service');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  }, [pathname, showcase]);
 
   /* ── Scroll behaviour ── */
   useEffect(() => {
@@ -121,8 +207,8 @@ export default function Header() {
               <a href="tel:9425245291" className="hover:text-brand-green transition-colors flex items-center gap-1">
                 <Phone size={11} /> 9425245291
               </a>
-              <a href="tel:9479244691" className="hover:text-brand-green transition-colors flex items-center gap-1">
-                <Phone size={11} /> 9479244691
+              <a href="tel:8319634646" className="hover:text-brand-green transition-colors flex items-center gap-1">
+                <Phone size={11} /> 8319634646
               </a>
               <a
                 href="https://wa.me/919425245291"
@@ -180,40 +266,178 @@ export default function Header() {
                     </Link>
 
                     {/* Mega Menu Dropdown */}
-                    <div className="absolute top-full left-0 right-0 mx-auto pt-2 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-focus-within:opacity-100 group-hover:translate-y-0 group-focus-within:translate-y-0 group-hover:pointer-events-auto group-focus-within:pointer-events-auto transition-all duration-300 z-[100] w-full max-w-[900px] px-4">
+                    <div className="absolute top-full left-0 right-0 mx-auto pt-2 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-focus-within:opacity-100 group-hover:translate-y-0 group-focus-within:translate-y-0 group-hover:pointer-events-auto group-focus-within:pointer-events-auto transition-all duration-300 z-[100] w-full max-w-[1140px] px-2 sm:px-4">
                       {/* Invisible hover bridge to prevent unexpected closing */}
                       <div className="absolute -top-4 left-0 right-0 h-6 bg-transparent" />
                       
-                      <div className="bg-white rounded-[1.5rem] shadow-2xl border border-gray-100 p-6 max-h-[85vh] overflow-y-auto cursor-default ring-1 ring-black/5 relative scrollbar-dropdown">
-                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-6">
-                          {MEGA_MENU.map((col, idx) => (
-                            <div key={idx} className="space-y-2.5">
-                              <h4 className="font-extrabold font-rajdhani text-[15px] text-primary border-b-2 border-primary/10 pb-1.5 mb-2 uppercase tracking-wide">
-                                {tx(col.title)}
-                              </h4>
-                              <ul className="space-y-1">
-                                {col.items.map((item, i) => (
-                                  <li key={i}>
-                                    <Link
-                                      href={(item as any).id ? `/products/${(item as any).id}` : `/products?category=${encodeURIComponent(col.title.en)}`}
-                                      className="text-left text-[13px] font-medium text-gray-600 hover:text-primary hover:bg-primary-50 focus:text-primary focus:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-primary/20 hover:translate-x-1 transition-all duration-200 block w-full py-1.5 px-2 rounded-xl"
-                                    >
-                                      {tx(item)}
-                                    </Link>
-                                  </li>
+                      <div className="bg-white rounded-2xl shadow-2xl border border-gray-200/90 overflow-hidden ring-1 ring-black/5 relative">
+                        <div className="grid grid-cols-12 divide-x divide-gray-100 max-h-[82vh] overflow-y-auto scrollbar-dropdown">
+                          
+                          {/* ── LEFT ZONE: Agricultural Equipment & Trailers (7 columns) ── */}
+                          <div className="col-span-7 p-6 flex flex-col justify-between bg-white">
+                            <div>
+                              {/* Header */}
+                              <div className="flex items-center justify-between pb-3 mb-4 border-b border-gray-100">
+                                <div>
+                                  <span className="text-[10px] font-bold font-mono uppercase tracking-widest text-gray-400 block">
+                                    {lang === 'en' ? 'Piyush Agro Manufacturing' : 'पियूष एग्रो निर्माण'}
+                                  </span>
+                                  <h3 className="text-base font-extrabold font-rajdhani text-gray-950 uppercase tracking-wide">
+                                    {lang === 'en' ? 'Agricultural Equipment & Trailers' : 'कृषि उपकरण एवं ट्रैक्टर ट्रॉली'}
+                                  </h3>
+                                </div>
+                                <Link
+                                  href="/products"
+                                  className="text-xs font-bold text-primary hover:text-primary-700 flex items-center gap-1 transition-colors"
+                                >
+                                  {lang === 'en' ? 'All Products' : 'सभी उत्पाद'} <ArrowRight size={13} />
+                                </Link>
+                              </div>
+
+                              {/* 4 Agricultural Categories in 2x2 grid */}
+                              <div className="grid grid-cols-2 gap-x-6 gap-y-5">
+                                {MEGA_MENU.map((col, idx) => (
+                                  <div key={idx} className="space-y-1.5">
+                                    <h4 className="font-bold font-rajdhani text-xs text-primary uppercase tracking-wider border-b border-primary/10 pb-1">
+                                      {tx(col.title)}
+                                    </h4>
+                                    <ul className="space-y-0.5">
+                                      {col.items.map((item, i) => (
+                                        <li key={i}>
+                                          <Link
+                                            href={(item as any).id ? `/products/${(item as any).id}` : `/products?category=${encodeURIComponent(col.title.en)}`}
+                                            className="text-[13px] font-medium text-gray-600 hover:text-primary hover:bg-primary-50/60 py-1 px-2 rounded-md block transition-colors duration-150"
+                                          >
+                                            {tx(item)}
+                                          </Link>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                  </div>
                                 ))}
-                              </ul>
+                              </div>
                             </div>
-                          ))}
-                        </div>
-                        {/* CTA Row */}
-                        <div className="mt-6 pt-4 border-t border-gray-100 flex justify-center">
-                          <Link
-                            href="/products"
-                            className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-primary/5 text-sm font-bold text-primary hover:bg-primary hover:text-white transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:ring-offset-2"
-                          >
-                            {tx(MEGA_MENU_CTA)} <ArrowRight size={15} />
-                          </Link>
+
+                            {/* Bottom CTA Bar */}
+                            <div className="mt-5 pt-3 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500">
+                              <span>{lang === 'en' ? 'Custom fabrication & heavy-duty trailers' : 'कस्टम फेब्रिकेशन एवं हैवी ड्यूटी ट्रेलर'}</span>
+                              <Link
+                                href="/products"
+                                className="font-bold text-primary hover:underline flex items-center gap-1"
+                              >
+                                {tx(MEGA_MENU_CTA)} <ArrowRight size={13} />
+                              </Link>
+                            </div>
+                          </div>
+
+                          {/* ── RIGHT ZONE: SML Mahindra Commercial Vehicles (5 columns) ── */}
+                          <div className="col-span-5 p-6 bg-slate-50/70 flex flex-col justify-between">
+                            <div>
+                              {/* Header */}
+                              <div className="flex items-center justify-between pb-3 mb-3.5 border-b border-gray-200/80">
+                                <div>
+                                  <div className="flex items-center gap-1.5 mb-0.5">
+                                    <span className="w-2 h-2 rounded-full bg-[#E31837]" />
+                                    <span className="text-[10px] font-bold font-mono uppercase tracking-widest text-gray-500">
+                                      Commercial Fleet Partner
+                                    </span>
+                                  </div>
+                                  <h3 className="text-base font-extrabold font-rajdhani text-gray-950 uppercase tracking-wide flex items-center gap-2">
+                                    <span>SML Mahindra</span>
+                                    <span className="text-[11px] font-semibold px-2 py-0.5 bg-[#E31837]/10 text-[#E31837] rounded">
+                                      CV Range
+                                    </span>
+                                  </h3>
+                                </div>
+                                <Link
+                                  href="/#sml-catalogue"
+                                  onClick={(e) => handleSMLCategoryClick('all', '/#sml-catalogue', e)}
+                                  className="text-xs font-bold text-[#E31837] hover:underline flex items-center gap-1"
+                                >
+                                  {lang === 'en' ? 'Full Fleet' : 'सभी वाहन'} <ArrowRight size={13} />
+                                </Link>
+                              </div>
+
+                              {/* Verified Category Links */}
+                              <div className="grid grid-cols-2 gap-2 mb-3.5">
+                                {SML_NAV_CATEGORIES.map((cat) => {
+                                  const Icon = cat.icon;
+                                  return (
+                                    <Link
+                                      key={cat.key}
+                                      href={cat.href}
+                                      onClick={(e) => handleSMLCategoryClick(cat.key, cat.href, e)}
+                                      className="group/item p-2 bg-white rounded-lg border border-gray-200/80 hover:border-[#E31837]/50 hover:shadow-xs transition-all text-left flex flex-col justify-between"
+                                    >
+                                      <div className="flex items-center gap-1.5 mb-0.5">
+                                        <div className="w-5 h-5 rounded bg-gray-100 text-gray-700 flex items-center justify-center group-hover/item:bg-[#E31837] group-hover/item:text-white transition-colors shrink-0">
+                                          <Icon size={12} />
+                                        </div>
+                                        <span className="font-bold font-rajdhani text-xs text-gray-900 group-hover/item:text-[#E31837] transition-colors leading-tight line-clamp-1">
+                                          {tx(cat.label)}
+                                        </span>
+                                      </div>
+                                      <span className="text-[10px] text-gray-500 line-clamp-1 pl-6">
+                                        {tx(cat.desc)}
+                                      </span>
+                                    </Link>
+                                  );
+                                })}
+                              </div>
+
+                              {/* Featured Vehicle Preview Card */}
+                              <Link
+                                href="/vehicles/sml-samrat-gs"
+                                className="group/card block bg-white rounded-xl border border-gray-200/90 p-2.5 hover:border-[#E31837] hover:shadow-sm transition-all relative overflow-hidden"
+                              >
+                                <div className="flex items-center gap-3">
+                                  <div className="relative w-20 h-14 shrink-0 bg-gray-50 rounded-lg overflow-hidden border border-gray-100 flex items-center justify-center p-1">
+                                    <Image
+                                      src="/images/sml-mahindra/sml-samrat-gs.png"
+                                      alt="SML Samrat GS Cargo Truck"
+                                      fill
+                                      sizes="80px"
+                                      className="object-contain p-1 group-hover/card:scale-105 transition-transform duration-300"
+                                    />
+                                  </div>
+                                  <div className="min-w-0 flex-1">
+                                    <div className="flex items-center justify-between">
+                                      <span className="text-[9px] font-bold uppercase font-mono text-[#E31837]">
+                                        Featured Commercial Model
+                                      </span>
+                                      <ArrowUpRight size={12} className="text-gray-400 group-hover/card:text-[#E31837] transition-colors" />
+                                    </div>
+                                    <h4 className="font-extrabold font-rajdhani text-xs text-gray-950 truncate group-hover/card:text-[#E31837] transition-colors">
+                                      SML Samrat GS Cargo Truck
+                                    </h4>
+                                    <p className="text-[10px] text-gray-500 truncate">
+                                      10,700 kg GVW · 3455 cc Turbo Engine · Dual Air Brakes
+                                    </p>
+                                  </div>
+                                </div>
+                              </Link>
+                            </div>
+
+                            {/* Direct Vehicle Detail Pages */}
+                            <div className="mt-3 pt-2.5 border-t border-gray-200/80">
+                              <div className="flex items-center justify-between text-[11px] gap-1">
+                                <span className="text-gray-500 font-medium shrink-0">
+                                  {lang === 'en' ? 'Dedicated Pages:' : 'वाहन पेज:'}
+                                </span>
+                                <div className="flex items-center gap-1.5 flex-wrap justify-end">
+                                  {SML_FLAGSHIP_MODELS.map((model) => (
+                                    <Link
+                                      key={model.id}
+                                      href={model.href}
+                                      className="text-[10px] font-bold text-gray-700 hover:text-[#E31837] bg-white px-1.5 py-0.5 rounded border border-gray-200/60 hover:border-[#E31837]/30 transition-colors"
+                                    >
+                                      {model.name}
+                                    </Link>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -342,35 +566,107 @@ export default function Header() {
                       {/* Mobile Accordion */}
                       <div
                         className={`overflow-hidden transition-all duration-300 ${
-                          mobileProductsOpen ? 'max-h-[2000px] opacity-100 mt-1' : 'max-h-0 opacity-0'
+                          mobileProductsOpen ? 'max-h-[3500px] opacity-100 mt-1' : 'max-h-0 opacity-0'
                         }`}
                       >
-                        <div className="pl-4 pr-2 pb-3 pt-2 space-y-5">
-                          {MEGA_MENU.map((col, idx) => (
-                            <div key={idx} className="space-y-2.5">
-                              <div className="text-[13px] font-extrabold text-primary px-2 uppercase tracking-wide border-b border-primary/10 pb-1">{tx(col.title)}</div>
-                              <ul className="space-y-1 border-l-2 border-gray-100 pl-3 ml-2">
-                                {col.items.map((item, i) => (
-                                  <li key={i}>
-                                    <Link
-                                      href={(item as any).id ? `/products/${(item as any).id}` : `/products?category=${encodeURIComponent(col.title.en)}`}
-                                      onClick={() => setMenuOpen(false)}
-                                      className="text-left text-[13px] font-medium text-gray-600 hover:text-primary block w-full py-2.5 px-3 rounded-xl hover:bg-primary-50 focus:bg-primary-50 focus:text-primary transition-colors"
-                                    >
-                                      {tx(item)}
-                                    </Link>
-                                  </li>
-                                ))}
-                              </ul>
+                        <div className="pl-2 pr-2 pb-3 pt-2 space-y-4">
+                          {/* ── 1. SML Mahindra Commercial Vehicles ── */}
+                          <div className="p-3 bg-slate-50 rounded-xl border border-gray-200/90 space-y-3">
+                            <div className="flex items-center justify-between pb-1.5 border-b border-gray-200">
+                              <div className="flex items-center gap-1.5">
+                                <span className="w-2 h-2 rounded-full bg-[#E31837]" />
+                                <span className="font-extrabold font-rajdhani text-xs text-gray-950 uppercase tracking-wide">
+                                  SML Mahindra CV
+                                </span>
+                              </div>
+                              <Link
+                                href="/#sml-catalogue"
+                                onClick={(e) => {
+                                  setMenuOpen(false);
+                                  handleSMLCategoryClick('all', '/#sml-catalogue', e);
+                                }}
+                                className="text-[11px] font-bold text-[#E31837] hover:underline"
+                              >
+                                {lang === 'en' ? 'Fleet Range →' : 'फ्लीट रेंज →'}
+                              </Link>
                             </div>
-                          ))}
-                          <Link
-                            href="/products"
-                            onClick={() => setMenuOpen(false)}
-                            className="w-full justify-center text-[13px] font-bold text-primary py-3 px-4 bg-primary/5 hover:bg-primary hover:text-white rounded-xl flex items-center gap-2 mt-4 transition-colors"
-                          >
-                            {tx(MEGA_MENU_CTA)} <ArrowRight size={14} className="shrink-0" />
-                          </Link>
+
+                            {/* Category Links */}
+                            <div className="grid grid-cols-1 gap-1">
+                              {SML_NAV_CATEGORIES.map((cat) => {
+                                const Icon = cat.icon;
+                                return (
+                                  <Link
+                                    key={cat.key}
+                                    href={cat.href}
+                                    onClick={(e) => {
+                                      setMenuOpen(false);
+                                      handleSMLCategoryClick(cat.key, cat.href, e);
+                                    }}
+                                    className="flex items-center gap-2 p-1.5 rounded-lg bg-white border border-gray-200/70 hover:border-[#E31837] text-xs font-semibold text-gray-800 transition-colors"
+                                  >
+                                    <div className="w-5 h-5 rounded bg-gray-100 flex items-center justify-center text-gray-700 shrink-0">
+                                      <Icon size={12} />
+                                    </div>
+                                    <span className="truncate">{tx(cat.label)}</span>
+                                  </Link>
+                                );
+                              })}
+                            </div>
+
+                            {/* Standalone Vehicle Detail Page Links */}
+                            <div className="pt-2 border-t border-gray-200">
+                              <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 block mb-1">
+                                {lang === 'en' ? 'Vehicle Detail Pages' : 'विस्तृत वाहन पेज'}
+                              </span>
+                              <div className="grid grid-cols-2 gap-1">
+                                {SML_FLAGSHIP_MODELS.map((model) => (
+                                  <Link
+                                    key={model.id}
+                                    href={model.href}
+                                    onClick={() => setMenuOpen(false)}
+                                    className="p-1.5 bg-white rounded border border-gray-200/60 text-[11px] font-medium text-gray-700 hover:text-[#E31837] truncate text-center"
+                                  >
+                                    {model.name}
+                                  </Link>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* ── 2. Agricultural Equipment ── */}
+                          <div className="space-y-3 pt-1">
+                            <div className="text-[10px] font-bold uppercase tracking-wider text-gray-400 px-1">
+                              {lang === 'en' ? 'Agricultural Equipment' : 'कृषि उपकरण'}
+                            </div>
+                            {MEGA_MENU.map((col, idx) => (
+                              <div key={idx} className="space-y-1">
+                                <div className="text-[11px] font-extrabold text-primary px-2 uppercase tracking-wide border-b border-primary/10 pb-0.5">
+                                  {tx(col.title)}
+                                </div>
+                                <ul className="space-y-0.5 border-l-2 border-gray-100 pl-2.5 ml-1.5">
+                                  {col.items.map((item, i) => (
+                                    <li key={i}>
+                                      <Link
+                                        href={(item as any).id ? `/products/${(item as any).id}` : `/products?category=${encodeURIComponent(col.title.en)}`}
+                                        onClick={() => setMenuOpen(false)}
+                                        className="text-left text-xs font-medium text-gray-600 hover:text-primary block w-full py-1.5 px-2 rounded-lg hover:bg-primary-50 transition-colors"
+                                      >
+                                        {tx(item)}
+                                      </Link>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            ))}
+                            <Link
+                              href="/products"
+                              onClick={() => setMenuOpen(false)}
+                              className="w-full justify-center text-xs font-bold text-primary py-2.5 px-4 bg-primary/5 hover:bg-primary hover:text-white rounded-xl flex items-center gap-2 mt-3 transition-colors"
+                            >
+                              {tx(MEGA_MENU_CTA)} <ArrowRight size={13} className="shrink-0" />
+                            </Link>
+                          </div>
                         </div>
                       </div>
                     </li>

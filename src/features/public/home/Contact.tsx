@@ -152,7 +152,7 @@ export default function Contact() {
               </a>
 
               {/* Phone 2 */}
-              <a href="tel:9479244691"
+              <a href="tel:8319634646"
                 className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl border border-gray-100
                   hover:border-primary/30 hover:bg-primary-50/30 transition-all">
                 <div className="w-11 h-11 rounded-xl bg-gradient-primary flex items-center justify-center text-white flex-shrink-0">
@@ -160,7 +160,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <div className="text-[11px] uppercase tracking-wide text-gray-400 mb-0.5">{tx(t.contact.phone2Label)}</div>
-                  <div className="font-semibold text-gray-800">+91 9479244691</div>
+                  <div className="font-semibold text-gray-800">+91 8319634646</div>
                 </div>
               </a>
 

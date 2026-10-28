@@ -7,6 +7,7 @@ import { useEnquiry } from '@/contexts/EnquiryContext';
 import { t } from '@/constants/translations';
 import { Phone, MapPin, MessageCircle, Facebook, Instagram } from 'lucide-react';
 import PiyushAgroLogo from '@/components/branding/PiyushAgroLogo';
+import { useOptionalSMLShowcase } from '@/contexts/SMLShowcaseContext';
 
 const QUICK_LINKS = [
   { href: '/',         enLabel: 'Home',         hiLabel: 'होम' },
@@ -26,6 +27,14 @@ const PRODUCT_LINKS = [
   { href: '/products/custom-fabrication',        enLabel: 'Custom Fabrication',         hiLabel: 'कस्टम फेब्रिकेशन' },
 ];
 
+const SML_VEHICLE_LINKS = [
+  { href: '/#sml-catalogue',                                    categoryKey: 'all',             enLabel: 'All Vehicles',            hiLabel: 'सभी कमर्शियल वाहन' },
+  { href: '/?showcase=sml&category=trucks#sml-catalogue',        categoryKey: 'trucks',          enLabel: 'Trucks & Cargo Vehicles', hiLabel: 'ट्रक एवं भारी कार्गो' },
+  { href: '/?showcase=sml&category=passenger-buses#sml-catalogue', categoryKey: 'passenger-buses', enLabel: 'Passenger Buses',        hiLabel: 'पैसेंजर एवं टूरिस्ट बसें' },
+  { href: '/?showcase=sml&category=school-buses#sml-catalogue',    categoryKey: 'school-buses',    enLabel: 'School Buses',            hiLabel: 'स्कूल बसें (AIS 063)' },
+  { href: '/?showcase=sml&category=staff-buses#sml-catalogue',     categoryKey: 'staff-buses',     enLabel: 'Staff Buses',             hiLabel: 'स्टाफ एवं एम्प्लॉई बसें' },
+];
+
 const SERVICE_LINKS = [
   { href: '/services/vehicle-fabrication', enLabel: 'Vehicle Fabrication',   hiLabel: 'वाहन फेब्रिकेशन' },
   { href: '/services/vehicle-repairing',   enLabel: 'Vehicle Repairing',     hiLabel: 'वाहन मरम्मत' },
@@ -39,6 +48,21 @@ export default function Footer() {
   const { lang, tx } = useLanguage();
   const { openEnquiry } = useEnquiry();
   const pathname = usePathname();
+
+  const showcase = useOptionalSMLShowcase();
+
+  const handleSMLClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, categoryKey?: string) => {
+    if (pathname === '/') {
+      e.preventDefault();
+      if (categoryKey && showcase) {
+        showcase.openShowcase(categoryKey as any);
+      }
+      const el = document.getElementById('sml-catalogue') || document.getElementById('sml-service');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
 
   const handleHashClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (href === '/services' && pathname === '/') {
@@ -85,8 +109,8 @@ export default function Footer() {
               <a href="tel:9425245291" className="flex items-center gap-2 hover:text-brand-green transition-colors">
                 <Phone size={14} className="text-primary flex-shrink-0" /> +91 9425245291
               </a>
-              <a href="tel:9479244691" className="flex items-center gap-2 hover:text-brand-green transition-colors">
-                <Phone size={14} className="text-primary flex-shrink-0" /> +91 9479244691
+              <a href="tel:8319634646" className="flex items-center gap-2 hover:text-brand-green transition-colors">
+                <Phone size={14} className="text-primary flex-shrink-0" /> +91 8319634646
               </a>
             </div>
 
@@ -136,7 +160,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* ── Products ── */}
+          {/* ── Products & SML Mahindra Commercial Vehicles ── */}
           <div>
             <h5 className="text-white font-bold font-rajdhani mb-4 text-sm uppercase tracking-wide">
               {tx(t.footer.products)}
@@ -155,6 +179,29 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
+
+            {/* SML Mahindra Vehicles section */}
+            <div className="pt-4 mt-4 border-t border-white/8">
+              <h6 className="text-white font-bold font-rajdhani mb-2.5 text-xs uppercase tracking-wider flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#E31837]" />
+                {lang === 'hi' ? 'एसएमएल महिंद्रा वाहन' : 'SML Mahindra Vehicles'}
+              </h6>
+              <ul className="space-y-2">
+                {SML_VEHICLE_LINKS.map(({ href, categoryKey, enLabel, hiLabel }) => (
+                  <li key={href}>
+                    <Link
+                      href={href}
+                      onClick={(e) => handleSMLClick(e, href, categoryKey)}
+                      className="flex items-center gap-1.5 text-sm hover:text-brand-green hover:pl-1
+                        transition-all duration-150 text-left"
+                    >
+                      <span className="text-[#E31837] text-xs">→</span>
+                      {lang === 'hi' ? hiLabel : enLabel}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
           {/* ── Services ── */}
