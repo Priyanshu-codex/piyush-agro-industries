@@ -1,10 +1,12 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
 import { motion, useReducedMotion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useEnquiry } from '@/contexts/EnquiryContext';
+import { useSMLShowcase } from '@/contexts/SMLShowcaseContext';
 import { t } from '@/constants/translations';
 import {
   Wrench,
@@ -112,6 +114,7 @@ const FLEET_VEHICLES: VehicleCardItem[] = [
 export default function SMLMahindraSection() {
   const { lang, tx } = useLanguage();
   const { openEnquiry } = useEnquiry();
+  const { openShowcase } = useSMLShowcase();
   const shouldReduceMotion = useReducedMotion();
   const [activeTab, setActiveTab] = useState<'all' | 'trucks' | 'buses'>('all');
 
@@ -492,6 +495,15 @@ export default function SMLMahindraSection() {
                 </button>
               </div>
 
+              {/* Full Showcase Trigger */}
+              <button
+                onClick={() => openShowcase(activeTab === 'trucks' ? 'trucks' : activeTab === 'buses' ? 'passenger-buses' : 'all')}
+                className="hidden lg:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[#E31837] hover:bg-[#C8102E] text-white text-xs font-bold font-rajdhani transition-colors shadow-xs cursor-pointer"
+              >
+                <span>{lang === 'en' ? 'Full 15-Model Showcase' : 'पूर्ण 15-मॉडल शोकेस'}</span>
+                <ArrowRight size={13} />
+              </button>
+
               {/* Mobile Arrows for Fleet Carousel */}
               <div className="flex sm:hidden items-center gap-1.5">
                 <button
@@ -559,24 +571,61 @@ export default function SMLMahindraSection() {
                       </p>
                     </div>
 
-                    {/* Book Action */}
-                    <button
-                      suppressHydrationWarning
-                      onClick={() => openEnquiry(
-                        lang === 'en'
-                          ? `SML Mahindra Servicing: ${vehicle.nameEn}`
-                          : `एसएमएल महिंद्रा सर्विस: ${vehicle.nameHi}`,
-                        { isVehicleService: true, vehicleModel: vehicle.nameEn }
-                      )}
-                      className="w-full py-2.5 px-3.5 rounded-xl bg-gray-50 hover:bg-[#E31837] text-gray-800 hover:text-white border border-gray-200 hover:border-[#E31837] font-bold font-rajdhani text-xs flex items-center justify-between transition-all duration-200 cursor-pointer"
-                    >
-                      <span>{tx(t.sml.enquireModel)}</span>
-                      <ChevronRight size={14} />
-                    </button>
+                    {/* Card Actions */}
+                    <div className="flex items-center gap-2 pt-2 border-t border-gray-100">
+                      <Link
+                        href={`/vehicles/${vehicle.id}`}
+                        className="flex-1 py-2 px-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 font-bold font-rajdhani text-xs flex items-center justify-center gap-1 transition-all duration-200 cursor-pointer"
+                      >
+                        <Info size={13} className="text-[#E31837]" />
+                        <span>{lang === 'en' ? 'Specs & Gallery' : 'विवरण व फोटो'}</span>
+                      </Link>
+
+                      <button
+                        suppressHydrationWarning
+                        onClick={() => openEnquiry(
+                          lang === 'en'
+                            ? `SML Mahindra Servicing: ${vehicle.nameEn}`
+                            : `एसएमएल महिंद्रा सर्विस: ${vehicle.nameHi}`,
+                          { isVehicleService: true, vehicleModel: vehicle.nameEn }
+                        )}
+                        className="py-2 px-3 rounded-xl bg-[#E31837] hover:bg-[#C8102E] text-white font-bold font-rajdhani text-xs flex items-center gap-1 transition-all duration-200 cursor-pointer shadow-xs"
+                      >
+                        <span>{lang === 'en' ? 'Enquire' : 'पूछताछ'}</span>
+                        <ChevronRight size={13} />
+                      </button>
+                    </div>
                   </div>
                 </motion.div>
               ))}
             </AnimatePresence>
+          </div>
+
+          {/* Full Interactive Catalogue Banner */}
+          <div className="mt-8 p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-gray-900 via-gray-900 to-gray-800 text-white flex flex-col sm:flex-row items-center justify-between gap-4 border border-gray-700/80 shadow-lg">
+            <div className="flex items-center gap-3.5">
+              <div className="w-11 h-11 rounded-xl bg-red-600/20 border border-red-500/30 flex items-center justify-center text-[#E31837] shrink-0">
+                <Truck size={22} />
+              </div>
+              <div>
+                <h4 className="font-extrabold font-rajdhani text-base sm:text-lg text-white">
+                  {lang === 'en' ? 'Explore Complete 15-Model Commercial Vehicle Showcase' : 'एसएमएल महिंद्रा संपूर्ण 15-मॉडल शोकेस देखें'}
+                </h4>
+                <p className="text-xs sm:text-sm text-gray-300 mt-0.5">
+                  {lang === 'en'
+                    ? 'Interactive discovery with official photography, technical specs, school buses, and heavy haulage cargo.'
+                    : 'कार्गो ट्रक, एलसीवी, स्कूल बस, स्टाफ बस एवं टिपर के पूर्ण विनिर्देशों सहित संपूर्ण श्रृंखला।'}
+                </p>
+              </div>
+            </div>
+
+            <button
+              onClick={() => openShowcase('all')}
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-[#E31837] hover:bg-[#C8102E] text-white font-bold font-rajdhani text-xs sm:text-sm transition-all shadow-md shrink-0 cursor-pointer"
+            >
+              <span>{lang === 'en' ? 'Launch Full Showcase' : 'शोकेस लॉन्च करें'}</span>
+              <ArrowRight size={15} />
+            </button>
           </div>
         </div>
 

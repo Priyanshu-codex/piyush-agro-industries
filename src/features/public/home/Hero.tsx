@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useEnquiry } from '@/contexts/EnquiryContext';
+import { useSMLShowcase } from '@/contexts/SMLShowcaseContext';
 import { t } from '@/constants/translations';
 import {
   ArrowRight,
@@ -20,6 +21,7 @@ import {
 export default function Hero() {
   const { lang, tx } = useLanguage();
   const { openEnquiry } = useEnquiry();
+  const { openShowcase } = useSMLShowcase();
   const shouldReduceMotion = useReducedMotion();
   const heroRef = useRef<HTMLDivElement>(null);
 
@@ -175,7 +177,7 @@ export default function Hero() {
               {/* Button 1: Explore Our Services */}
               <motion.button
                 suppressHydrationWarning
-                onClick={() => scroll('services')}
+                onClick={() => openShowcase('all')}
                 whileHover={shouldReduceMotion ? undefined : { y: -2, scale: 1.02 }}
                 whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3 sm:py-3.5 rounded-xl bg-[#E31837] hover:bg-[#C8102E] text-white font-bold font-rajdhani text-sm sm:text-base shadow-md shadow-red-950/20 hover:shadow-red-950/30 transition-all duration-200 cursor-pointer min-h-[44px]"

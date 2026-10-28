@@ -486,8 +486,8 @@ function ServiceDetailContent({ service }: { service: ServiceItem }) {
                 </div>
                 <div className="flex items-center justify-between">
                   <span>Alternate Line:</span>
-                  <a href="tel:9479244691" className="text-primary font-bold hover:underline">
-                    +91 9479244691
+                  <a href="tel:8319634646" className="text-primary font-bold hover:underline">
+                    +91 8319634646
                   </a>
                 </div>
               </div>
